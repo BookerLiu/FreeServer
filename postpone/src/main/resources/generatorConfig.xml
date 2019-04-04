@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <!-- mysqljar包 -->
+    <classPathEntry
+            location="D:\Maven-Repository\Maven-IDEA(springboot)\repository\mysql\mysql-connector-java\5.1.34\mysql-connector-java-5.1.34.jar"></classPathEntry>
+    <context id="context1">
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://111.67.206.204:3306/abeiyun?characterEncoding=utf-8"
+                        userId="root"
+                        password="M1457118807"/>
+        <!-- 生成POJO类的位置 -->
+        <javaModelGenerator targetPackage="com.ff.postpone.pojo" targetProject="src/main/java"/>
+        <!-- mapper映射文件生成的位置 -->
+        <sqlMapGenerator targetPackage="com.ff.postpone.mapper" targetProject="src/main/java"/>
+        <!-- mapper接口生成的位置 -->
+        <javaClientGenerator targetPackage="com.ff.postpone.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
+        <!-- 指定数据库表 -->
+        <table tableName="user_info" domainObjectName="UserInfo"></table>
+
+
+
+
+
+    </context>
+</generatorConfiguration>
