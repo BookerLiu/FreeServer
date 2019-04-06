@@ -14,9 +14,9 @@
         </commentGenerator>
         <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://111.67.206.204:3306/abeiyun?characterEncoding=utf-8"
-                        userId="root"
-                        password="M1457118807"/>
+                        connectionURL="jdbc:mysql://localhost:3306/abeiyun?characterEncoding=utf-8"
+                        userId="user"
+                        password="pass"/>
         <!-- 生成POJO类的位置 -->
         <javaModelGenerator targetPackage="com.ff.postpone.pojo" targetProject="src/main/java"/>
         <!-- mapper映射文件生成的位置 -->
