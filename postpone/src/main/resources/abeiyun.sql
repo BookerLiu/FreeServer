@@ -24,7 +24,7 @@ CREATE TABLE `user_info` (
   `sina_cookie` text COMMENT '新浪cookie',
   `next_time` datetime DEFAULT NULL COMMENT '下次延期时间',
   `sina_url` varchar(255) DEFAULT 'success' COMMENT '延期博客url',
-  `status` varchar(2) DEFAULT NULL COMMENT '0 使用本地cookie, 1 使用接口获取cookie',
+  `status` varchar(2) DEFAULT '1' COMMENT '0 使用本地cookie, 1 使用接口获取cookie',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
