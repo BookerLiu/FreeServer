@@ -38,7 +38,7 @@ public class CommCode {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String msg = json.getString("msg");
         json = JSONObject.fromObject(msg);
-        String status = null;
+        String status;
         try{
             status = json.getString("delay_enable");
         }catch (Exception e){
@@ -118,8 +118,8 @@ public class CommCode {
         HttpClient sinaClient = HttpUtil.getHttpClient("UTF-8");
         String deleteUrl = "http://control.blog.sina.com.cn/admin/article/article_del_recycle.php?domain=1";
 
-        String cookie = null;
-        Map<String,String> map = null;
+        String cookie;
+        Map<String,String> map;
         if("1".equals(info.getStatus())){ //从接口获取cookie
             log.info("开始接口获取sinaCookie");
             cookie = getSinaCookie(info);
