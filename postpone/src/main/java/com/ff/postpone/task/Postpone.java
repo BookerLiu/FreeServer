@@ -123,7 +123,7 @@ public class Postpone {
                     }
                     Thread.sleep(10000);
                 }
-                sendAbei(yunClient,sinaUrl,file);
+                sendAbei(info,yunClient,sinaUrl,file);
 
             }
         }else{
@@ -138,7 +138,7 @@ public class Postpone {
      * @param file
      * @throws Exception
      */
-    public void sendAbei(HttpClient yunClient,String url, File file) throws Exception {
+    public void sendAbei(UserInfo info, HttpClient yunClient, String url, File file) throws Exception {
         log.info("开始提交延期记录!!!");
         PostMethod postMethod = new PostMethod("https://api.abeiyun.com/www/renew.php");
         FilePart filePart = new FilePart("yanqi_img",file);
@@ -151,7 +151,14 @@ public class Postpone {
         MultipartRequestEntity entity = new MultipartRequestEntity(parts, postMethod.getParams());
         postMethod.setRequestEntity(entity);
         yunClient.executeMethod(postMethod);
-        log.info("提交延期记录返回结果:"+postMethod.getResponseBodyAsString());
+        String postRes = postMethod.getResponseBodyAsString();
+        log.info("提交延期记录返回结果:"+postRes);
+        if(postRes.startsWith("{")){
+            log.info("提交延期记录成功!!!");
+        }else{
+            log.info("提交延期记录失败,删除发布博客!!!");
+            CommCode.deleteBlog(info,url,infoMapper);
+        }
         file.delete();
     }
 
