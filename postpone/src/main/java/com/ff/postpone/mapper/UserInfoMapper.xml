@@ -10,6 +10,343 @@
     <result column="next_time" jdbcType="TIMESTAMP" property="nextTime" />
     <result column="sina_url" jdbcType="VARCHAR" property="sinaUrl" />
     <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="bz" jdbcType="VARCHAR" property="bz" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ff.postpone.pojo.UserInfo">
+    <result column="sina_cookie" jdbcType="LONGVARCHAR" property="sinaCookie" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, yunusername, yunpassword, sinausername, sinapassword, next_time, sina_url, status, 
+    bz
+  </sql>
+  <sql id="Blob_Column_List">
+    sina_cookie
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.ff.postpone.pojo.UserInfoExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.ff.postpone.pojo.UserInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ff.postpone.pojo.UserInfoExample">
+    delete from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ff.postpone.pojo.UserInfo">
+    insert into user_info (id, yunusername, yunpassword, 
+      sinausername, sinapassword, next_time, 
+      sina_url, status, bz, 
+      sina_cookie)
+    values (#{id,jdbcType=INTEGER}, #{yunusername,jdbcType=VARCHAR}, #{yunpassword,jdbcType=VARCHAR}, 
+      #{sinausername,jdbcType=VARCHAR}, #{sinapassword,jdbcType=VARCHAR}, #{nextTime,jdbcType=TIMESTAMP}, 
+      #{sinaUrl,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}, 
+      #{sinaCookie,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ff.postpone.pojo.UserInfo">
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="yunusername != null">
+        yunusername,
+      </if>
+      <if test="yunpassword != null">
+        yunpassword,
+      </if>
+      <if test="sinausername != null">
+        sinausername,
+      </if>
+      <if test="sinapassword != null">
+        sinapassword,
+      </if>
+      <if test="nextTime != null">
+        next_time,
+      </if>
+      <if test="sinaUrl != null">
+        sina_url,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="bz != null">
+        bz,
+      </if>
+      <if test="sinaCookie != null">
+        sina_cookie,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="yunusername != null">
+        #{yunusername,jdbcType=VARCHAR},
+      </if>
+      <if test="yunpassword != null">
+        #{yunpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sinausername != null">
+        #{sinausername,jdbcType=VARCHAR},
+      </if>
+      <if test="sinapassword != null">
+        #{sinapassword,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTime != null">
+        #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sinaUrl != null">
+        #{sinaUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaCookie != null">
+        #{sinaCookie,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ff.postpone.pojo.UserInfoExample" resultType="java.lang.Long">
+    select count(*) from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.yunusername != null">
+        yunusername = #{record.yunusername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yunpassword != null">
+        yunpassword = #{record.yunpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sinausername != null">
+        sinausername = #{record.sinausername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sinapassword != null">
+        sinapassword = #{record.sinapassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nextTime != null">
+        next_time = #{record.nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sinaUrl != null">
+        sina_url = #{record.sinaUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bz != null">
+        bz = #{record.bz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sinaCookie != null">
+        sina_cookie = #{record.sinaCookie,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update user_info
+    set id = #{record.id,jdbcType=INTEGER},
+      yunusername = #{record.yunusername,jdbcType=VARCHAR},
+      yunpassword = #{record.yunpassword,jdbcType=VARCHAR},
+      sinausername = #{record.sinausername,jdbcType=VARCHAR},
+      sinapassword = #{record.sinapassword,jdbcType=VARCHAR},
+      next_time = #{record.nextTime,jdbcType=TIMESTAMP},
+      sina_url = #{record.sinaUrl,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      bz = #{record.bz,jdbcType=VARCHAR},
+      sina_cookie = #{record.sinaCookie,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user_info
+    set id = #{record.id,jdbcType=INTEGER},
+      yunusername = #{record.yunusername,jdbcType=VARCHAR},
+      yunpassword = #{record.yunpassword,jdbcType=VARCHAR},
+      sinausername = #{record.sinausername,jdbcType=VARCHAR},
+      sinapassword = #{record.sinapassword,jdbcType=VARCHAR},
+      next_time = #{record.nextTime,jdbcType=TIMESTAMP},
+      sina_url = #{record.sinaUrl,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      bz = #{record.bz,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ff.postpone.pojo.UserInfo">
+    update user_info
+    <set>
+      <if test="yunusername != null">
+        yunusername = #{yunusername,jdbcType=VARCHAR},
+      </if>
+      <if test="yunpassword != null">
+        yunpassword = #{yunpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sinausername != null">
+        sinausername = #{sinausername,jdbcType=VARCHAR},
+      </if>
+      <if test="sinapassword != null">
+        sinapassword = #{sinapassword,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTime != null">
+        next_time = #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sinaUrl != null">
+        sina_url = #{sinaUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        bz = #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaCookie != null">
+        sina_cookie = #{sinaCookie,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ff.postpone.pojo.UserInfo">
+    update user_info
+    set yunusername = #{yunusername,jdbcType=VARCHAR},
+      yunpassword = #{yunpassword,jdbcType=VARCHAR},
+      sinausername = #{sinausername,jdbcType=VARCHAR},
+      sinapassword = #{sinapassword,jdbcType=VARCHAR},
+      next_time = #{nextTime,jdbcType=TIMESTAMP},
+      sina_url = #{sinaUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      bz = #{bz,jdbcType=VARCHAR},
+      sina_cookie = #{sinaCookie,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ff.postpone.pojo.UserInfo">
+    update user_info
+    set yunusername = #{yunusername,jdbcType=VARCHAR},
+      yunpassword = #{yunpassword,jdbcType=VARCHAR},
+      sinausername = #{sinausername,jdbcType=VARCHAR},
+      sinapassword = #{sinapassword,jdbcType=VARCHAR},
+      next_time = #{nextTime,jdbcType=TIMESTAMP},
+      sina_url = #{sinaUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      bz = #{bz,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ff.postpone.pojo.UserInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="yunusername" jdbcType="VARCHAR" property="yunusername" />
+    <result column="yunpassword" jdbcType="VARCHAR" property="yunpassword" />
+    <result column="sinausername" jdbcType="VARCHAR" property="sinausername" />
+    <result column="sinapassword" jdbcType="VARCHAR" property="sinapassword" />
+    <result column="next_time" jdbcType="TIMESTAMP" property="nextTime" />
+    <result column="sina_url" jdbcType="VARCHAR" property="sinaUrl" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ff.postpone.pojo.UserInfo">
     <result column="sina_cookie" jdbcType="LONGVARCHAR" property="sinaCookie" />
