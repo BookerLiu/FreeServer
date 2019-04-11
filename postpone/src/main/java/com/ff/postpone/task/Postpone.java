@@ -108,7 +108,6 @@ public class Postpone {
         if(data!=null && !"null".equals(data)){
             String sinaUrl = "http://blog.sina.com.cn/s/blog_" + data + ".html";
             log.info("更新"+info.getYunusername()+" url为:"+sinaUrl);
-            info.setStatus("2");
             info.setSinaUrl(sinaUrl);
             infoMapper.updateByPrimaryKey(info);
             if(createPic(sinaUrl)){
