@@ -40,8 +40,7 @@ public class Postpone {
         //查询所有阿贝云账号
         UserInfoExample example = new UserInfoExample();
         List<UserInfo> userInfos = infoMapper.selectByExampleWithBLOBs(example);
-        PostMethod postMethod = null;
-        JSONObject json = null;
+        JSONObject json;
         try{
             for (UserInfo userInfo : userInfos) {
                 //开始登录阿贝云
