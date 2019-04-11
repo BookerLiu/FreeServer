@@ -5,7 +5,7 @@ JDK1.8 + SpringBoot + Mybatis + Mysql
 # 总体流程
 ![postpone](https://github.com/Demo-Liu/MyPicture/raw/master/FreeServer%E5%BB%B6%E6%9C%9F%E8%AE%A4%E8%AF%81.png)
 
-#Log
+# Log
 数据库脚本及phantomjs所用到的截图js已上传至 resources目录下
 
 # PS
