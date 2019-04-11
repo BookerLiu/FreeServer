@@ -258,10 +258,9 @@ public class CommCode {
 
     /**
      * 获取发送微博参数
-      * @param i 传入id避免发送名字相同的微博
      * @return
      */
-    public static NameValuePair[] getSendBlog(int i){
+    public static NameValuePair[] getSendBlog(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String format = sdf.format(new Date());
         String[] strs = format.split(" ");
@@ -307,7 +306,7 @@ public class CommCode {
                 new NameValuePair("new_time",""),
                 new NameValuePair("isTimed","0"),
                 new NameValuePair("immediatepub","0"),
-                new NameValuePair("blog_title", ParamUtil.TITLE + i),
+                new NameValuePair("blog_title", ParamUtil.TITLE + (int)(Math.random()*100000000)),
                 new NameValuePair("blog_body",ParamUtil.BODY),
                 new NameValuePair("blog_class","00"),
                 new NameValuePair("tag","it"),

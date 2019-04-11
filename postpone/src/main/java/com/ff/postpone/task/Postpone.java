@@ -101,7 +101,7 @@ public class Postpone {
         map.put("Referer","http://control.blog.sina.com.cn/admin/article/article_add.php");
         log.info("sina cookie:"+map.get("cookie"));
         HttpClient sinaClient = HttpUtil.getHttpClient("UTF-8");
-        String postRes = HttpUtil.getPostRes(sinaClient, url, CommCode.getSendBlog(info.getId()), map);
+        String postRes = HttpUtil.getPostRes(sinaClient, url, CommCode.getSendBlog(), map);
 
         log.info("延期博客返回结果:"+postRes);
         JSONObject json = JSONObject.fromObject(postRes);
