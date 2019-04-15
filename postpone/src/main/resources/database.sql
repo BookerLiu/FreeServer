@@ -18,8 +18,8 @@ DROP TABLE IF EXISTS `user_info`;
 
 CREATE TABLE `user_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `yunusername` varchar(50) DEFAULT NULL COMMENT '阿贝云用户名',
-  `yunpassword` varchar(50) DEFAULT NULL COMMENT '阿贝云密码',
+  `yunusername` varchar(50) DEFAULT NULL COMMENT '云用户名',
+  `yunpassword` varchar(50) DEFAULT NULL COMMENT '云密码',
   `sinausername` varchar(50) DEFAULT NULL COMMENT '新浪用户名',
   `sinapassword` varchar(50) DEFAULT NULL COMMENT '新浪密码',
   `sina_cookie` text COMMENT '新浪cookie',
