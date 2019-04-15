@@ -2,7 +2,7 @@
 spring:
   datasource:
     name: abeiyun
-    url: jdbc:mysql://localhost:3306/abeiyun?characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/freeserver?characterEncoding=utf-8
     username: username
     password: password
     driver-class-name: com.mysql.jdbc.Driver
