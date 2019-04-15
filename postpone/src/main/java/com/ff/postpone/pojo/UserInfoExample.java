@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class UserInfoExample {
+
     protected String orderByClause;
 
     protected boolean distinct;

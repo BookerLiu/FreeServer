@@ -3,6 +3,7 @@ package com.ff.postpone.pojo;
 import java.util.Date;
 
 public class UserInfo {
+
     private Integer id;
 
     private String yunusername;
