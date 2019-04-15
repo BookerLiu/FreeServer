@@ -114,30 +114,35 @@ public class CommCode {
         String username = userInfo.getYunusername();
         json = JSONObject.fromObject(json.getString("msg"));
         JSONArray array = JSONArray.fromObject(json.getString("content"));
-        json = JSONObject.fromObject(array.get(0));
-        String state = json.getString("State");
-        String url = json.getString("url");
-        if("待审核".equals(state)){
-            log.info(username + "审核中,无需审核!!!");
-            return 1;
-        }else if("审核通过".equals(state)){
-            log.info(username + "审核通过!!!");
-            if(userInfo.getSinaUrl().equals(url)){
-                userInfo.setSinaUrl("success");
-                infoMapper.updateByPrimaryKey(userInfo);
-                deleteBlog(userInfo,url,infoMapper);
-                log.info("修改url为success,删除延期博客!!!");
+        if(array.size()>0){
+            json = JSONObject.fromObject(array.get(0));
+            String state = json.getString("State");
+            String url = json.getString("url");
+            if("待审核".equals(state)){
+                log.info(username + "审核中,无需审核!!!");
+                return 1;
+            }else if("审核通过".equals(state)){
+                log.info(username + "审核通过!!!");
+                if(userInfo.getSinaUrl().equals(url)){
+                    userInfo.setSinaUrl("success");
+                    infoMapper.updateByPrimaryKey(userInfo);
+                    deleteBlog(userInfo,url,infoMapper);
+                    log.info("修改url为success,删除延期博客!!!");
+                }
+                return 2;
+            }else{
+                log.info(username + "审核失败,审核结果:"+state);
+                if(userInfo.getSinaUrl().equals(url)){
+                    userInfo.setSinaUrl("error");
+                    infoMapper.updateByPrimaryKey(userInfo);
+                    deleteBlog(userInfo,url,infoMapper);
+                    log.info("修改url为error,删除延期博客!!!");
+                }
+                return 3;
             }
-            return 2;
         }else{
-            log.info(username + "审核失败,审核结果:"+state);
-            if(userInfo.getSinaUrl().equals(url)){
-                userInfo.setSinaUrl("error");
-                infoMapper.updateByPrimaryKey(userInfo);
-                deleteBlog(userInfo,url,infoMapper);
-                log.info("修改url为error,删除延期博客!!!");
-            }
-            return 3;
+            log.info("没有延期记录!!!");
+            return 4;
         }
     }
 

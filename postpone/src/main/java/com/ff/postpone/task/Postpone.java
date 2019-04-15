@@ -52,11 +52,6 @@ public class Postpone {
                     case "1": //三丰云
                         logic(userInfo,1);
                         break;
-                    case "2": //同时启用
-                    for(int i=0;i<2;i++){
-                        logic(userInfo,i);
-                    }
-                    break;
                 }
             }
         }catch (Exception e){
@@ -80,6 +75,7 @@ public class Postpone {
             int status = CommCode.checkServerStatus(json, username, infoMapper, userInfo);
             log.info("服务器状态:"+status);
             json = JSONObject.fromObject(HttpUtil.getPostRes(yunClient, CommCode.getYunUrl(bz,1), CommCode.getCheckStatus()));
+            log.info("检查审核状态返回:"+json);
             switch (status){
                 case 1:  //已到审核期
                     CommCode.checkCheckStatus(json, userInfo, infoMapper);

@@ -26,7 +26,7 @@ CREATE TABLE `user_info` (
   `next_time` datetime DEFAULT NULL COMMENT '下次延期时间',
   `sina_url` varchar(255) DEFAULT 'success' COMMENT '延期博客url',
   `status` varchar(2) DEFAULT '1' COMMENT '0 使用本地cookie, 1 使用接口获取cookie',
-  `bz` varchar(2) DEFAULT NULL COMMENT '0 阿贝云, 1 三丰云, 2 同时启用   (是否同时申请了阿贝云和三丰云的服务器)',
+  `bz` varchar(2) DEFAULT NULL COMMENT '0 阿贝云, 1 三丰云',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
