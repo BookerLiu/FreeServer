@@ -37,44 +37,61 @@ public class Postpone {
 
     @Scheduled(cron = "0 0/30 * * * ? ")
     public void postpone(){
-        //查询所有阿贝云账号
+        //查询所有云账号
         UserInfoExample example = new UserInfoExample();
         List<UserInfo> userInfos = infoMapper.selectByExampleWithBLOBs(example);
-        JSONObject json;
-        try{
-            for (UserInfo userInfo : userInfos) {
-                //开始登录阿贝云
-                String username = userInfo.getYunusername();
-                log.info(username + " 开始登录阿贝云!!!");
-                HttpClient yunClient = HttpUtil.getHttpClient("UTF-8");
-                json = JSONObject.fromObject(HttpUtil.getPostRes(yunClient,  "https://api.abeiyun.com/www/login.php", CommCode.getYunLogin(username, userInfo.getYunpassword())));
-                log.info("登录阿贝云返回:"+json.toString());
-                String loginMsg = json.getString("msg");
-                if("登录成功".equals(loginMsg)){
-                    log.info(username + "登录成功,开始检查免费服务器状态!!!");
-                    json = JSONObject.fromObject(HttpUtil.getPostRes(yunClient, "https://api.abeiyun.com/www/renew.php", CommCode.getFreeStatus()));
-                    log.info("检查服务器状态返回:"+json.toString());
-                    int status = CommCode.checkServerStatus(json, username, infoMapper, userInfo);
-                    log.info("服务器状态:"+status);
-                    json = JSONObject.fromObject(HttpUtil.getPostRes(yunClient, "https://api.abeiyun.com/www/renew.php", CommCode.getCheckStatus()));
-                    switch (status){
-                        case 1:  //已到审核期
-                            CommCode.checkCheckStatus(json, userInfo, infoMapper);
-                            sentBlog(userInfo, yunClient, infoMapper);
-                            break;
-                        case 2:  //未到审核期
-                            CommCode.checkCheckStatus(json, userInfo, infoMapper);
-                            break;
-                    }
 
-                }else{
-                    log.info("登录失败 "+loginMsg);
-                    continue;
+        try{
+            //根据不同服务器获取不同url进行操作
+            for (UserInfo userInfo : userInfos) {
+                String bz = userInfo.getBz();
+                switch (bz){
+                    case "0": //阿贝云
+                        logic(userInfo,0);
+                        break;
+                    case "1": //三丰云
+                        logic(userInfo,1);
+                        break;
+                    case "2": //同时启用
+                    for(int i=0;i<2;i++){
+                        logic(userInfo,i);
+                    }
+                    break;
                 }
             }
         }catch (Exception e){
             log.error("延期过程中出错!!!");
             e.printStackTrace();
+        }
+    }
+
+    public void logic(UserInfo userInfo, int bz) throws Exception{
+        JSONObject json;
+        String username = userInfo.getYunusername();
+        log.info(username + " 开始登录"+CommCode.getYunName(bz)+"!!!");
+        HttpClient yunClient = HttpUtil.getHttpClient("UTF-8");
+        json = JSONObject.fromObject(HttpUtil.getPostRes(yunClient,  CommCode.getYunUrl(bz,0), CommCode.getYunLogin(username, userInfo.getYunpassword())));
+        log.info("登录"+CommCode.getYunName(bz)+"返回:"+json.toString());
+        String loginMsg = json.getString("msg");
+        if("登录成功".equals(loginMsg)){
+            log.info(username + CommCode.getYunName(bz)+"登录成功,开始检查免费服务器状态!!!");
+            json = JSONObject.fromObject(HttpUtil.getPostRes(yunClient, CommCode.getYunUrl(bz,1), CommCode.getFreeStatus()));
+            log.info("检查服务器状态返回:"+json.toString());
+            int status = CommCode.checkServerStatus(json, username, infoMapper, userInfo);
+            log.info("服务器状态:"+status);
+            json = JSONObject.fromObject(HttpUtil.getPostRes(yunClient, CommCode.getYunUrl(bz,1), CommCode.getCheckStatus()));
+            switch (status){
+                case 1:  //已到审核期
+                    CommCode.checkCheckStatus(json, userInfo, infoMapper);
+                    sentBlog(userInfo, yunClient, infoMapper, bz);
+                    break;
+                case 2:  //未到审核期
+                    CommCode.checkCheckStatus(json, userInfo, infoMapper);
+                    break;
+            }
+
+        }else{
+            log.info("登录失败 "+loginMsg);
         }
     }
 
@@ -85,11 +102,11 @@ public class Postpone {
      * @param infoMapper
      * @throws Exception
      */
-    public void sentBlog(UserInfo info, HttpClient yunClient, UserInfoMapper infoMapper) throws Exception {
+    public void sentBlog(UserInfo info, HttpClient yunClient, UserInfoMapper infoMapper, int bz) throws Exception {
         log.info("开始发送延期博客...");
         String url = "http://control.blog.sina.com.cn/admin/article/article_post.php";
 
-        Map<String,String> map = null;
+        Map<String,String> map;
         if("1".equals(info.getStatus())){ //从接口获取cookie
             log.info("开始接口获取sinaCookie");
             String cookie = CommCode.getSinaCookie(info);
@@ -100,7 +117,7 @@ public class Postpone {
         map.put("Referer","http://control.blog.sina.com.cn/admin/article/article_add.php");
         log.info("sina cookie:"+map.get("cookie"));
         HttpClient sinaClient = HttpUtil.getHttpClient("UTF-8");
-        String postRes = HttpUtil.getPostRes(sinaClient, url, CommCode.getSendBlog(), map);
+        String postRes = HttpUtil.getPostRes(sinaClient, url, CommCode.getSendBlog(bz), map);
 
         log.info("延期博客返回结果:"+postRes);
         JSONObject json = JSONObject.fromObject(postRes);

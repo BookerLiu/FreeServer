@@ -30,6 +30,46 @@ public class CommCode {
 
     private static Logger log = Logger.getLogger(CommCode.class);
 
+
+    /**
+     * 获取云 url
+     * @param bz 判断是哪个云服务器
+     * @param logic 0 登录, 1 业务操作
+     * @return
+     */
+    public static String getYunUrl(int bz,int logic){
+        switch (bz){
+            case 0:
+                if(logic==0){
+                    return ParamUtil.ABEI_LOGIN;
+                }else{
+                    return ParamUtil.ABEI_LOGIC;
+                }
+            case 1:
+                if(logic==0){
+                    return ParamUtil.SANFENG_LOGIN;
+                }else{
+                    return ParamUtil.SANFENG_LOGIC;
+                }
+        }
+        return null;
+    }
+
+    /**
+     * 获取云服务器名字
+     * @param bz
+     * @return
+     */
+    public static String getYunName(int bz){
+        switch(bz){
+            case 0:
+                return "阿贝云";
+            case 1:
+                return "三丰云";
+        }
+        return null;
+    }
+
     /**
      * 检查服务器状态
      * @return
@@ -258,9 +298,10 @@ public class CommCode {
 
     /**
      * 获取发送微博参数
+     * @param bz
      * @return
      */
-    public static NameValuePair[] getSendBlog(){
+    public static NameValuePair[] getSendBlog(int bz){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String format = sdf.format(new Date());
         String[] strs = format.split(" ");
@@ -300,14 +341,14 @@ public class CommCode {
                 new NameValuePair("topic_channel","0"),
                 new NameValuePair("topic_more",""),
                 new NameValuePair("utf8","1"),
-                new NameValuePair("conlen","96"),
+                //new NameValuePair("conlen","96"),
                 new NameValuePair("date_pub",strs[0]),
                 new NameValuePair("time",strs[1]),
                 new NameValuePair("new_time",""),
                 new NameValuePair("isTimed","0"),
                 new NameValuePair("immediatepub","0"),
-                new NameValuePair("blog_title", ParamUtil.TITLE + (int)(Math.random()*100000000)),
-                new NameValuePair("blog_body",ParamUtil.BODY),
+                new NameValuePair("blog_title", bz==0 ? ParamUtil.ABEI_TITLE + (int)(Math.random()*100000000) : ParamUtil.SANFENG_TITLE),
+                new NameValuePair("blog_body", bz==0 ?ParamUtil.ABEI_BODY : ParamUtil.SANFENG_BODY),
                 new NameValuePair("blog_class","00"),
                 new NameValuePair("tag","it"),
                 new NameValuePair("x_cms_flag","2"),
