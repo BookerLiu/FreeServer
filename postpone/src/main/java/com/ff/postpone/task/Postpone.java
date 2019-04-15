@@ -122,7 +122,8 @@ public class Postpone {
         log.info("延期博客返回结果:"+postRes);
         JSONObject json = JSONObject.fromObject(postRes);
         String data = json.getString("data");
-        if(data!=null && !"null".equals(data)){
+        String code = json.getString("code");
+        if("B06001".equals(code) && data!=null && !"null".equals(data)){
             String sinaUrl = "http://blog.sina.com.cn/s/blog_" + data + ".html";
             log.info("更新"+info.getYunusername()+" url为:"+sinaUrl);
             info.setSinaUrl(sinaUrl);

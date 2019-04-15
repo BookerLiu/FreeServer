@@ -167,6 +167,7 @@ public class CommCode {
         if("1".equals(info.getStatus())){ //从接口获取cookie
             log.info("开始接口获取sinaCookie");
             if(cookie==null){
+                log.info("开始第一次获取cookie....");
                 cookie = getSinaCookie(info);
             }
             map = CommCode.getPubHeader(cookie);
