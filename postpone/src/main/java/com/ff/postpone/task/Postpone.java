@@ -41,16 +41,17 @@ public class Postpone {
         UserInfoExample example = new UserInfoExample();
         List<UserInfo> userInfos = infoMapper.selectByExampleWithBLOBs(example);
 
+        String cookie = null;
         try{
             //根据不同服务器获取不同url进行操作
             for (UserInfo userInfo : userInfos) {
                 String bz = userInfo.getBz();
                 switch (bz){
                     case "0": //阿贝云
-                        logic(userInfo,0);
+                        logic(userInfo,0,cookie);
                         break;
                     case "1": //三丰云
-                        logic(userInfo,1);
+                        logic(userInfo,1,cookie);
                         break;
                 }
             }
@@ -60,7 +61,7 @@ public class Postpone {
         }
     }
 
-    public void logic(UserInfo userInfo, int bz) throws Exception{
+    public void logic(UserInfo userInfo, int bz, String cookie) throws Exception{
         JSONObject json;
         String username = userInfo.getYunusername();
         log.info(username + " 开始登录"+CommCode.getYunName(bz)+"!!!");
@@ -78,11 +79,11 @@ public class Postpone {
             log.info("检查审核状态返回:"+json);
             switch (status){
                 case 1:  //已到审核期
-                    CommCode.checkCheckStatus(json, userInfo, infoMapper);
-                    sentBlog(userInfo, yunClient, infoMapper, bz);
+                    CommCode.checkCheckStatus(json, userInfo, infoMapper, cookie);
+                    sentBlog(userInfo, yunClient, infoMapper, bz, cookie);
                     break;
                 case 2:  //未到审核期
-                    CommCode.checkCheckStatus(json, userInfo, infoMapper);
+                    CommCode.checkCheckStatus(json, userInfo, infoMapper, cookie);
                     break;
             }
 
@@ -98,14 +99,17 @@ public class Postpone {
      * @param infoMapper
      * @throws Exception
      */
-    public void sentBlog(UserInfo info, HttpClient yunClient, UserInfoMapper infoMapper, int bz) throws Exception {
+    public void sentBlog(UserInfo info, HttpClient yunClient, UserInfoMapper infoMapper, int bz, String cookie) throws Exception {
         log.info("开始发送延期博客...");
         String url = "http://control.blog.sina.com.cn/admin/article/article_post.php";
 
         Map<String,String> map;
         if("1".equals(info.getStatus())){ //从接口获取cookie
             log.info("开始接口获取sinaCookie");
-            String cookie = CommCode.getSinaCookie(info);
+            if(cookie==null){
+                log.info("开始第一次获取cookie....");
+                cookie = CommCode.getSinaCookie(info);
+            }
             map = CommCode.getPubHeader(cookie);
         }else{ //从本地获取cookie
             map = CommCode.getPubHeader(info.getSinaCookie());
@@ -136,7 +140,7 @@ public class Postpone {
                     }
                     Thread.sleep(10000);
                 }
-                sendAbei(info,yunClient,sinaUrl,file);
+                sendAbei(info,yunClient,sinaUrl,file,cookie);
 
             }
         }else{
@@ -151,7 +155,7 @@ public class Postpone {
      * @param file
      * @throws Exception
      */
-    public void sendAbei(UserInfo info, HttpClient yunClient, String url, File file) throws Exception {
+    public void sendAbei(UserInfo info, HttpClient yunClient, String url, File file, String cookie) throws Exception {
         log.info("开始提交延期记录!!!");
         PostMethod postMethod = new PostMethod("https://api.abeiyun.com/www/renew.php");
         FilePart filePart = new FilePart("yanqi_img",file);
@@ -166,11 +170,17 @@ public class Postpone {
         yunClient.executeMethod(postMethod);
         String postRes = postMethod.getResponseBodyAsString();
         log.info("提交延期记录返回结果:"+postRes);
-        if(postRes.startsWith("{")){
-            log.info("提交延期记录成功!!!");
-        }else{
+        try{
+            JSONObject json = JSONObject.fromObject(postRes);
+            if("提交成功".equals(json.getString("msg"))){
+                log.info("提交延期记录成功!!!");
+            }else{
+                log.info("提交延期记录失败,删除发布博客!!!");
+                CommCode.deleteBlog(info,url,infoMapper,cookie);
+            }
+        }catch (Exception e){
             log.info("提交延期记录失败,删除发布博客!!!");
-            CommCode.deleteBlog(info,url,infoMapper);
+            CommCode.deleteBlog(info,url,infoMapper,cookie);
         }
         file.delete();
     }

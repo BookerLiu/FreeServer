@@ -110,7 +110,7 @@ public class CommCode {
      * @param infoMapper
      * @return
      */
-    public static int checkCheckStatus(JSONObject json, UserInfo userInfo, UserInfoMapper infoMapper) throws IOException {
+    public static int checkCheckStatus(JSONObject json, UserInfo userInfo, UserInfoMapper infoMapper, String cookie) throws IOException {
         String username = userInfo.getYunusername();
         json = JSONObject.fromObject(json.getString("msg"));
         JSONArray array = JSONArray.fromObject(json.getString("content"));
@@ -126,7 +126,7 @@ public class CommCode {
                 if(userInfo.getSinaUrl().equals(url)){
                     userInfo.setSinaUrl("success");
                     infoMapper.updateByPrimaryKey(userInfo);
-                    deleteBlog(userInfo,url,infoMapper);
+                    deleteBlog(userInfo,url,infoMapper,cookie);
                     log.info("修改url为success,删除延期博客!!!");
                 }
                 return 2;
@@ -135,7 +135,7 @@ public class CommCode {
                 if(userInfo.getSinaUrl().equals(url)){
                     userInfo.setSinaUrl("error");
                     infoMapper.updateByPrimaryKey(userInfo);
-                    deleteBlog(userInfo,url,infoMapper);
+                    deleteBlog(userInfo,url,infoMapper,cookie);
                     log.info("修改url为error,删除延期博客!!!");
                 }
                 return 3;
@@ -152,7 +152,7 @@ public class CommCode {
      * @param url
      * @param infoMapper
      */
-    public static void deleteBlog(UserInfo info, String url, UserInfoMapper infoMapper) throws IOException {
+    public static void deleteBlog(UserInfo info, String url, UserInfoMapper infoMapper, String cookie) throws IOException {
         log.info("开始删除"+url);
         String[] strs = url.split("_");
         String[] params = strs[1].split(".html");
@@ -163,11 +163,12 @@ public class CommCode {
         HttpClient sinaClient = HttpUtil.getHttpClient("UTF-8");
         String deleteUrl = "http://control.blog.sina.com.cn/admin/article/article_del_recycle.php?domain=1";
 
-        String cookie;
         Map<String,String> map;
         if("1".equals(info.getStatus())){ //从接口获取cookie
             log.info("开始接口获取sinaCookie");
-            cookie = getSinaCookie(info);
+            if(cookie==null){
+                cookie = getSinaCookie(info);
+            }
             map = CommCode.getPubHeader(cookie);
         }else{ //从本地获取cookie
             cookie = info.getSinaCookie();
