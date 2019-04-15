@@ -127,7 +127,11 @@
             <resource>
                 <directory>src/main/java</directory>
                 <includes>
-                    <include>**/*</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.sql</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.js</include>
                 </includes>
                 <!-- 是否替换资源中的属性-->
                 <filtering>false</filtering>
