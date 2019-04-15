@@ -3,8 +3,11 @@ package com.ff.postpone.mapper;
 import com.ff.postpone.pojo.UserInfo;
 import com.ff.postpone.pojo.UserInfoExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface UserInfoMapper {
     long countByExample(UserInfoExample example);
 
