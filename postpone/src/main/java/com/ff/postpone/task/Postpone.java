@@ -161,10 +161,13 @@ public class Postpone {
     public void sendAbei(UserInfo info, HttpClient yunClient, String url, File file, List<String> cookieList, int bz) throws Exception {
         log.info("开始提交延期记录!!!");
         PostMethod postMethod = new PostMethod(CommCode.getYunUrl(bz,1));
-        FilePart filePart = null;
+        FilePart filePart;
+        //三丰云和阿贝云文件提交方式不一样
         if(bz==0){
+            //阿贝云
             filePart = new FilePart("yanqi_img",file);
         }else{
+            //三丰云
             filePart = new FilePart("yanqi_img","postpone.png",file,"image/png","UTF-8");
         }
         filePart.setCharSet("utf-8");
