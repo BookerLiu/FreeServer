@@ -161,7 +161,12 @@ public class Postpone {
     public void sendAbei(UserInfo info, HttpClient yunClient, String url, File file, List<String> cookieList, int bz) throws Exception {
         log.info("开始提交延期记录!!!");
         PostMethod postMethod = new PostMethod(CommCode.getYunUrl(bz,1));
-        FilePart filePart = new FilePart("yanqi_img",file);
+        FilePart filePart = null;
+        if(bz==0){
+            filePart = new FilePart("yanqi_img",file);
+        }else{
+            filePart = new FilePart("yanqi_img","postpone.png",file,"image/png","UTF-8");
+        }
         filePart.setCharSet("utf-8");
         Part[] parts = {
                 new StringPart("cmd","free_delay_add" , "utf-8"),
