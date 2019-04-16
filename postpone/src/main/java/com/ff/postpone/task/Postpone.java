@@ -143,7 +143,7 @@ public class Postpone {
                     }
                     Thread.sleep(10000);
                 }
-                sendAbei(info,yunClient,sinaUrl,file,cookieList);
+                sendAbei(info,yunClient,sinaUrl,file,cookieList,bz);
 
             }
         }else{
@@ -158,9 +158,9 @@ public class Postpone {
      * @param file
      * @throws Exception
      */
-    public void sendAbei(UserInfo info, HttpClient yunClient, String url, File file, List<String> cookieList) throws Exception {
+    public void sendAbei(UserInfo info, HttpClient yunClient, String url, File file, List<String> cookieList, int bz) throws Exception {
         log.info("开始提交延期记录!!!");
-        PostMethod postMethod = new PostMethod("https://api.abeiyun.com/www/renew.php");
+        PostMethod postMethod = new PostMethod(CommCode.getYunUrl(bz,1));
         FilePart filePart = new FilePart("yanqi_img",file);
         filePart.setCharSet("utf-8");
         Part[] parts = {
