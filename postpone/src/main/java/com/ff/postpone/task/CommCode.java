@@ -351,7 +351,7 @@ public class CommCode {
                 new NameValuePair("new_time",""),
                 new NameValuePair("isTimed","0"),
                 new NameValuePair("immediatepub","0"),
-                new NameValuePair("blog_title", bz==0 ? ParamUtil.ABEI_TITLE + (int)(Math.random()*100000000) : ParamUtil.SANFENG_TITLE),
+                new NameValuePair("blog_title", bz==0 ? ParamUtil.ABEI_TITLE + (int)(Math.random()*100000000) : ParamUtil.SANFENG_TITLE + (int)(Math.random()*100000000)),
                 new NameValuePair("blog_body", bz==0 ?ParamUtil.ABEI_BODY : ParamUtil.SANFENG_BODY),
                 new NameValuePair("blog_class","00"),
                 new NameValuePair("tag","it"),
