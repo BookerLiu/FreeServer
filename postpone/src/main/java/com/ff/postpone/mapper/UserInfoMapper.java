@@ -19,21 +19,15 @@ public interface UserInfoMapper {
 
     int insertSelective(UserInfo record);
 
-    List<UserInfo> selectByExampleWithBLOBs(UserInfoExample example);
-
     List<UserInfo> selectByExample(UserInfoExample example);
 
     UserInfo selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") UserInfo record, @Param("example") UserInfoExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") UserInfo record, @Param("example") UserInfoExample example);
-
     int updateByExample(@Param("record") UserInfo record, @Param("example") UserInfoExample example);
 
     int updateByPrimaryKeySelective(UserInfo record);
-
-    int updateByPrimaryKeyWithBLOBs(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);
 }

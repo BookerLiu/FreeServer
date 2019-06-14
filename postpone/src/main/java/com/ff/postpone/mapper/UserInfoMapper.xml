@@ -3,6 +3,1416 @@
 <mapper namespace="com.ff.postpone.mapper.UserInfoMapper">
   <resultMap id="BaseResultMap" type="com.ff.postpone.pojo.UserInfo">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cloud_user" jdbcType="VARCHAR" property="cloudUser" />
+    <result column="cloud_pass" jdbcType="VARCHAR" property="cloudPass" />
+    <result column="blog_user" jdbcType="VARCHAR" property="blogUser" />
+    <result column="blog_pass" jdbcType="VARCHAR" property="blogPass" />
+    <result column="blog_url" jdbcType="VARCHAR" property="blogUrl" />
+    <result column="blog_cookie" jdbcType="VARCHAR" property="blogCookie" />
+    <result column="next_time" jdbcType="TIMESTAMP" property="nextTime" />
+    <result column="cloud_type" jdbcType="VARCHAR" property="cloudType" />
+    <result column="blog_type" jdbcType="VARCHAR" property="blogType" />
+    <result column="cookie_type" jdbcType="VARCHAR" property="cookieType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, cloud_user, cloud_pass, blog_user, blog_pass, blog_url, blog_cookie, next_time, 
+    cloud_type, blog_type, cookie_type
+  </sql>
+  <select id="selectByExample" parameterType="com.ff.postpone.pojo.UserInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ff.postpone.pojo.UserInfoExample">
+    delete from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ff.postpone.pojo.UserInfo">
+    insert into user_info (id, cloud_user, cloud_pass, 
+      blog_user, blog_pass, blog_url, 
+      blog_cookie, next_time, cloud_type, 
+      blog_type, cookie_type)
+    values (#{id,jdbcType=INTEGER}, #{cloudUser,jdbcType=VARCHAR}, #{cloudPass,jdbcType=VARCHAR}, 
+      #{blogUser,jdbcType=VARCHAR}, #{blogPass,jdbcType=VARCHAR}, #{blogUrl,jdbcType=VARCHAR}, 
+      #{blogCookie,jdbcType=VARCHAR}, #{nextTime,jdbcType=TIMESTAMP}, #{cloudType,jdbcType=VARCHAR}, 
+      #{blogType,jdbcType=VARCHAR}, #{cookieType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ff.postpone.pojo.UserInfo">
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cloudUser != null">
+        cloud_user,
+      </if>
+      <if test="cloudPass != null">
+        cloud_pass,
+      </if>
+      <if test="blogUser != null">
+        blog_user,
+      </if>
+      <if test="blogPass != null">
+        blog_pass,
+      </if>
+      <if test="blogUrl != null">
+        blog_url,
+      </if>
+      <if test="blogCookie != null">
+        blog_cookie,
+      </if>
+      <if test="nextTime != null">
+        next_time,
+      </if>
+      <if test="cloudType != null">
+        cloud_type,
+      </if>
+      <if test="blogType != null">
+        blog_type,
+      </if>
+      <if test="cookieType != null">
+        cookie_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cloudUser != null">
+        #{cloudUser,jdbcType=VARCHAR},
+      </if>
+      <if test="cloudPass != null">
+        #{cloudPass,jdbcType=VARCHAR},
+      </if>
+      <if test="blogUser != null">
+        #{blogUser,jdbcType=VARCHAR},
+      </if>
+      <if test="blogPass != null">
+        #{blogPass,jdbcType=VARCHAR},
+      </if>
+      <if test="blogUrl != null">
+        #{blogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="blogCookie != null">
+        #{blogCookie,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTime != null">
+        #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cloudType != null">
+        #{cloudType,jdbcType=VARCHAR},
+      </if>
+      <if test="blogType != null">
+        #{blogType,jdbcType=VARCHAR},
+      </if>
+      <if test="cookieType != null">
+        #{cookieType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ff.postpone.pojo.UserInfoExample" resultType="java.lang.Long">
+    select count(*) from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cloudUser != null">
+        cloud_user = #{record.cloudUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cloudPass != null">
+        cloud_pass = #{record.cloudPass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogUser != null">
+        blog_user = #{record.blogUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogPass != null">
+        blog_pass = #{record.blogPass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogUrl != null">
+        blog_url = #{record.blogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogCookie != null">
+        blog_cookie = #{record.blogCookie,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nextTime != null">
+        next_time = #{record.nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cloudType != null">
+        cloud_type = #{record.cloudType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogType != null">
+        blog_type = #{record.blogType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cookieType != null">
+        cookie_type = #{record.cookieType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user_info
+    set id = #{record.id,jdbcType=INTEGER},
+      cloud_user = #{record.cloudUser,jdbcType=VARCHAR},
+      cloud_pass = #{record.cloudPass,jdbcType=VARCHAR},
+      blog_user = #{record.blogUser,jdbcType=VARCHAR},
+      blog_pass = #{record.blogPass,jdbcType=VARCHAR},
+      blog_url = #{record.blogUrl,jdbcType=VARCHAR},
+      blog_cookie = #{record.blogCookie,jdbcType=VARCHAR},
+      next_time = #{record.nextTime,jdbcType=TIMESTAMP},
+      cloud_type = #{record.cloudType,jdbcType=VARCHAR},
+      blog_type = #{record.blogType,jdbcType=VARCHAR},
+      cookie_type = #{record.cookieType,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ff.postpone.pojo.UserInfo">
+    update user_info
+    <set>
+      <if test="cloudUser != null">
+        cloud_user = #{cloudUser,jdbcType=VARCHAR},
+      </if>
+      <if test="cloudPass != null">
+        cloud_pass = #{cloudPass,jdbcType=VARCHAR},
+      </if>
+      <if test="blogUser != null">
+        blog_user = #{blogUser,jdbcType=VARCHAR},
+      </if>
+      <if test="blogPass != null">
+        blog_pass = #{blogPass,jdbcType=VARCHAR},
+      </if>
+      <if test="blogUrl != null">
+        blog_url = #{blogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="blogCookie != null">
+        blog_cookie = #{blogCookie,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTime != null">
+        next_time = #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cloudType != null">
+        cloud_type = #{cloudType,jdbcType=VARCHAR},
+      </if>
+      <if test="blogType != null">
+        blog_type = #{blogType,jdbcType=VARCHAR},
+      </if>
+      <if test="cookieType != null">
+        cookie_type = #{cookieType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ff.postpone.pojo.UserInfo">
+    update user_info
+    set cloud_user = #{cloudUser,jdbcType=VARCHAR},
+      cloud_pass = #{cloudPass,jdbcType=VARCHAR},
+      blog_user = #{blogUser,jdbcType=VARCHAR},
+      blog_pass = #{blogPass,jdbcType=VARCHAR},
+      blog_url = #{blogUrl,jdbcType=VARCHAR},
+      blog_cookie = #{blogCookie,jdbcType=VARCHAR},
+      next_time = #{nextTime,jdbcType=TIMESTAMP},
+      cloud_type = #{cloudType,jdbcType=VARCHAR},
+      blog_type = #{blogType,jdbcType=VARCHAR},
+      cookie_type = #{cookieType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ff.postpone.pojo.UserInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cloud_user" jdbcType="VARCHAR" property="cloudUser" />
+    <result column="cloud_pass" jdbcType="VARCHAR" property="cloudPass" />
+    <result column="blog_user" jdbcType="VARCHAR" property="blogUser" />
+    <result column="blog_pass" jdbcType="VARCHAR" property="blogPass" />
+    <result column="blog_url" jdbcType="VARCHAR" property="blogUrl" />
+    <result column="next_time" jdbcType="TIMESTAMP" property="nextTime" />
+    <result column="cloud_type" jdbcType="VARCHAR" property="cloudType" />
+    <result column="blog_type" jdbcType="VARCHAR" property="blogType" />
+    <result column="cookie_type" jdbcType="VARCHAR" property="cookieType" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ff.postpone.pojo.UserInfo">
+    <result column="blog_cookie" jdbcType="LONGVARCHAR" property="blogCookie" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, cloud_user, cloud_pass, blog_user, blog_pass, blog_url, next_time, cloud_type, 
+    blog_type, cookie_type
+  </sql>
+  <sql id="Blob_Column_List">
+    blog_cookie
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.ff.postpone.pojo.UserInfoExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.ff.postpone.pojo.UserInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ff.postpone.pojo.UserInfoExample">
+    delete from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ff.postpone.pojo.UserInfo">
+    insert into user_info (id, cloud_user, cloud_pass, 
+      blog_user, blog_pass, blog_url, 
+      next_time, cloud_type, blog_type, 
+      cookie_type, blog_cookie)
+    values (#{id,jdbcType=INTEGER}, #{cloudUser,jdbcType=VARCHAR}, #{cloudPass,jdbcType=VARCHAR}, 
+      #{blogUser,jdbcType=VARCHAR}, #{blogPass,jdbcType=VARCHAR}, #{blogUrl,jdbcType=VARCHAR}, 
+      #{nextTime,jdbcType=TIMESTAMP}, #{cloudType,jdbcType=VARCHAR}, #{blogType,jdbcType=VARCHAR}, 
+      #{cookieType,jdbcType=VARCHAR}, #{blogCookie,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ff.postpone.pojo.UserInfo">
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cloudUser != null">
+        cloud_user,
+      </if>
+      <if test="cloudPass != null">
+        cloud_pass,
+      </if>
+      <if test="blogUser != null">
+        blog_user,
+      </if>
+      <if test="blogPass != null">
+        blog_pass,
+      </if>
+      <if test="blogUrl != null">
+        blog_url,
+      </if>
+      <if test="nextTime != null">
+        next_time,
+      </if>
+      <if test="cloudType != null">
+        cloud_type,
+      </if>
+      <if test="blogType != null">
+        blog_type,
+      </if>
+      <if test="cookieType != null">
+        cookie_type,
+      </if>
+      <if test="blogCookie != null">
+        blog_cookie,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cloudUser != null">
+        #{cloudUser,jdbcType=VARCHAR},
+      </if>
+      <if test="cloudPass != null">
+        #{cloudPass,jdbcType=VARCHAR},
+      </if>
+      <if test="blogUser != null">
+        #{blogUser,jdbcType=VARCHAR},
+      </if>
+      <if test="blogPass != null">
+        #{blogPass,jdbcType=VARCHAR},
+      </if>
+      <if test="blogUrl != null">
+        #{blogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTime != null">
+        #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cloudType != null">
+        #{cloudType,jdbcType=VARCHAR},
+      </if>
+      <if test="blogType != null">
+        #{blogType,jdbcType=VARCHAR},
+      </if>
+      <if test="cookieType != null">
+        #{cookieType,jdbcType=VARCHAR},
+      </if>
+      <if test="blogCookie != null">
+        #{blogCookie,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ff.postpone.pojo.UserInfoExample" resultType="java.lang.Long">
+    select count(*) from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cloudUser != null">
+        cloud_user = #{record.cloudUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cloudPass != null">
+        cloud_pass = #{record.cloudPass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogUser != null">
+        blog_user = #{record.blogUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogPass != null">
+        blog_pass = #{record.blogPass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogUrl != null">
+        blog_url = #{record.blogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nextTime != null">
+        next_time = #{record.nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cloudType != null">
+        cloud_type = #{record.cloudType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogType != null">
+        blog_type = #{record.blogType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cookieType != null">
+        cookie_type = #{record.cookieType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blogCookie != null">
+        blog_cookie = #{record.blogCookie,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update user_info
+    set id = #{record.id,jdbcType=INTEGER},
+      cloud_user = #{record.cloudUser,jdbcType=VARCHAR},
+      cloud_pass = #{record.cloudPass,jdbcType=VARCHAR},
+      blog_user = #{record.blogUser,jdbcType=VARCHAR},
+      blog_pass = #{record.blogPass,jdbcType=VARCHAR},
+      blog_url = #{record.blogUrl,jdbcType=VARCHAR},
+      next_time = #{record.nextTime,jdbcType=TIMESTAMP},
+      cloud_type = #{record.cloudType,jdbcType=VARCHAR},
+      blog_type = #{record.blogType,jdbcType=VARCHAR},
+      cookie_type = #{record.cookieType,jdbcType=VARCHAR},
+      blog_cookie = #{record.blogCookie,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user_info
+    set id = #{record.id,jdbcType=INTEGER},
+      cloud_user = #{record.cloudUser,jdbcType=VARCHAR},
+      cloud_pass = #{record.cloudPass,jdbcType=VARCHAR},
+      blog_user = #{record.blogUser,jdbcType=VARCHAR},
+      blog_pass = #{record.blogPass,jdbcType=VARCHAR},
+      blog_url = #{record.blogUrl,jdbcType=VARCHAR},
+      next_time = #{record.nextTime,jdbcType=TIMESTAMP},
+      cloud_type = #{record.cloudType,jdbcType=VARCHAR},
+      blog_type = #{record.blogType,jdbcType=VARCHAR},
+      cookie_type = #{record.cookieType,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ff.postpone.pojo.UserInfo">
+    update user_info
+    <set>
+      <if test="cloudUser != null">
+        cloud_user = #{cloudUser,jdbcType=VARCHAR},
+      </if>
+      <if test="cloudPass != null">
+        cloud_pass = #{cloudPass,jdbcType=VARCHAR},
+      </if>
+      <if test="blogUser != null">
+        blog_user = #{blogUser,jdbcType=VARCHAR},
+      </if>
+      <if test="blogPass != null">
+        blog_pass = #{blogPass,jdbcType=VARCHAR},
+      </if>
+      <if test="blogUrl != null">
+        blog_url = #{blogUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTime != null">
+        next_time = #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cloudType != null">
+        cloud_type = #{cloudType,jdbcType=VARCHAR},
+      </if>
+      <if test="blogType != null">
+        blog_type = #{blogType,jdbcType=VARCHAR},
+      </if>
+      <if test="cookieType != null">
+        cookie_type = #{cookieType,jdbcType=VARCHAR},
+      </if>
+      <if test="blogCookie != null">
+        blog_cookie = #{blogCookie,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ff.postpone.pojo.UserInfo">
+    update user_info
+    set cloud_user = #{cloudUser,jdbcType=VARCHAR},
+      cloud_pass = #{cloudPass,jdbcType=VARCHAR},
+      blog_user = #{blogUser,jdbcType=VARCHAR},
+      blog_pass = #{blogPass,jdbcType=VARCHAR},
+      blog_url = #{blogUrl,jdbcType=VARCHAR},
+      next_time = #{nextTime,jdbcType=TIMESTAMP},
+      cloud_type = #{cloudType,jdbcType=VARCHAR},
+      blog_type = #{blogType,jdbcType=VARCHAR},
+      cookie_type = #{cookieType,jdbcType=VARCHAR},
+      blog_cookie = #{blogCookie,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ff.postpone.pojo.UserInfo">
+    update user_info
+    set cloud_user = #{cloudUser,jdbcType=VARCHAR},
+      cloud_pass = #{cloudPass,jdbcType=VARCHAR},
+      blog_user = #{blogUser,jdbcType=VARCHAR},
+      blog_pass = #{blogPass,jdbcType=VARCHAR},
+      blog_url = #{blogUrl,jdbcType=VARCHAR},
+      next_time = #{nextTime,jdbcType=TIMESTAMP},
+      cloud_type = #{cloudType,jdbcType=VARCHAR},
+      blog_type = #{blogType,jdbcType=VARCHAR},
+      cookie_type = #{cookieType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ff.postpone.pojo.UserInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="yunusername" jdbcType="VARCHAR" property="yunusername" />
+    <result column="yunpassword" jdbcType="VARCHAR" property="yunpassword" />
+    <result column="sinausername" jdbcType="VARCHAR" property="sinausername" />
+    <result column="sinapassword" jdbcType="VARCHAR" property="sinapassword" />
+    <result column="sina_cookie" jdbcType="VARCHAR" property="sinaCookie" />
+    <result column="sina_url" jdbcType="VARCHAR" property="sinaUrl" />
+    <result column="csdnusername" jdbcType="VARCHAR" property="csdnusername" />
+    <result column="csdnpassword" jdbcType="VARCHAR" property="csdnpassword" />
+    <result column="csdn_cookie" jdbcType="VARCHAR" property="csdnCookie" />
+    <result column="next_time" jdbcType="TIMESTAMP" property="nextTime" />
+    <result column="csdn_url" jdbcType="VARCHAR" property="csdnUrl" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="bz" jdbcType="VARCHAR" property="bz" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, yunusername, yunpassword, sinausername, sinapassword, sina_cookie, sina_url, 
+    csdnusername, csdnpassword, csdn_cookie, next_time, csdn_url, status, bz
+  </sql>
+  <select id="selectByExample" parameterType="com.ff.postpone.pojo.UserInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ff.postpone.pojo.UserInfoExample">
+    delete from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ff.postpone.pojo.UserInfo">
+    insert into user_info (id, yunusername, yunpassword, 
+      sinausername, sinapassword, sina_cookie, 
+      sina_url, csdnusername, csdnpassword, 
+      csdn_cookie, next_time, csdn_url, 
+      status, bz)
+    values (#{id,jdbcType=INTEGER}, #{yunusername,jdbcType=VARCHAR}, #{yunpassword,jdbcType=VARCHAR}, 
+      #{sinausername,jdbcType=VARCHAR}, #{sinapassword,jdbcType=VARCHAR}, #{sinaCookie,jdbcType=VARCHAR}, 
+      #{sinaUrl,jdbcType=VARCHAR}, #{csdnusername,jdbcType=VARCHAR}, #{csdnpassword,jdbcType=VARCHAR}, 
+      #{csdnCookie,jdbcType=VARCHAR}, #{nextTime,jdbcType=TIMESTAMP}, #{csdnUrl,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ff.postpone.pojo.UserInfo">
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="yunusername != null">
+        yunusername,
+      </if>
+      <if test="yunpassword != null">
+        yunpassword,
+      </if>
+      <if test="sinausername != null">
+        sinausername,
+      </if>
+      <if test="sinapassword != null">
+        sinapassword,
+      </if>
+      <if test="sinaCookie != null">
+        sina_cookie,
+      </if>
+      <if test="sinaUrl != null">
+        sina_url,
+      </if>
+      <if test="csdnusername != null">
+        csdnusername,
+      </if>
+      <if test="csdnpassword != null">
+        csdnpassword,
+      </if>
+      <if test="csdnCookie != null">
+        csdn_cookie,
+      </if>
+      <if test="nextTime != null">
+        next_time,
+      </if>
+      <if test="csdnUrl != null">
+        csdn_url,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="bz != null">
+        bz,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="yunusername != null">
+        #{yunusername,jdbcType=VARCHAR},
+      </if>
+      <if test="yunpassword != null">
+        #{yunpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sinausername != null">
+        #{sinausername,jdbcType=VARCHAR},
+      </if>
+      <if test="sinapassword != null">
+        #{sinapassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaCookie != null">
+        #{sinaCookie,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaUrl != null">
+        #{sinaUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="csdnusername != null">
+        #{csdnusername,jdbcType=VARCHAR},
+      </if>
+      <if test="csdnpassword != null">
+        #{csdnpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="csdnCookie != null">
+        #{csdnCookie,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTime != null">
+        #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="csdnUrl != null">
+        #{csdnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        #{bz,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ff.postpone.pojo.UserInfoExample" resultType="java.lang.Long">
+    select count(*) from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.yunusername != null">
+        yunusername = #{record.yunusername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yunpassword != null">
+        yunpassword = #{record.yunpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sinausername != null">
+        sinausername = #{record.sinausername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sinapassword != null">
+        sinapassword = #{record.sinapassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sinaCookie != null">
+        sina_cookie = #{record.sinaCookie,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sinaUrl != null">
+        sina_url = #{record.sinaUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.csdnusername != null">
+        csdnusername = #{record.csdnusername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.csdnpassword != null">
+        csdnpassword = #{record.csdnpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.csdnCookie != null">
+        csdn_cookie = #{record.csdnCookie,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nextTime != null">
+        next_time = #{record.nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.csdnUrl != null">
+        csdn_url = #{record.csdnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bz != null">
+        bz = #{record.bz,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user_info
+    set id = #{record.id,jdbcType=INTEGER},
+      yunusername = #{record.yunusername,jdbcType=VARCHAR},
+      yunpassword = #{record.yunpassword,jdbcType=VARCHAR},
+      sinausername = #{record.sinausername,jdbcType=VARCHAR},
+      sinapassword = #{record.sinapassword,jdbcType=VARCHAR},
+      sina_cookie = #{record.sinaCookie,jdbcType=VARCHAR},
+      sina_url = #{record.sinaUrl,jdbcType=VARCHAR},
+      csdnusername = #{record.csdnusername,jdbcType=VARCHAR},
+      csdnpassword = #{record.csdnpassword,jdbcType=VARCHAR},
+      csdn_cookie = #{record.csdnCookie,jdbcType=VARCHAR},
+      next_time = #{record.nextTime,jdbcType=TIMESTAMP},
+      csdn_url = #{record.csdnUrl,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      bz = #{record.bz,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ff.postpone.pojo.UserInfo">
+    update user_info
+    <set>
+      <if test="yunusername != null">
+        yunusername = #{yunusername,jdbcType=VARCHAR},
+      </if>
+      <if test="yunpassword != null">
+        yunpassword = #{yunpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sinausername != null">
+        sinausername = #{sinausername,jdbcType=VARCHAR},
+      </if>
+      <if test="sinapassword != null">
+        sinapassword = #{sinapassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaCookie != null">
+        sina_cookie = #{sinaCookie,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaUrl != null">
+        sina_url = #{sinaUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="csdnusername != null">
+        csdnusername = #{csdnusername,jdbcType=VARCHAR},
+      </if>
+      <if test="csdnpassword != null">
+        csdnpassword = #{csdnpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="csdnCookie != null">
+        csdn_cookie = #{csdnCookie,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTime != null">
+        next_time = #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="csdnUrl != null">
+        csdn_url = #{csdnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        bz = #{bz,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ff.postpone.pojo.UserInfo">
+    update user_info
+    set yunusername = #{yunusername,jdbcType=VARCHAR},
+      yunpassword = #{yunpassword,jdbcType=VARCHAR},
+      sinausername = #{sinausername,jdbcType=VARCHAR},
+      sinapassword = #{sinapassword,jdbcType=VARCHAR},
+      sina_cookie = #{sinaCookie,jdbcType=VARCHAR},
+      sina_url = #{sinaUrl,jdbcType=VARCHAR},
+      csdnusername = #{csdnusername,jdbcType=VARCHAR},
+      csdnpassword = #{csdnpassword,jdbcType=VARCHAR},
+      csdn_cookie = #{csdnCookie,jdbcType=VARCHAR},
+      next_time = #{nextTime,jdbcType=TIMESTAMP},
+      csdn_url = #{csdnUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      bz = #{bz,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ff.postpone.pojo.UserInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="yunusername" jdbcType="VARCHAR" property="yunusername" />
+    <result column="yunpassword" jdbcType="VARCHAR" property="yunpassword" />
+    <result column="sinausername" jdbcType="VARCHAR" property="sinausername" />
+    <result column="sinapassword" jdbcType="VARCHAR" property="sinapassword" />
+    <result column="sina_url" jdbcType="VARCHAR" property="sinaUrl" />
+    <result column="csdnusername" jdbcType="VARCHAR" property="csdnusername" />
+    <result column="csdnpassword" jdbcType="VARCHAR" property="csdnpassword" />
+    <result column="next_time" jdbcType="TIMESTAMP" property="nextTime" />
+    <result column="csdn_url" jdbcType="VARCHAR" property="csdnUrl" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="bz" jdbcType="VARCHAR" property="bz" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ff.postpone.pojo.UserInfoWithBLOBs">
+    <result column="sina_cookie" jdbcType="LONGVARCHAR" property="sinaCookie" />
+    <result column="csdn_cookie" jdbcType="LONGVARCHAR" property="csdnCookie" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, yunusername, yunpassword, sinausername, sinapassword, sina_url, csdnusername, 
+    csdnpassword, next_time, csdn_url, status, bz
+  </sql>
+  <sql id="Blob_Column_List">
+    sina_cookie, csdn_cookie
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.ff.postpone.pojo.UserInfoExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.ff.postpone.pojo.UserInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ff.postpone.pojo.UserInfoExample">
+    delete from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ff.postpone.pojo.UserInfoWithBLOBs">
+    insert into user_info (id, yunusername, yunpassword, 
+      sinausername, sinapassword, sina_url, 
+      csdnusername, csdnpassword, next_time, 
+      csdn_url, status, bz, 
+      sina_cookie, csdn_cookie)
+    values (#{id,jdbcType=INTEGER}, #{yunusername,jdbcType=VARCHAR}, #{yunpassword,jdbcType=VARCHAR}, 
+      #{sinausername,jdbcType=VARCHAR}, #{sinapassword,jdbcType=VARCHAR}, #{sinaUrl,jdbcType=VARCHAR}, 
+      #{csdnusername,jdbcType=VARCHAR}, #{csdnpassword,jdbcType=VARCHAR}, #{nextTime,jdbcType=TIMESTAMP}, 
+      #{csdnUrl,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}, 
+      #{sinaCookie,jdbcType=LONGVARCHAR}, #{csdnCookie,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ff.postpone.pojo.UserInfoWithBLOBs">
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="yunusername != null">
+        yunusername,
+      </if>
+      <if test="yunpassword != null">
+        yunpassword,
+      </if>
+      <if test="sinausername != null">
+        sinausername,
+      </if>
+      <if test="sinapassword != null">
+        sinapassword,
+      </if>
+      <if test="sinaUrl != null">
+        sina_url,
+      </if>
+      <if test="csdnusername != null">
+        csdnusername,
+      </if>
+      <if test="csdnpassword != null">
+        csdnpassword,
+      </if>
+      <if test="nextTime != null">
+        next_time,
+      </if>
+      <if test="csdnUrl != null">
+        csdn_url,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="bz != null">
+        bz,
+      </if>
+      <if test="sinaCookie != null">
+        sina_cookie,
+      </if>
+      <if test="csdnCookie != null">
+        csdn_cookie,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="yunusername != null">
+        #{yunusername,jdbcType=VARCHAR},
+      </if>
+      <if test="yunpassword != null">
+        #{yunpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sinausername != null">
+        #{sinausername,jdbcType=VARCHAR},
+      </if>
+      <if test="sinapassword != null">
+        #{sinapassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaUrl != null">
+        #{sinaUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="csdnusername != null">
+        #{csdnusername,jdbcType=VARCHAR},
+      </if>
+      <if test="csdnpassword != null">
+        #{csdnpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTime != null">
+        #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="csdnUrl != null">
+        #{csdnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaCookie != null">
+        #{sinaCookie,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="csdnCookie != null">
+        #{csdnCookie,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ff.postpone.pojo.UserInfoExample" resultType="java.lang.Long">
+    select count(*) from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.yunusername != null">
+        yunusername = #{record.yunusername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yunpassword != null">
+        yunpassword = #{record.yunpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sinausername != null">
+        sinausername = #{record.sinausername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sinapassword != null">
+        sinapassword = #{record.sinapassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sinaUrl != null">
+        sina_url = #{record.sinaUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.csdnusername != null">
+        csdnusername = #{record.csdnusername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.csdnpassword != null">
+        csdnpassword = #{record.csdnpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nextTime != null">
+        next_time = #{record.nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.csdnUrl != null">
+        csdn_url = #{record.csdnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bz != null">
+        bz = #{record.bz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sinaCookie != null">
+        sina_cookie = #{record.sinaCookie,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.csdnCookie != null">
+        csdn_cookie = #{record.csdnCookie,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update user_info
+    set id = #{record.id,jdbcType=INTEGER},
+      yunusername = #{record.yunusername,jdbcType=VARCHAR},
+      yunpassword = #{record.yunpassword,jdbcType=VARCHAR},
+      sinausername = #{record.sinausername,jdbcType=VARCHAR},
+      sinapassword = #{record.sinapassword,jdbcType=VARCHAR},
+      sina_url = #{record.sinaUrl,jdbcType=VARCHAR},
+      csdnusername = #{record.csdnusername,jdbcType=VARCHAR},
+      csdnpassword = #{record.csdnpassword,jdbcType=VARCHAR},
+      next_time = #{record.nextTime,jdbcType=TIMESTAMP},
+      csdn_url = #{record.csdnUrl,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      bz = #{record.bz,jdbcType=VARCHAR},
+      sina_cookie = #{record.sinaCookie,jdbcType=LONGVARCHAR},
+      csdn_cookie = #{record.csdnCookie,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user_info
+    set id = #{record.id,jdbcType=INTEGER},
+      yunusername = #{record.yunusername,jdbcType=VARCHAR},
+      yunpassword = #{record.yunpassword,jdbcType=VARCHAR},
+      sinausername = #{record.sinausername,jdbcType=VARCHAR},
+      sinapassword = #{record.sinapassword,jdbcType=VARCHAR},
+      sina_url = #{record.sinaUrl,jdbcType=VARCHAR},
+      csdnusername = #{record.csdnusername,jdbcType=VARCHAR},
+      csdnpassword = #{record.csdnpassword,jdbcType=VARCHAR},
+      next_time = #{record.nextTime,jdbcType=TIMESTAMP},
+      csdn_url = #{record.csdnUrl,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      bz = #{record.bz,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ff.postpone.pojo.UserInfoWithBLOBs">
+    update user_info
+    <set>
+      <if test="yunusername != null">
+        yunusername = #{yunusername,jdbcType=VARCHAR},
+      </if>
+      <if test="yunpassword != null">
+        yunpassword = #{yunpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sinausername != null">
+        sinausername = #{sinausername,jdbcType=VARCHAR},
+      </if>
+      <if test="sinapassword != null">
+        sinapassword = #{sinapassword,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaUrl != null">
+        sina_url = #{sinaUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="csdnusername != null">
+        csdnusername = #{csdnusername,jdbcType=VARCHAR},
+      </if>
+      <if test="csdnpassword != null">
+        csdnpassword = #{csdnpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="nextTime != null">
+        next_time = #{nextTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="csdnUrl != null">
+        csdn_url = #{csdnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        bz = #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaCookie != null">
+        sina_cookie = #{sinaCookie,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="csdnCookie != null">
+        csdn_cookie = #{csdnCookie,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ff.postpone.pojo.UserInfoWithBLOBs">
+    update user_info
+    set yunusername = #{yunusername,jdbcType=VARCHAR},
+      yunpassword = #{yunpassword,jdbcType=VARCHAR},
+      sinausername = #{sinausername,jdbcType=VARCHAR},
+      sinapassword = #{sinapassword,jdbcType=VARCHAR},
+      sina_url = #{sinaUrl,jdbcType=VARCHAR},
+      csdnusername = #{csdnusername,jdbcType=VARCHAR},
+      csdnpassword = #{csdnpassword,jdbcType=VARCHAR},
+      next_time = #{nextTime,jdbcType=TIMESTAMP},
+      csdn_url = #{csdnUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      bz = #{bz,jdbcType=VARCHAR},
+      sina_cookie = #{sinaCookie,jdbcType=LONGVARCHAR},
+      csdn_cookie = #{csdnCookie,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ff.postpone.pojo.UserInfo">
+    update user_info
+    set yunusername = #{yunusername,jdbcType=VARCHAR},
+      yunpassword = #{yunpassword,jdbcType=VARCHAR},
+      sinausername = #{sinausername,jdbcType=VARCHAR},
+      sinapassword = #{sinapassword,jdbcType=VARCHAR},
+      sina_url = #{sinaUrl,jdbcType=VARCHAR},
+      csdnusername = #{csdnusername,jdbcType=VARCHAR},
+      csdnpassword = #{csdnpassword,jdbcType=VARCHAR},
+      next_time = #{nextTime,jdbcType=TIMESTAMP},
+      csdn_url = #{csdnUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      bz = #{bz,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.ff.postpone.pojo.UserInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="yunusername" jdbcType="VARCHAR" property="yunusername" />
     <result column="yunpassword" jdbcType="VARCHAR" property="yunpassword" />
     <result column="sinausername" jdbcType="VARCHAR" property="sinausername" />

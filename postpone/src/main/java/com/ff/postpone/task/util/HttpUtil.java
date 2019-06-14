@@ -1,14 +1,19 @@
 package com.ff.postpone.task.util;
 
 import net.sf.json.JSONObject;
-import org.apache.commons.httpclient.Cookie;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.cookie.CookiePolicy;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 /**
@@ -20,68 +25,91 @@ public class HttpUtil {
 
 
     /**
-     * 获取HttpClient并设置在请求中附带Cookie
-     * @param encoding
+     * 获取HttpClient
      * @return
      */
-    public static HttpClient getHttpClient(String encoding){
-        HttpClient client = new HttpClient();
-        client.getParams().setContentCharset(encoding);
-        //设置在请求中附带Cookie
-        client.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
-        return  client;
+    public static HttpClient getHttpClient(){
+        return HttpClients.createDefault();
     }
 
+
     /**
-     * 获取执行后的 PostMethod 返回结果
-     * @param client
-     * @param pair
-     * @param url
-     * @param headerMap
-     * @return
-     * @throws IOException
-     */
-    public static String getPostRes(HttpClient client, String url, NameValuePair pair[], Map<String,String> headerMap) throws IOException {
-        PostMethod postMethod = new PostMethod(url);
+     * @Author LiuFei
+     * @Date 2019/6/12 10:05
+     * @description 获取执行后的 HttpPost 返回结果
+     * @Param [client, url, pair, headerMap]
+     * @Reutrn java.lang.String
+    */
+    public static String getPostRes(HttpClient client, String url, NameValuePair pair[], Map<String,String> headerMap) throws IOException, URISyntaxException {
+        HttpPost httpPost;
         //设置请求参数
         if(pair!=null){
-            postMethod.setRequestBody(pair);
+            URIBuilder uriBuilder = new URIBuilder(url);
+            uriBuilder.setParameters(pair);
+            httpPost = new HttpPost(uriBuilder.build());
+        }else{
+            httpPost = new HttpPost(url);
         }
-        //设置请求头
-        if(headerMap!=null){
-            for (String key : headerMap.keySet()) {
-                postMethod.setRequestHeader(key, headerMap.get(key));
-            }
-        }
-        client.executeMethod(postMethod);
-        return postMethod.getResponseBodyAsString();
+        return getPostRes(client,httpPost,headerMap);
     }
-    public static String getPostRes(HttpClient client, String url,  NameValuePair pair[]) throws IOException {
+    public static String getPostRes(HttpClient client, String url,  NameValuePair pair[]) throws IOException, URISyntaxException {
         return getPostRes(client,url,pair,null);
     }
 
     /**
-     * 获取执行后的 GetMethod 返回结果
-     * @param client
-     * @param url
-     * @param pair
-     * @param headerMap
-     * @return
-     * @throws IOException
-     */
-    public static String getGetRes(HttpClient client, String url, NameValuePair pair[], Map<String,String> headerMap) throws IOException {
-        GetMethod getMethod = new GetMethod(url);
+     * @Author LiuFei
+     * @Date 2019/6/12 10:05
+     * @description 获取执行后的 HttpPost 返回结果
+     * @Param [client, url, entity, headerMap]
+     * @Reutrn java.lang.String
+    */
+    public static String getPostRes(HttpClient client, String url, HttpEntity entity, Map<String,String> headerMap) throws IOException {
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setEntity(entity);
+        return getPostRes(client,httpPost,headerMap);
+    }
+    public static String getPostRes(HttpClient client, String url, HttpEntity entity) throws IOException {
+        return getPostRes(client,url,entity,null);
+    }
+
+    private static String getPostRes(HttpClient client, HttpPost httpPost, Map<String,String> headerMap) throws IOException {
+        //设置请求头
+        if(headerMap!=null){
+            for (String key : headerMap.keySet()) {
+                httpPost.setHeader(key, headerMap.get(key));
+            }
+        }
+        HttpResponse response = client.execute(httpPost);
+        return EntityUtils.toString(response.getEntity());
+    }
+
+    /**
+     * @Author LiuFei
+     * @Date 2019/6/12 10:15
+     * @description 获取执行后的 HttpGet 返回结果
+     * @Param [client, url, pair, headerMap]
+     * @Reutrn java.lang.String
+    */
+    public static String getGetRes(HttpClient client, String url, NameValuePair pair[], Map<String,String> headerMap) throws IOException, URISyntaxException {
+        HttpGet httpGet;
         //设置请求参数
         if(pair!=null){
-            getMethod.setQueryString(pair);
+            URIBuilder uriBuilder = new URIBuilder(url);
+            uriBuilder.setParameters(pair);
+            httpGet = new HttpGet(uriBuilder.build());
+        }else{
+            httpGet = new HttpGet(url);
         }
         //设置请求头
         if(headerMap!=null){
             for (String key : headerMap.keySet()) {
-                getMethod.setRequestHeader(key, headerMap.get(key));
+                httpGet.setHeader(key, headerMap.get(key));
             }
         }
-        client.executeMethod(getMethod);
-        return getMethod.getResponseBodyAsString();
+        HttpResponse response = client.execute(httpGet);
+        return EntityUtils.toString(response.getEntity());
+    }
+    public static String getGetRes(HttpClient client, String url, NameValuePair pair[]) throws IOException, URISyntaxException {
+        return getGetRes(client,url,pair,null);
     }
 }

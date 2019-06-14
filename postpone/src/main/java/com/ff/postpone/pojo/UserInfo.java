@@ -5,23 +5,25 @@ import java.util.Date;
 public class UserInfo {
     private Integer id;
 
-    private String yunusername;
+    private String cloudUser;
 
-    private String yunpassword;
+    private String cloudPass;
 
-    private String sinausername;
+    private String blogUser;
 
-    private String sinapassword;
+    private String blogPass;
+
+    private String blogUrl;
+
+    private String blogCookie;
 
     private Date nextTime;
 
-    private String sinaUrl;
+    private String cloudType;
 
-    private String status;
+    private String blogType;
 
-    private String bz;
-
-    private String sinaCookie;
+    private String cookieType;
 
     public Integer getId() {
         return id;
@@ -31,36 +33,52 @@ public class UserInfo {
         this.id = id;
     }
 
-    public String getYunusername() {
-        return yunusername;
+    public String getCloudUser() {
+        return cloudUser;
     }
 
-    public void setYunusername(String yunusername) {
-        this.yunusername = yunusername;
+    public void setCloudUser(String cloudUser) {
+        this.cloudUser = cloudUser;
     }
 
-    public String getYunpassword() {
-        return yunpassword;
+    public String getCloudPass() {
+        return cloudPass;
     }
 
-    public void setYunpassword(String yunpassword) {
-        this.yunpassword = yunpassword;
+    public void setCloudPass(String cloudPass) {
+        this.cloudPass = cloudPass;
     }
 
-    public String getSinausername() {
-        return sinausername;
+    public String getBlogUser() {
+        return blogUser;
     }
 
-    public void setSinausername(String sinausername) {
-        this.sinausername = sinausername;
+    public void setBlogUser(String blogUser) {
+        this.blogUser = blogUser;
     }
 
-    public String getSinapassword() {
-        return sinapassword;
+    public String getBlogPass() {
+        return blogPass;
     }
 
-    public void setSinapassword(String sinapassword) {
-        this.sinapassword = sinapassword;
+    public void setBlogPass(String blogPass) {
+        this.blogPass = blogPass;
+    }
+
+    public String getBlogUrl() {
+        return blogUrl;
+    }
+
+    public void setBlogUrl(String blogUrl) {
+        this.blogUrl = blogUrl;
+    }
+
+    public String getBlogCookie() {
+        return blogCookie;
+    }
+
+    public void setBlogCookie(String blogCookie) {
+        this.blogCookie = blogCookie;
     }
 
     public Date getNextTime() {
@@ -71,35 +89,27 @@ public class UserInfo {
         this.nextTime = nextTime;
     }
 
-    public String getSinaUrl() {
-        return sinaUrl;
+    public String getCloudType() {
+        return cloudType;
     }
 
-    public void setSinaUrl(String sinaUrl) {
-        this.sinaUrl = sinaUrl;
+    public void setCloudType(String cloudType) {
+        this.cloudType = cloudType;
     }
 
-    public String getStatus() {
-        return status;
+    public String getBlogType() {
+        return blogType;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setBlogType(String blogType) {
+        this.blogType = blogType;
     }
 
-    public String getBz() {
-        return bz;
+    public String getCookieType() {
+        return cookieType;
     }
 
-    public void setBz(String bz) {
-        this.bz = bz;
-    }
-
-    public String getSinaCookie() {
-        return sinaCookie;
-    }
-
-    public void setSinaCookie(String sinaCookie) {
-        this.sinaCookie = sinaCookie;
+    public void setCookieType(String cookieType) {
+        this.cookieType = cookieType;
     }
 }

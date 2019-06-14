@@ -165,283 +165,423 @@ public class UserInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameIsNull() {
-            addCriterion("yunusername is null");
+        public Criteria andCloudUserIsNull() {
+            addCriterion("cloud_user is null");
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameIsNotNull() {
-            addCriterion("yunusername is not null");
+        public Criteria andCloudUserIsNotNull() {
+            addCriterion("cloud_user is not null");
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameEqualTo(String value) {
-            addCriterion("yunusername =", value, "yunusername");
+        public Criteria andCloudUserEqualTo(String value) {
+            addCriterion("cloud_user =", value, "cloudUser");
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameNotEqualTo(String value) {
-            addCriterion("yunusername <>", value, "yunusername");
+        public Criteria andCloudUserNotEqualTo(String value) {
+            addCriterion("cloud_user <>", value, "cloudUser");
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameGreaterThan(String value) {
-            addCriterion("yunusername >", value, "yunusername");
+        public Criteria andCloudUserGreaterThan(String value) {
+            addCriterion("cloud_user >", value, "cloudUser");
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameGreaterThanOrEqualTo(String value) {
-            addCriterion("yunusername >=", value, "yunusername");
+        public Criteria andCloudUserGreaterThanOrEqualTo(String value) {
+            addCriterion("cloud_user >=", value, "cloudUser");
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameLessThan(String value) {
-            addCriterion("yunusername <", value, "yunusername");
+        public Criteria andCloudUserLessThan(String value) {
+            addCriterion("cloud_user <", value, "cloudUser");
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameLessThanOrEqualTo(String value) {
-            addCriterion("yunusername <=", value, "yunusername");
+        public Criteria andCloudUserLessThanOrEqualTo(String value) {
+            addCriterion("cloud_user <=", value, "cloudUser");
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameLike(String value) {
-            addCriterion("yunusername like", value, "yunusername");
+        public Criteria andCloudUserLike(String value) {
+            addCriterion("cloud_user like", value, "cloudUser");
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameNotLike(String value) {
-            addCriterion("yunusername not like", value, "yunusername");
+        public Criteria andCloudUserNotLike(String value) {
+            addCriterion("cloud_user not like", value, "cloudUser");
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameIn(List<String> values) {
-            addCriterion("yunusername in", values, "yunusername");
+        public Criteria andCloudUserIn(List<String> values) {
+            addCriterion("cloud_user in", values, "cloudUser");
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameNotIn(List<String> values) {
-            addCriterion("yunusername not in", values, "yunusername");
+        public Criteria andCloudUserNotIn(List<String> values) {
+            addCriterion("cloud_user not in", values, "cloudUser");
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameBetween(String value1, String value2) {
-            addCriterion("yunusername between", value1, value2, "yunusername");
+        public Criteria andCloudUserBetween(String value1, String value2) {
+            addCriterion("cloud_user between", value1, value2, "cloudUser");
             return (Criteria) this;
         }
 
-        public Criteria andYunusernameNotBetween(String value1, String value2) {
-            addCriterion("yunusername not between", value1, value2, "yunusername");
+        public Criteria andCloudUserNotBetween(String value1, String value2) {
+            addCriterion("cloud_user not between", value1, value2, "cloudUser");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordIsNull() {
-            addCriterion("yunpassword is null");
+        public Criteria andCloudPassIsNull() {
+            addCriterion("cloud_pass is null");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordIsNotNull() {
-            addCriterion("yunpassword is not null");
+        public Criteria andCloudPassIsNotNull() {
+            addCriterion("cloud_pass is not null");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordEqualTo(String value) {
-            addCriterion("yunpassword =", value, "yunpassword");
+        public Criteria andCloudPassEqualTo(String value) {
+            addCriterion("cloud_pass =", value, "cloudPass");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordNotEqualTo(String value) {
-            addCriterion("yunpassword <>", value, "yunpassword");
+        public Criteria andCloudPassNotEqualTo(String value) {
+            addCriterion("cloud_pass <>", value, "cloudPass");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordGreaterThan(String value) {
-            addCriterion("yunpassword >", value, "yunpassword");
+        public Criteria andCloudPassGreaterThan(String value) {
+            addCriterion("cloud_pass >", value, "cloudPass");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordGreaterThanOrEqualTo(String value) {
-            addCriterion("yunpassword >=", value, "yunpassword");
+        public Criteria andCloudPassGreaterThanOrEqualTo(String value) {
+            addCriterion("cloud_pass >=", value, "cloudPass");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordLessThan(String value) {
-            addCriterion("yunpassword <", value, "yunpassword");
+        public Criteria andCloudPassLessThan(String value) {
+            addCriterion("cloud_pass <", value, "cloudPass");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordLessThanOrEqualTo(String value) {
-            addCriterion("yunpassword <=", value, "yunpassword");
+        public Criteria andCloudPassLessThanOrEqualTo(String value) {
+            addCriterion("cloud_pass <=", value, "cloudPass");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordLike(String value) {
-            addCriterion("yunpassword like", value, "yunpassword");
+        public Criteria andCloudPassLike(String value) {
+            addCriterion("cloud_pass like", value, "cloudPass");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordNotLike(String value) {
-            addCriterion("yunpassword not like", value, "yunpassword");
+        public Criteria andCloudPassNotLike(String value) {
+            addCriterion("cloud_pass not like", value, "cloudPass");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordIn(List<String> values) {
-            addCriterion("yunpassword in", values, "yunpassword");
+        public Criteria andCloudPassIn(List<String> values) {
+            addCriterion("cloud_pass in", values, "cloudPass");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordNotIn(List<String> values) {
-            addCriterion("yunpassword not in", values, "yunpassword");
+        public Criteria andCloudPassNotIn(List<String> values) {
+            addCriterion("cloud_pass not in", values, "cloudPass");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordBetween(String value1, String value2) {
-            addCriterion("yunpassword between", value1, value2, "yunpassword");
+        public Criteria andCloudPassBetween(String value1, String value2) {
+            addCriterion("cloud_pass between", value1, value2, "cloudPass");
             return (Criteria) this;
         }
 
-        public Criteria andYunpasswordNotBetween(String value1, String value2) {
-            addCriterion("yunpassword not between", value1, value2, "yunpassword");
+        public Criteria andCloudPassNotBetween(String value1, String value2) {
+            addCriterion("cloud_pass not between", value1, value2, "cloudPass");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameIsNull() {
-            addCriterion("sinausername is null");
+        public Criteria andBlogUserIsNull() {
+            addCriterion("blog_user is null");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameIsNotNull() {
-            addCriterion("sinausername is not null");
+        public Criteria andBlogUserIsNotNull() {
+            addCriterion("blog_user is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameEqualTo(String value) {
-            addCriterion("sinausername =", value, "sinausername");
+        public Criteria andBlogUserEqualTo(String value) {
+            addCriterion("blog_user =", value, "blogUser");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameNotEqualTo(String value) {
-            addCriterion("sinausername <>", value, "sinausername");
+        public Criteria andBlogUserNotEqualTo(String value) {
+            addCriterion("blog_user <>", value, "blogUser");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameGreaterThan(String value) {
-            addCriterion("sinausername >", value, "sinausername");
+        public Criteria andBlogUserGreaterThan(String value) {
+            addCriterion("blog_user >", value, "blogUser");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameGreaterThanOrEqualTo(String value) {
-            addCriterion("sinausername >=", value, "sinausername");
+        public Criteria andBlogUserGreaterThanOrEqualTo(String value) {
+            addCriterion("blog_user >=", value, "blogUser");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameLessThan(String value) {
-            addCriterion("sinausername <", value, "sinausername");
+        public Criteria andBlogUserLessThan(String value) {
+            addCriterion("blog_user <", value, "blogUser");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameLessThanOrEqualTo(String value) {
-            addCriterion("sinausername <=", value, "sinausername");
+        public Criteria andBlogUserLessThanOrEqualTo(String value) {
+            addCriterion("blog_user <=", value, "blogUser");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameLike(String value) {
-            addCriterion("sinausername like", value, "sinausername");
+        public Criteria andBlogUserLike(String value) {
+            addCriterion("blog_user like", value, "blogUser");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameNotLike(String value) {
-            addCriterion("sinausername not like", value, "sinausername");
+        public Criteria andBlogUserNotLike(String value) {
+            addCriterion("blog_user not like", value, "blogUser");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameIn(List<String> values) {
-            addCriterion("sinausername in", values, "sinausername");
+        public Criteria andBlogUserIn(List<String> values) {
+            addCriterion("blog_user in", values, "blogUser");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameNotIn(List<String> values) {
-            addCriterion("sinausername not in", values, "sinausername");
+        public Criteria andBlogUserNotIn(List<String> values) {
+            addCriterion("blog_user not in", values, "blogUser");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameBetween(String value1, String value2) {
-            addCriterion("sinausername between", value1, value2, "sinausername");
+        public Criteria andBlogUserBetween(String value1, String value2) {
+            addCriterion("blog_user between", value1, value2, "blogUser");
             return (Criteria) this;
         }
 
-        public Criteria andSinausernameNotBetween(String value1, String value2) {
-            addCriterion("sinausername not between", value1, value2, "sinausername");
+        public Criteria andBlogUserNotBetween(String value1, String value2) {
+            addCriterion("blog_user not between", value1, value2, "blogUser");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordIsNull() {
-            addCriterion("sinapassword is null");
+        public Criteria andBlogPassIsNull() {
+            addCriterion("blog_pass is null");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordIsNotNull() {
-            addCriterion("sinapassword is not null");
+        public Criteria andBlogPassIsNotNull() {
+            addCriterion("blog_pass is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordEqualTo(String value) {
-            addCriterion("sinapassword =", value, "sinapassword");
+        public Criteria andBlogPassEqualTo(String value) {
+            addCriterion("blog_pass =", value, "blogPass");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordNotEqualTo(String value) {
-            addCriterion("sinapassword <>", value, "sinapassword");
+        public Criteria andBlogPassNotEqualTo(String value) {
+            addCriterion("blog_pass <>", value, "blogPass");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordGreaterThan(String value) {
-            addCriterion("sinapassword >", value, "sinapassword");
+        public Criteria andBlogPassGreaterThan(String value) {
+            addCriterion("blog_pass >", value, "blogPass");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordGreaterThanOrEqualTo(String value) {
-            addCriterion("sinapassword >=", value, "sinapassword");
+        public Criteria andBlogPassGreaterThanOrEqualTo(String value) {
+            addCriterion("blog_pass >=", value, "blogPass");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordLessThan(String value) {
-            addCriterion("sinapassword <", value, "sinapassword");
+        public Criteria andBlogPassLessThan(String value) {
+            addCriterion("blog_pass <", value, "blogPass");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordLessThanOrEqualTo(String value) {
-            addCriterion("sinapassword <=", value, "sinapassword");
+        public Criteria andBlogPassLessThanOrEqualTo(String value) {
+            addCriterion("blog_pass <=", value, "blogPass");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordLike(String value) {
-            addCriterion("sinapassword like", value, "sinapassword");
+        public Criteria andBlogPassLike(String value) {
+            addCriterion("blog_pass like", value, "blogPass");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordNotLike(String value) {
-            addCriterion("sinapassword not like", value, "sinapassword");
+        public Criteria andBlogPassNotLike(String value) {
+            addCriterion("blog_pass not like", value, "blogPass");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordIn(List<String> values) {
-            addCriterion("sinapassword in", values, "sinapassword");
+        public Criteria andBlogPassIn(List<String> values) {
+            addCriterion("blog_pass in", values, "blogPass");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordNotIn(List<String> values) {
-            addCriterion("sinapassword not in", values, "sinapassword");
+        public Criteria andBlogPassNotIn(List<String> values) {
+            addCriterion("blog_pass not in", values, "blogPass");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordBetween(String value1, String value2) {
-            addCriterion("sinapassword between", value1, value2, "sinapassword");
+        public Criteria andBlogPassBetween(String value1, String value2) {
+            addCriterion("blog_pass between", value1, value2, "blogPass");
             return (Criteria) this;
         }
 
-        public Criteria andSinapasswordNotBetween(String value1, String value2) {
-            addCriterion("sinapassword not between", value1, value2, "sinapassword");
+        public Criteria andBlogPassNotBetween(String value1, String value2) {
+            addCriterion("blog_pass not between", value1, value2, "blogPass");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlIsNull() {
+            addCriterion("blog_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlIsNotNull() {
+            addCriterion("blog_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlEqualTo(String value) {
+            addCriterion("blog_url =", value, "blogUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlNotEqualTo(String value) {
+            addCriterion("blog_url <>", value, "blogUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlGreaterThan(String value) {
+            addCriterion("blog_url >", value, "blogUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("blog_url >=", value, "blogUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlLessThan(String value) {
+            addCriterion("blog_url <", value, "blogUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlLessThanOrEqualTo(String value) {
+            addCriterion("blog_url <=", value, "blogUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlLike(String value) {
+            addCriterion("blog_url like", value, "blogUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlNotLike(String value) {
+            addCriterion("blog_url not like", value, "blogUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlIn(List<String> values) {
+            addCriterion("blog_url in", values, "blogUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlNotIn(List<String> values) {
+            addCriterion("blog_url not in", values, "blogUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlBetween(String value1, String value2) {
+            addCriterion("blog_url between", value1, value2, "blogUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogUrlNotBetween(String value1, String value2) {
+            addCriterion("blog_url not between", value1, value2, "blogUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieIsNull() {
+            addCriterion("blog_cookie is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieIsNotNull() {
+            addCriterion("blog_cookie is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieEqualTo(String value) {
+            addCriterion("blog_cookie =", value, "blogCookie");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieNotEqualTo(String value) {
+            addCriterion("blog_cookie <>", value, "blogCookie");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieGreaterThan(String value) {
+            addCriterion("blog_cookie >", value, "blogCookie");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieGreaterThanOrEqualTo(String value) {
+            addCriterion("blog_cookie >=", value, "blogCookie");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieLessThan(String value) {
+            addCriterion("blog_cookie <", value, "blogCookie");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieLessThanOrEqualTo(String value) {
+            addCriterion("blog_cookie <=", value, "blogCookie");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieLike(String value) {
+            addCriterion("blog_cookie like", value, "blogCookie");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieNotLike(String value) {
+            addCriterion("blog_cookie not like", value, "blogCookie");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieIn(List<String> values) {
+            addCriterion("blog_cookie in", values, "blogCookie");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieNotIn(List<String> values) {
+            addCriterion("blog_cookie not in", values, "blogCookie");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieBetween(String value1, String value2) {
+            addCriterion("blog_cookie between", value1, value2, "blogCookie");
+            return (Criteria) this;
+        }
+
+        public Criteria andBlogCookieNotBetween(String value1, String value2) {
+            addCriterion("blog_cookie not between", value1, value2, "blogCookie");
             return (Criteria) this;
         }
 
@@ -505,213 +645,213 @@ public class UserInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlIsNull() {
-            addCriterion("sina_url is null");
+        public Criteria andCloudTypeIsNull() {
+            addCriterion("cloud_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlIsNotNull() {
-            addCriterion("sina_url is not null");
+        public Criteria andCloudTypeIsNotNull() {
+            addCriterion("cloud_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlEqualTo(String value) {
-            addCriterion("sina_url =", value, "sinaUrl");
+        public Criteria andCloudTypeEqualTo(String value) {
+            addCriterion("cloud_type =", value, "cloudType");
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlNotEqualTo(String value) {
-            addCriterion("sina_url <>", value, "sinaUrl");
+        public Criteria andCloudTypeNotEqualTo(String value) {
+            addCriterion("cloud_type <>", value, "cloudType");
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlGreaterThan(String value) {
-            addCriterion("sina_url >", value, "sinaUrl");
+        public Criteria andCloudTypeGreaterThan(String value) {
+            addCriterion("cloud_type >", value, "cloudType");
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlGreaterThanOrEqualTo(String value) {
-            addCriterion("sina_url >=", value, "sinaUrl");
+        public Criteria andCloudTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("cloud_type >=", value, "cloudType");
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlLessThan(String value) {
-            addCriterion("sina_url <", value, "sinaUrl");
+        public Criteria andCloudTypeLessThan(String value) {
+            addCriterion("cloud_type <", value, "cloudType");
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlLessThanOrEqualTo(String value) {
-            addCriterion("sina_url <=", value, "sinaUrl");
+        public Criteria andCloudTypeLessThanOrEqualTo(String value) {
+            addCriterion("cloud_type <=", value, "cloudType");
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlLike(String value) {
-            addCriterion("sina_url like", value, "sinaUrl");
+        public Criteria andCloudTypeLike(String value) {
+            addCriterion("cloud_type like", value, "cloudType");
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlNotLike(String value) {
-            addCriterion("sina_url not like", value, "sinaUrl");
+        public Criteria andCloudTypeNotLike(String value) {
+            addCriterion("cloud_type not like", value, "cloudType");
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlIn(List<String> values) {
-            addCriterion("sina_url in", values, "sinaUrl");
+        public Criteria andCloudTypeIn(List<String> values) {
+            addCriterion("cloud_type in", values, "cloudType");
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlNotIn(List<String> values) {
-            addCriterion("sina_url not in", values, "sinaUrl");
+        public Criteria andCloudTypeNotIn(List<String> values) {
+            addCriterion("cloud_type not in", values, "cloudType");
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlBetween(String value1, String value2) {
-            addCriterion("sina_url between", value1, value2, "sinaUrl");
+        public Criteria andCloudTypeBetween(String value1, String value2) {
+            addCriterion("cloud_type between", value1, value2, "cloudType");
             return (Criteria) this;
         }
 
-        public Criteria andSinaUrlNotBetween(String value1, String value2) {
-            addCriterion("sina_url not between", value1, value2, "sinaUrl");
+        public Criteria andCloudTypeNotBetween(String value1, String value2) {
+            addCriterion("cloud_type not between", value1, value2, "cloudType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNull() {
-            addCriterion("status is null");
+        public Criteria andBlogTypeIsNull() {
+            addCriterion("blog_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNotNull() {
-            addCriterion("status is not null");
+        public Criteria andBlogTypeIsNotNull() {
+            addCriterion("blog_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusEqualTo(String value) {
-            addCriterion("status =", value, "status");
+        public Criteria andBlogTypeEqualTo(String value) {
+            addCriterion("blog_type =", value, "blogType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotEqualTo(String value) {
-            addCriterion("status <>", value, "status");
+        public Criteria andBlogTypeNotEqualTo(String value) {
+            addCriterion("blog_type <>", value, "blogType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThan(String value) {
-            addCriterion("status >", value, "status");
+        public Criteria andBlogTypeGreaterThan(String value) {
+            addCriterion("blog_type >", value, "blogType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThanOrEqualTo(String value) {
-            addCriterion("status >=", value, "status");
+        public Criteria andBlogTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("blog_type >=", value, "blogType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThan(String value) {
-            addCriterion("status <", value, "status");
+        public Criteria andBlogTypeLessThan(String value) {
+            addCriterion("blog_type <", value, "blogType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThanOrEqualTo(String value) {
-            addCriterion("status <=", value, "status");
+        public Criteria andBlogTypeLessThanOrEqualTo(String value) {
+            addCriterion("blog_type <=", value, "blogType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLike(String value) {
-            addCriterion("status like", value, "status");
+        public Criteria andBlogTypeLike(String value) {
+            addCriterion("blog_type like", value, "blogType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotLike(String value) {
-            addCriterion("status not like", value, "status");
+        public Criteria andBlogTypeNotLike(String value) {
+            addCriterion("blog_type not like", value, "blogType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIn(List<String> values) {
-            addCriterion("status in", values, "status");
+        public Criteria andBlogTypeIn(List<String> values) {
+            addCriterion("blog_type in", values, "blogType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotIn(List<String> values) {
-            addCriterion("status not in", values, "status");
+        public Criteria andBlogTypeNotIn(List<String> values) {
+            addCriterion("blog_type not in", values, "blogType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusBetween(String value1, String value2) {
-            addCriterion("status between", value1, value2, "status");
+        public Criteria andBlogTypeBetween(String value1, String value2) {
+            addCriterion("blog_type between", value1, value2, "blogType");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotBetween(String value1, String value2) {
-            addCriterion("status not between", value1, value2, "status");
+        public Criteria andBlogTypeNotBetween(String value1, String value2) {
+            addCriterion("blog_type not between", value1, value2, "blogType");
             return (Criteria) this;
         }
 
-        public Criteria andBzIsNull() {
-            addCriterion("bz is null");
+        public Criteria andCookieTypeIsNull() {
+            addCriterion("cookie_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andBzIsNotNull() {
-            addCriterion("bz is not null");
+        public Criteria andCookieTypeIsNotNull() {
+            addCriterion("cookie_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBzEqualTo(String value) {
-            addCriterion("bz =", value, "bz");
+        public Criteria andCookieTypeEqualTo(String value) {
+            addCriterion("cookie_type =", value, "cookieType");
             return (Criteria) this;
         }
 
-        public Criteria andBzNotEqualTo(String value) {
-            addCriterion("bz <>", value, "bz");
+        public Criteria andCookieTypeNotEqualTo(String value) {
+            addCriterion("cookie_type <>", value, "cookieType");
             return (Criteria) this;
         }
 
-        public Criteria andBzGreaterThan(String value) {
-            addCriterion("bz >", value, "bz");
+        public Criteria andCookieTypeGreaterThan(String value) {
+            addCriterion("cookie_type >", value, "cookieType");
             return (Criteria) this;
         }
 
-        public Criteria andBzGreaterThanOrEqualTo(String value) {
-            addCriterion("bz >=", value, "bz");
+        public Criteria andCookieTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("cookie_type >=", value, "cookieType");
             return (Criteria) this;
         }
 
-        public Criteria andBzLessThan(String value) {
-            addCriterion("bz <", value, "bz");
+        public Criteria andCookieTypeLessThan(String value) {
+            addCriterion("cookie_type <", value, "cookieType");
             return (Criteria) this;
         }
 
-        public Criteria andBzLessThanOrEqualTo(String value) {
-            addCriterion("bz <=", value, "bz");
+        public Criteria andCookieTypeLessThanOrEqualTo(String value) {
+            addCriterion("cookie_type <=", value, "cookieType");
             return (Criteria) this;
         }
 
-        public Criteria andBzLike(String value) {
-            addCriterion("bz like", value, "bz");
+        public Criteria andCookieTypeLike(String value) {
+            addCriterion("cookie_type like", value, "cookieType");
             return (Criteria) this;
         }
 
-        public Criteria andBzNotLike(String value) {
-            addCriterion("bz not like", value, "bz");
+        public Criteria andCookieTypeNotLike(String value) {
+            addCriterion("cookie_type not like", value, "cookieType");
             return (Criteria) this;
         }
 
-        public Criteria andBzIn(List<String> values) {
-            addCriterion("bz in", values, "bz");
+        public Criteria andCookieTypeIn(List<String> values) {
+            addCriterion("cookie_type in", values, "cookieType");
             return (Criteria) this;
         }
 
-        public Criteria andBzNotIn(List<String> values) {
-            addCriterion("bz not in", values, "bz");
+        public Criteria andCookieTypeNotIn(List<String> values) {
+            addCriterion("cookie_type not in", values, "cookieType");
             return (Criteria) this;
         }
 
-        public Criteria andBzBetween(String value1, String value2) {
-            addCriterion("bz between", value1, value2, "bz");
+        public Criteria andCookieTypeBetween(String value1, String value2) {
+            addCriterion("cookie_type between", value1, value2, "cookieType");
             return (Criteria) this;
         }
 
-        public Criteria andBzNotBetween(String value1, String value2) {
-            addCriterion("bz not between", value1, value2, "bz");
+        public Criteria andCookieTypeNotBetween(String value1, String value2) {
+            addCriterion("cookie_type not between", value1, value2, "cookieType");
             return (Criteria) this;
         }
     }
