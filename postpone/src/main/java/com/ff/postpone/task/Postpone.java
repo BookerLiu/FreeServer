@@ -240,7 +240,7 @@ public class Postpone {
         String jspath;
         // 截图生成路径
         String filepath;
-        if("0".equals(blogType)){
+        if("1".equals(blogType)){
             jspath = prpt.getProperty("PHANTOM_CSDN_JS") + BLANK;
             filepath = prpt.getProperty("PHANTOM_CSDN_FILE");
         }else{

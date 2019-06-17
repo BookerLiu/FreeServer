@@ -7,8 +7,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
