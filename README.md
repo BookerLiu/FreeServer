@@ -6,7 +6,7 @@
 20190617重构了项目,新加入了发布CSDN博客进行延期,并且**新浪博客的发布已停止维护**,不对其可用性做保证
 添加邮件通知功能
 # 项目架构
-JDK1.8 + SpringBoot + Mybatis + Mysql5.6 + [PhantomJS](http://phantomjs.org/download.html)
+JDK1.8 + SpringBoot + Mybatis + Mysql5.6 + [PhantomJS](http://phantomjs.org/download.html)  
 # 总体流程
 ![postpone](https://github.com/Demo-Liu/MyPicture/raw/master/FreeServer%E5%BB%B6%E6%9C%9F2.0.png)
 # PS
