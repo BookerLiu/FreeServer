@@ -1,16 +1,11 @@
 package com.ff.postpone.task.util;
 
-import com.ff.postpone.mapper.UserInfoMapper;
 import com.ff.postpone.pojo.UserInfo;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -92,47 +87,44 @@ public class ParamUtil {
      * @param password
      * @return
      */
-    public static NameValuePair[] getYunLogin(String username, String password){
-        NameValuePair yunLogin[] = {
-                new BasicNameValuePair("cmd","login"),
-                new BasicNameValuePair("id_mobile",username),
-                new BasicNameValuePair("password",password)
-        };
-        return yunLogin;
+    public static List<NameValuePair> getYunLogin(String username, String password){
+        List<NameValuePair> list = new ArrayList<>();
+        list.add(new BasicNameValuePair("cmd","login"));
+        list.add(new BasicNameValuePair("id_mobile",username));
+        list.add(new BasicNameValuePair("password",password));
+        return list;
     }
 
     /**
      * 获取查询服务器状态参数
      * @return
      */
-    public static NameValuePair[] getFreeStatus(){
-        NameValuePair freeDelay[] = {
-                new BasicNameValuePair("cmd","check_free_delay"),
-                new BasicNameValuePair("ptype","vps")
-        };
-        return  freeDelay;
+    public static List<NameValuePair> getFreeStatus(){
+        List<NameValuePair> list = new ArrayList<>();
+        list.add(new BasicNameValuePair("cmd","check_free_delay"));
+        list.add(new BasicNameValuePair("ptype","vps"));
+        return  list;
     }
 
     /**
      * 获取审核状态参数
      * @return
      */
-    public static NameValuePair[] getCheckStatus(){
-        NameValuePair status[] = {
-                new BasicNameValuePair("cmd","free_delay_list"),
-                new BasicNameValuePair("ptype","vps"),
-                new BasicNameValuePair("count","20"),
-                new BasicNameValuePair("page","1")
-        };
-        return status;
+    public static List<NameValuePair> getCheckStatus(){
+        List<NameValuePair> list = new ArrayList<>();
+        list.add(new BasicNameValuePair("cmd","free_delay_list"));
+        list.add(new BasicNameValuePair("ptype","vps"));
+        list.add(new BasicNameValuePair("count","20"));
+        list.add(new BasicNameValuePair("page","1"));
+        return list;
     }
 
     /**
      * 获取发送微博参数
-     * @param bz
+     * @param cloudType
      * @return
      */
-    public static NameValuePair[] getSendBlog(int bz){
+    public static NameValuePair[] getSendBlog(int cloudType){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String format = sdf.format(new Date());
         String[] strs = format.split(" ");
@@ -178,8 +170,8 @@ public class ParamUtil {
                 new BasicNameValuePair("new_time",""),
                 new BasicNameValuePair("isTimed","0"),
                 new BasicNameValuePair("immediatepub","0"),
-                new BasicNameValuePair("blog_title", bz==0 ? UrlUtil.ABEI_TITLE + (int)(Math.random()*100000000) : UrlUtil.SANFENG_TITLE + (int)(Math.random()*100000000)),
-                new BasicNameValuePair("blog_body", bz==0 ? UrlUtil.ABEI_BODY : UrlUtil.SANFENG_BODY),
+                new BasicNameValuePair("blog_title", cloudType==0 ? UrlUtil.ABEI_TITLE + (int)(Math.random()*100000000) : UrlUtil.SANFENG_TITLE + (int)(Math.random()*100000000)),
+                new BasicNameValuePair("blog_body", cloudType==0 ? UrlUtil.ABEI_BODY : UrlUtil.SANFENG_BODY),
                 new BasicNameValuePair("blog_class","00"),
                 new BasicNameValuePair("tag","it"),
                 new BasicNameValuePair("x_cms_flag","2"),
@@ -220,14 +212,14 @@ public class ParamUtil {
 
     /**
      * 获取CSDN发送参数
-     * @param bz 0阿贝云, 1 三丰云
+     * @param cloudType 0阿贝云, 1 三丰云
      * @return
      */
-    public static List getSendCSDN(int bz){
+    public static List getSendCSDN(int cloudType){
         List<NameValuePair> list = new ArrayList<>();
-        list.add(new BasicNameValuePair("titl","test2"));
+        list.add(new BasicNameValuePair("titl",cloudType==0 ? UrlUtil.ABEI_TITLE + (int)(Math.random()*100000000) : UrlUtil.SANFENG_TITLE + (int)(Math.random()*100000000)));
         list.add(new BasicNameValuePair("typ","1"));
-        list.add(new BasicNameValuePair("cont","<pre>test2</pre>"));
+        list.add(new BasicNameValuePair("cont","<pre>"+(cloudType==0 ? UrlUtil.ABEI_BODY : UrlUtil.SANFENG_BODY)+"</pre>"));
         list.add(new BasicNameValuePair("categories",""));
         list.add(new BasicNameValuePair("chnl","2"));
         list.add(new BasicNameValuePair("level","0"));
@@ -262,8 +254,8 @@ public class ParamUtil {
     public static JSONObject getCSDNLogin2(UserInfo userInfo){
         JSONObject json = new JSONObject();
         json.put("loginType","1");
-        json.put("userIdentification",userInfo.getCsdnusername());
-        json.put("pwdOrVerifyCode",userInfo.getCsdnpassword());
+        json.put("userIdentification",userInfo.getBlogUser());
+        json.put("pwdOrVerifyCode",userInfo.getBlogPass());
         json.put("webUmidToken","must not null-demo_liu");
         return json;
     }

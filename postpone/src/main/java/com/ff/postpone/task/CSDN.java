@@ -1,6 +1,9 @@
-package com.ff.postpone.task.util;
+package com.ff.postpone.task;
 
 import com.ff.postpone.pojo.UserInfo;
+import com.ff.postpone.task.util.HttpUtil;
+import com.ff.postpone.task.util.ParamUtil;
+import com.ff.postpone.task.util.UrlUtil;
 import net.sf.json.JSONObject;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
@@ -39,7 +42,7 @@ public class CSDN {
         CookieStore cookieStore = new BasicCookieStore();
         CloseableHttpClient httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
         //登录接口1
-        JSONObject jsonObject = JSONObject.fromObject(HttpUtil.getGetRes(httpClient, UrlUtil.CSDN_LOGIN1 , ParamUtil.getCSDNLogin1(userInfo.getCsdnusername())));
+        JSONObject jsonObject = JSONObject.fromObject(HttpUtil.getGetRes(httpClient, UrlUtil.CSDN_LOGIN1 , ParamUtil.getCSDNLogin1(userInfo.getBlogUser())));
         log.info("CSDN-login1返回:"+jsonObject.toString());
         //登录接口2
         if("success".equals(jsonObject.getString("message"))) {
@@ -48,13 +51,17 @@ public class CSDN {
             String cookieStr = "";
             if ("success".equals(json.getString("message"))) {
                 for (Cookie cookie : cookieStore.getCookies()) {
+                    System.out.println(cookie.getName()+"="+cookie.getValue());
                     //这里为什么是这些cookie?  实践出真知!!!---demo_liu
-                    if (cookie.toString().indexOf("uuid_tt_dd") != -1 || cookie.toString().indexOf("dc_session_id") != -1 || cookie.toString().indexOf("SESSION") != -1 ||
-                            cookie.toString().indexOf("UserName") != -1 || cookie.toString().indexOf("UserInfo") != -1 || cookie.toString().indexOf("UserToken") != -1) {
+                    String name = cookie.getName();
+                    if(name.equals("uuid_tt_dd") || name.equals("dc_session_id") || name.equals("SESSION") ||
+                       name.equals("UserName")   || name.equals("UserInfo")      || name.equals("UserToken")){
                         cookieStr += cookie.getName() + "=" + cookie.getValue() + ";";
                     }
                 }
-                return cookieStr + "firstDie=1;";
+                cookieStr+="firstDie=1;";
+                log.info("CSDN cookie:"+cookieStr);
+                return cookieStr;
             } else {
                 //未能成功请求
                 return "99";
@@ -68,16 +75,16 @@ public class CSDN {
     /**
      * 发送CSDN博客,获取博客文章url
      * @param cookieStr
-     * @param bz 0 阿贝云, 1 三丰云
+     * @param cloudType 0 阿贝云, 1 三丰云
      * @return
      * @throws IOException
      * @throws URISyntaxException
      */
-    public static String sendCSDNBlog(String cookieStr, int bz) throws IOException {
+    public static String sendCSDNBlog(String cookieStr, int cloudType) throws IOException {
         Map<String,String> map = new HashMap<>();
         map.put("cookie",cookieStr);
         HttpClient httpClient = HttpUtil.getHttpClient();
-        JSONObject jsonObject = JSONObject.fromObject(HttpUtil.getPostRes(httpClient, UrlUtil.CSDN_SEND, new UrlEncodedFormEntity(ParamUtil.getSendCSDN(bz)), map));
+        JSONObject jsonObject = JSONObject.fromObject(HttpUtil.getPostRes(httpClient, UrlUtil.CSDN_SEND, new UrlEncodedFormEntity(ParamUtil.getSendCSDN(cloudType)), map));
         log.info("发送CSDN博客返回:"+jsonObject.toString());
         if("1".equals(jsonObject.getString("result"))){
             JSONObject data = JSONObject.fromObject(jsonObject.getString("data"));
@@ -145,12 +152,12 @@ public class CSDN {
 
     public static void main(String[] args) throws Exception {
         UserInfo userInfo = new UserInfo();
-        userInfo.setCsdnusername("15332919175");
-        userInfo.setCsdnpassword("MM1457118807");
+        userInfo.setBlogUser("15332919175");
+        userInfo.setBlogPass("MM1457118807");
         String cookie = getCSDNCookie(userInfo);
 
 //        String s = sendCSDNBlog(getCSDNCookie(userInfo),0);
 //        System.out.println(s);
-        deleteCSDNBlog(cookie,"https://blog.csdn.net/AdAd_aad/article/details/91982634");
+   //     deleteCSDNBlog(cookie,"https://blog.csdn.net/AdAd_aad/article/details/91982634");
     }
 }

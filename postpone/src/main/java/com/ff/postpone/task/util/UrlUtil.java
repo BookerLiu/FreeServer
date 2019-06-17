@@ -43,7 +43,7 @@ public class UrlUtil {
     public static String getCSDNDelete(String username){
         return "https://blog.csdn.net/"+username+"/phoenix/article/delete";
     }
-    //CSDN彻底删除接口
+    //CSDN回收站删除接口
     public static String CSDN_DEEP="https://blog.csdn.net//pheapi/article/delete";
 
 
