@@ -29,7 +29,6 @@ public class UrlUtil {
     public static String SANFENG_BODY = "<p>最近的三丰云 好像挺火的,下面来看一下&nbsp;&nbsp;<a href=\"https://www.sanfengyun.com/\">https://www.abeiyun.com</a></p>\n" + cloudPubBody;
 
 
-
     //阿贝云
     public static String ABEI_LOGIN="https://api.abeiyun.com/www/login.php";
     public static String ABEI_LOGIC="https://api.abeiyun.com/www/renew.php";

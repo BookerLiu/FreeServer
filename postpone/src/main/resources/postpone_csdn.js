@@ -20,6 +20,7 @@ if (system.args.length < 3 || system.args.length > 5) {
             width:  1000,
             height: 800
         };
+
         // 预留一定的渲染时间
         window.setTimeout(function () {
             page.render(output);
