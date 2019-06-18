@@ -136,7 +136,7 @@ public class Sina {
         map.put("Referer","http://control.blog.sina.com.cn/admin/article/article_add.php");
         log.info("sina cookie:"+map.get("cookie"));
         HttpClient sinaClient = HttpUtil.getHttpClient();
-        String postRes = HttpUtil.getPostRes(sinaClient, UrlUtil.SINA_SEND, new UrlEncodedFormEntity(ParamUtil.getSendBlog(cloudType)), map);
+        String postRes = HttpUtil.getPostRes(sinaClient, UrlUtil.SINA_SEND, new UrlEncodedFormEntity(ParamUtil.getSendBlog(cloudType),"UTF-8"), map);
         return postRes;
     }
 
