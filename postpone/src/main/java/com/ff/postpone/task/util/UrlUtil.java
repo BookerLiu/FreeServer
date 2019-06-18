@@ -7,13 +7,27 @@ package com.ff.postpone.task.util;
  */
 public class UrlUtil {
 
+    private static String cloudPubBody = "\n" +
+            "<p>1.首先安装操作系统</p>\n" +
+            "\n" +
+            "<p><img alt=\"\" class=\"has\" src=\"https://img-blog.csdnimg.cn/20190618145028512.png\" /></p>\n" +
+            "\n" +
+            "<p>2.看一下基本信息</p>\n" +
+            "\n" +
+            "<p><img alt=\"\" class=\"has\" src=\"https://img-blog.csdnimg.cn/20190618145103314.png\" /></p>\n" +
+            "\n" +
+            "<p>3.并且支持创建快照</p>\n" +
+            "\n" +
+            "<p><img alt=\"\" class=\"has\" src=\"https://img-blog.csdnimg.cn/20190618145121816.png\" /></p>";
 
     //阿贝云
-    public static String ABEI_TITLE = "谈一谈近期使用阿贝云服务器的感受";
-    public static String ABEI_BODY = "总的来说,阿贝云的免费服务器,拥有5M带宽,这在免费当中真的是良心满满了,此外,阿贝云还有2G2H5M、15元/月 4G4H5M、25元/月 优惠云服务器 可以购买,很实惠的,真的是很棒!!!";
+    public static String ABEI_TITLE = "MyServer";
+    public static String ABEI_BODY = "<p>最近的阿贝云 好像挺火的,下面来看一下&nbsp;&nbsp;<a href=\"https://www.abeiyun.com/\">https://www.abeiyun.com</a></p>\n" + cloudPubBody;
+
     //三丰云
-    public static String SANFENG_TITLE = "谈一谈近期使用三丰云服务器的感受";
-    public static String SANFENG_BODY = "总的来说,三丰云的免费服务器,拥有5M带宽,这在免费当中真的是良心满满了,此外,三丰云还有2G2H5M、15元/月 4G4H5M、25元/月 优惠云服务器 可以购买,很实惠的,真的是很棒!!!地址:https://www.sanfengyun.com";
+    public static String SANFENG_TITLE = "MyServer";
+    public static String SANFENG_BODY = "<p>最近的三丰云 好像挺火的,下面来看一下&nbsp;&nbsp;<a href=\"https://www.sanfengyun.com/\">https://www.abeiyun.com</a></p>\n" + cloudPubBody;
+
 
 
     //阿贝云
