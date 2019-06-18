@@ -17,9 +17,6 @@ import java.util.*;
 public class ParamUtil {
 
 
-    private static Logger log = Logger.getLogger(ParamUtil.class);
-
-
     /**
      * 获取云 url
      * @param bz 判断是哪个云服务器
@@ -61,9 +58,6 @@ public class ParamUtil {
 
 
 
-
-
-
     /**
      * 获取公共请求头Map
      * @param cookie
@@ -82,7 +76,7 @@ public class ParamUtil {
     }
 
     /**
-     * 获取阿贝云登录参数
+     * 获取云登录参数
      * @param username
      * @param password
      * @return
@@ -124,61 +118,60 @@ public class ParamUtil {
      * @param cloudType
      * @return
      */
-    public static NameValuePair[] getSendBlog(int cloudType){
+    public static List<NameValuePair> getSendBlog(int cloudType){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String format = sdf.format(new Date());
         String[] strs = format.split(" ");
-        NameValuePair blog[] = {
-                new BasicNameValuePair("ptype",""),
-                new BasicNameValuePair("teams",""),
-                new BasicNameValuePair("worldcuptags",""),
-                new BasicNameValuePair("album",""),
-                new BasicNameValuePair("album_cite",""),
-                new BasicNameValuePair("blog_id",""),
-                new BasicNameValuePair("is_album","0"),
-                new BasicNameValuePair("old365","0"),
-                new BasicNameValuePair("stag",""),
-                new BasicNameValuePair("sno",""),
-                new BasicNameValuePair("book_worksid",""),
-                new BasicNameValuePair("channel_id",""),
-                new BasicNameValuePair("url",""),
-                new BasicNameValuePair("channel",""),
-                new BasicNameValuePair("newsid",""),
-                new BasicNameValuePair("fromuid",""),
-                new BasicNameValuePair("wid",""),
-                new BasicNameValuePair("articletj",""),
-                new BasicNameValuePair("vtoken","4fcebcbd1a24c119fd14998b8c9c635d"),
-                new BasicNameValuePair("is_media","0"),
-                new BasicNameValuePair("is_stock","0"),
-                new BasicNameValuePair("is_tpl","0"),
-                new BasicNameValuePair("assoc_article",""),
-                new BasicNameValuePair("assoc_style","0"),
-                new BasicNameValuePair("assoc_article_data",""),
-                new BasicNameValuePair("article_BGM",""),
-                new BasicNameValuePair("xRankStatus",""),
-                new BasicNameValuePair("commentGlobalSwitch",""),
-                new BasicNameValuePair("commenthideGlobalSwitch",""),
-                new BasicNameValuePair("articleStatus_preview","1"),
-                new BasicNameValuePair("source",""),
-                new BasicNameValuePair("topic_id","0"),
-                new BasicNameValuePair("topic_channel","0"),
-                new BasicNameValuePair("topic_more",""),
-                new BasicNameValuePair("utf8","1"),
-                //new BasicNameValuePair("conlen","96"),
-                new BasicNameValuePair("date_pub",strs[0]),
-                new BasicNameValuePair("time",strs[1]),
-                new BasicNameValuePair("new_time",""),
-                new BasicNameValuePair("isTimed","0"),
-                new BasicNameValuePair("immediatepub","0"),
-                new BasicNameValuePair("blog_title", cloudType==0 ? UrlUtil.ABEI_TITLE + (int)(Math.random()*100000000) : UrlUtil.SANFENG_TITLE + (int)(Math.random()*100000000)),
-                new BasicNameValuePair("blog_body", cloudType==0 ? UrlUtil.ABEI_BODY : UrlUtil.SANFENG_BODY),
-                new BasicNameValuePair("blog_class","00"),
-                new BasicNameValuePair("tag","it"),
-                new BasicNameValuePair("x_cms_flag","2"),
-                new BasicNameValuePair("x_quote_flag","1"),
-                new BasicNameValuePair("sina_sort_id","117")
-        };
-        return blog;
+        List<NameValuePair> list = new ArrayList<>();
+        list.add(new BasicNameValuePair("ptype",""));
+        list.add(new BasicNameValuePair("teams",""));
+        list.add(new BasicNameValuePair("worldcuptags",""));
+        list.add(new BasicNameValuePair("album",""));
+        list.add(new BasicNameValuePair("album_cite",""));
+        list.add(new BasicNameValuePair("blog_id",""));
+        list.add(new BasicNameValuePair("is_album","0"));
+        list.add(new BasicNameValuePair("old365","0"));
+        list.add(new BasicNameValuePair("stag",""));
+        list.add(new BasicNameValuePair("sno",""));
+        list.add(new BasicNameValuePair("book_worksid",""));
+        list.add(new BasicNameValuePair("channel_id",""));
+        list.add(new BasicNameValuePair("url",""));
+        list.add(new BasicNameValuePair("channel",""));
+        list.add(new BasicNameValuePair("newsid",""));
+        list.add(new BasicNameValuePair("fromuid",""));
+        list.add(new BasicNameValuePair("wid",""));
+        list.add(new BasicNameValuePair("articletj",""));
+        list.add(new BasicNameValuePair("vtoken","4fcebcbd1a24c119fd14998b8c9c635d"));
+        list.add(new BasicNameValuePair("is_media","0"));
+        list.add(new BasicNameValuePair("is_stock","0"));
+        list.add(new BasicNameValuePair("is_tpl","0"));
+        list.add(new BasicNameValuePair("assoc_article",""));
+        list.add(new BasicNameValuePair("assoc_style","0"));
+        list.add(new BasicNameValuePair("assoc_article_data",""));
+        list.add(new BasicNameValuePair("article_BGM",""));
+        list.add(new BasicNameValuePair("xRankStatus",""));
+        list.add(new BasicNameValuePair("commentGlobalSwitch",""));
+        list.add(new BasicNameValuePair("commenthideGlobalSwitch",""));
+        list.add(new BasicNameValuePair("articleStatus_preview","1"));
+        list.add(new BasicNameValuePair("source",""));
+        list.add(new BasicNameValuePair("topic_id","0"));
+        list.add(new BasicNameValuePair("topic_channel","0"));
+        list.add(new BasicNameValuePair("topic_more",""));
+        list.add(new BasicNameValuePair("utf8","1"));
+        //list.add(//new BasicNameValuePair("conlen","96"));
+        list.add(new BasicNameValuePair("date_pub",strs[0]));
+        list.add(new BasicNameValuePair("time",strs[1]));
+        list.add(new BasicNameValuePair("new_time",""));
+        list.add(new BasicNameValuePair("isTimed","0"));
+        list.add(new BasicNameValuePair("immediatepub","0"));
+        list.add(new BasicNameValuePair("blog_title", cloudType==0 ? UrlUtil.ABEI_TITLE + (int)(Math.random()*100000000) : UrlUtil.SANFENG_TITLE + (int)(Math.random()*10000000)));
+        list.add(new BasicNameValuePair("blog_body", cloudType==0 ? UrlUtil.ABEI_BODY : UrlUtil.SANFENG_BODY));
+        list.add(new BasicNameValuePair("blog_class","00"));
+        list.add(new BasicNameValuePair("tag","it"));
+        list.add(new BasicNameValuePair("x_cms_flag","2"));
+        list.add(new BasicNameValuePair("x_quote_flag","1"));
+        list.add(new BasicNameValuePair("sina_sort_id","117"));
+        return list;
     }
 
 
@@ -188,26 +181,25 @@ public class ParamUtil {
      * @param password
      * @return
      */
-    public static NameValuePair[] getSinaLogin(String username, String password){
-        NameValuePair[] pairs = {
-                new BasicNameValuePair("entry", "sso"),
-                new BasicNameValuePair("gateway", "1"),
-                new BasicNameValuePair("from", "null"),
-                new BasicNameValuePair("savestate", "30"),
-                new BasicNameValuePair("useticket", "0"),
-                new BasicNameValuePair("pagerefer", ""),
-                new BasicNameValuePair("vsnf", "1"),
-                new BasicNameValuePair("su", Base64.getEncoder().encodeToString(username.getBytes())),
-                new BasicNameValuePair("service", "sso"),
-                new BasicNameValuePair("sp", password),
-                new BasicNameValuePair("sr", "1024*768"),
-                new BasicNameValuePair("encoding", "UTF-8"),
-                new BasicNameValuePair("cdult", "3"),
-                new BasicNameValuePair("domain", "sina.com.cn"),
-                new BasicNameValuePair("prelt", "0"),
-                new BasicNameValuePair("returntype", "TEXT")
-        };
-        return pairs;
+    public static List<NameValuePair> getSinaLogin(String username, String password){
+        List<NameValuePair> list = new ArrayList<>();
+        list.add(new BasicNameValuePair("entry", "sso"));
+        list.add(new BasicNameValuePair("gateway", "1"));
+        list.add(new BasicNameValuePair("from", "null"));
+        list.add(new BasicNameValuePair("savestate", "30"));
+        list.add(new BasicNameValuePair("useticket", "0"));
+        list.add(new BasicNameValuePair("pagerefer", ""));
+        list.add(new BasicNameValuePair("vsnf", "1"));
+        list.add(new BasicNameValuePair("su", Base64.getEncoder().encodeToString(username.getBytes())));
+        list.add(new BasicNameValuePair("service", "sso"));
+        list.add(new BasicNameValuePair("sp", password));
+        list.add(new BasicNameValuePair("sr", "1024*768"));
+        list.add(new BasicNameValuePair("encoding", "UTF-8"));
+        list.add(new BasicNameValuePair("cdult", "3"));
+        list.add(new BasicNameValuePair("domain", "sina.com.cn"));
+        list.add(new BasicNameValuePair("prelt", "0"));
+        list.add(new BasicNameValuePair("returntype", "TEXT"));
+        return list;
     }
 
     /**
@@ -219,7 +211,7 @@ public class ParamUtil {
         List<NameValuePair> list = new ArrayList<>();
         list.add(new BasicNameValuePair("titl",cloudType==0 ? UrlUtil.ABEI_TITLE + (int)(Math.random()*100000000) : UrlUtil.SANFENG_TITLE + (int)(Math.random()*100000000)));
         list.add(new BasicNameValuePair("typ","1"));
-        list.add(new BasicNameValuePair("cont","<pre>"+(cloudType==0 ? UrlUtil.ABEI_BODY : UrlUtil.SANFENG_BODY)+"</pre>"));
+        list.add(new BasicNameValuePair("cont",cloudType==0 ? UrlUtil.ABEI_BODY : UrlUtil.SANFENG_BODY));
         list.add(new BasicNameValuePair("categories",""));
         list.add(new BasicNameValuePair("chnl","2"));
         list.add(new BasicNameValuePair("level","0"));

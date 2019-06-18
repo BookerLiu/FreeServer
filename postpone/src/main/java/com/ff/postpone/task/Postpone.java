@@ -4,13 +4,18 @@ import com.ff.postpone.mapper.UserInfoMapper;
 import com.ff.postpone.pojo.UserInfo;
 import com.ff.postpone.pojo.UserInfoExample;
 import com.ff.postpone.task.util.HttpUtil;
+import com.ff.postpone.task.util.MailUtil;
 import com.ff.postpone.task.util.ParamUtil;
 import com.ff.postpone.task.util.PropertiesUtil;
 import net.sf.json.JSONObject;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -64,7 +69,8 @@ public class Postpone {
         JSONObject json;
         String username = userInfo.getCloudUser();
         log.info(username + " 开始登录"+ ParamUtil.getYunName(cloudType)+"!!!");
-        HttpClient yunClient = HttpUtil.getHttpClient();
+        CookieStore cookieStore = new BasicCookieStore();
+        CloseableHttpClient yunClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
         String ss = HttpUtil.getPostRes(yunClient,  ParamUtil.getYunUrl(cloudType,0), new UrlEncodedFormEntity(ParamUtil.getYunLogin(username, userInfo.getCloudPass())));
         json = JSONObject.fromObject(ss);
         log.info("登录"+ ParamUtil.getYunName(cloudType)+"返回:"+json.toString());
@@ -118,7 +124,7 @@ public class Postpone {
                     cookieMap.put(userKey,Sina.getSinaCookie(info));
                 }
             }
-            JSONObject json = JSONObject.fromObject(Sina.sendSinaBlog(info, cookieMap.get(userKey), cloudType));
+            JSONObject json = JSONObject.fromObject(Sina.sendSinaBlog(cookieMap.get(userKey), cloudType));
             log.info("延期博客返回结果:"+json.toString());
             String data = json.getString("data");
             String code = json.getString("code");
@@ -135,7 +141,8 @@ public class Postpone {
                     Sina.deleteBlog(info,sinaUrl,cookieMap);
                 }
             }else{
-                log.info("发送博客失败");
+                log.info("发送新浪博客失败");
+                MailUtil.sendMaid("发送新浪博客失败",json.toString());
             }
         }else{
             String userKey = info.getBlogUser()+"CSDN";
@@ -150,8 +157,10 @@ public class Postpone {
                     cookieMap.put(userKey, CSDN.getCSDNCookie(info));
                 }
             }
-            String url = CSDN.sendCSDNBlog(cookieMap.get(userKey), cloudType);
-            if(!"99".equals(url)){
+            String res = CSDN.sendCSDNBlog(cookieMap.get(userKey), cloudType);
+            JSONObject jsonObject = JSONObject.fromObject(res);
+            if("1".equals(jsonObject.getString("result"))){
+                String url = jsonObject.getString("url");
                 log.info("更新"+info.getCloudUser()+" url为:"+url);
                 info.setBlogUrl(url);
                 infoMapper.updateByPrimaryKey(info);
@@ -162,6 +171,9 @@ public class Postpone {
                     log.info("图片生成失败,删除CSDN博客!!!");
                     CSDN.deleteCSDNBlog(cookieMap.get(userKey),url);
                 }
+            }else{
+                log.info("发送CSDN博客失败");
+                MailUtil.sendMaid("发送CSDN博客失败",jsonObject.toString());
             }
         }
     }
@@ -187,8 +199,8 @@ public class Postpone {
         ContentType contentType = ContentType.create("text/plain", Charset.forName("UTF-8"));
         multipartEntityBuilder.addTextBody("cmd","free_delay_add" ,contentType);
         multipartEntityBuilder.addTextBody("ptype","vps" ,contentType);
-        multipartEntityBuilder.addTextBody("url","url" ,contentType);
-        String postRes = HttpUtil.getPostRes(yunClient, ParamUtil.getYunUrl(bz,1), multipartEntityBuilder.build(), ParamUtil.getPubHeader(""));
+        multipartEntityBuilder.addTextBody("url",url ,contentType);
+        String postRes = HttpUtil.getPostRes(yunClient, ParamUtil.getYunUrl(bz,1), multipartEntityBuilder.build());
 
         //三丰云和阿贝云文件提交方式不一样
 //        if(bz==0){

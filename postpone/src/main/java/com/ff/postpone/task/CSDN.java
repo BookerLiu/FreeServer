@@ -84,14 +84,9 @@ public class CSDN {
         Map<String,String> map = new HashMap<>();
         map.put("cookie",cookieStr);
         HttpClient httpClient = HttpUtil.getHttpClient();
-        JSONObject jsonObject = JSONObject.fromObject(HttpUtil.getPostRes(httpClient, UrlUtil.CSDN_SEND, new UrlEncodedFormEntity(ParamUtil.getSendCSDN(cloudType),"UTF-8"), map));
-        log.info("发送CSDN博客返回:"+jsonObject.toString());
-        if("1".equals(jsonObject.getString("result"))){
-            JSONObject data = JSONObject.fromObject(jsonObject.getString("data"));
-            return data.getString("url");
-        }else{
-            return "99";
-        }
+        String postRes = HttpUtil.getPostRes(httpClient, UrlUtil.CSDN_SEND, new UrlEncodedFormEntity(ParamUtil.getSendCSDN(cloudType),"UTF-8"), map);
+        log.info("发送CSDN博客返回:"+JSONObject.fromObject(postRes).toString());
+        return postRes;
     }
 
 

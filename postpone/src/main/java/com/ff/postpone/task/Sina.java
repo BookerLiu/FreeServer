@@ -1,6 +1,5 @@
 package com.ff.postpone.task;
 
-import com.ff.postpone.mapper.UserInfoMapper;
 import com.ff.postpone.pojo.UserInfo;
 import com.ff.postpone.task.util.HttpUtil;
 import com.ff.postpone.task.util.ParamUtil;
@@ -9,6 +8,7 @@ import net.sf.json.JSONObject;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClients;
@@ -17,7 +17,6 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,6 +94,7 @@ public class Sina {
         log.info("调用彻底删除接口...");
         NameValuePair delete[] = {
                 new BasicNameValuePair("blog_id[]",param),
+                //这里填写的应是你的uid
                 new BasicNameValuePair("uid","5118414786"),
                 new BasicNameValuePair("varname","requestId_40385686")
         };
@@ -110,11 +110,11 @@ public class Sina {
      * @return
      * @throws IOException
      */
-    public static String getSinaCookie(UserInfo info) throws IOException, URISyntaxException {
+    public static String getSinaCookie(UserInfo info) throws IOException {
         CookieStore cookieStore = new BasicCookieStore();
         HttpClient httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
-        NameValuePair[] pairs = ParamUtil.getSinaLogin(info.getBlogUser(),info.getBlogPass());
-        HttpUtil.getPostRes(httpClient,UrlUtil.SINA_LOGIN,pairs, ParamUtil.getPubHeader(""));
+        UrlEncodedFormEntity entity = new UrlEncodedFormEntity(ParamUtil.getSinaLogin(info.getBlogUser(), info.getBlogPass()));
+        HttpUtil.getPostRes(httpClient,UrlUtil.SINA_LOGIN,entity, ParamUtil.getPubHeader(""));
         String cookieStr = "";
         List<Cookie> cookies = cookieStore.getCookies();
         for (Cookie cookie : cookies) {
@@ -125,19 +125,18 @@ public class Sina {
 
     /**
      * 发送新浪博客
-     * @param info
      * @param cookieStr
      * @param cloudType
      * @return
      * @throws IOException
      * @throws URISyntaxException
      */
-    public static String sendSinaBlog(UserInfo info, String cookieStr, int cloudType) throws IOException, URISyntaxException {
+    public static String sendSinaBlog(String cookieStr, int cloudType) throws IOException{
         Map<String,String> map = ParamUtil.getPubHeader(cookieStr);
         map.put("Referer","http://control.blog.sina.com.cn/admin/article/article_add.php");
         log.info("sina cookie:"+map.get("cookie"));
         HttpClient sinaClient = HttpUtil.getHttpClient();
-        String postRes = HttpUtil.getPostRes(sinaClient, UrlUtil.SINA_SEND, ParamUtil.getSendBlog(cloudType), map);
+        String postRes = HttpUtil.getPostRes(sinaClient, UrlUtil.SINA_SEND, new UrlEncodedFormEntity(ParamUtil.getSendBlog(cloudType)), map);
         return postRes;
     }
 
