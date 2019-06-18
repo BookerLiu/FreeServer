@@ -1,0 +1,9 @@
+这里说一下运行这个项目需要哪些配置
+
+
+1.JDK1.8 + MySql5.6
+2.申请三丰云或阿贝云免费服务器   百度即可
+3.执行/resources/database.sql 数据库脚本, 添加用户数据,请配置CSDN博客,新浪的我已停止维护,不对其可用性做保证
+4.下载 PhantomJS 2.1.1 下载地址:http://phantomjs.org/download.html
+5.在/resources/Properties.properties 文件中指定PhantomJS配置目录及邮箱配置
+6.发布运行项目
