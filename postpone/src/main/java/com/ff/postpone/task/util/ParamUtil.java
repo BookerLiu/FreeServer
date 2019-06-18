@@ -213,7 +213,7 @@ public class ParamUtil {
         list.add(new BasicNameValuePair("typ","1"));
         list.add(new BasicNameValuePair("cont",cloudType==0 ? UrlUtil.ABEI_BODY : UrlUtil.SANFENG_BODY));
         list.add(new BasicNameValuePair("categories",""));
-        list.add(new BasicNameValuePair("chnl","2"));
+        list.add(new BasicNameValuePair("chnl","31"));
         list.add(new BasicNameValuePair("level","0"));
         list.add(new BasicNameValuePair("tag2","免费服务器"));
         list.add(new BasicNameValuePair("artid","0"));
