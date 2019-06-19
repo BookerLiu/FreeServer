@@ -107,7 +107,6 @@ public class Postpone {
      */
     public void sentBlog(UserInfo info, HttpClient yunClient, UserInfoMapper infoMapper, int cloudType, Map<String,String> cookieMap) throws Exception {
         log.info("开始发送延期博客...");
-        String postRes;
         String cookie;
         //cookie获取方式(0 使用本地cookie, 1 使用接口获取cookie)
         String cookieType = info.getCookieType();
@@ -221,9 +220,9 @@ public class Postpone {
 //        MultipartRequestEntity entity = new MultipartRequestEntity(parts, httpPost.getParams());
 //        yunClient.executeMethod(httpPost);
 //        String postRes = httpPost.getResponseBodyAsString();
-        log.info("提交延期记录返回结果:"+postRes);
+        JSONObject json = JSONObject.fromObject(postRes);
+        log.info("提交延期记录返回结果:"+json.toString());
         try{
-            JSONObject json = JSONObject.fromObject(postRes);
             if("提交成功".equals(json.getString("msg"))){
                 log.info("提交延期记录成功!!!");
             }else{
