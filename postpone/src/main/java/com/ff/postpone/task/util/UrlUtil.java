@@ -26,7 +26,7 @@ public class UrlUtil {
 
     //三丰云
     public static String SANFENG_TITLE = "MyServer-DemoLiu";
-    public static String SANFENG_BODY = "<p>最近的三丰云 好像挺火的,下面来看一下&nbsp;&nbsp;<a href=\"https://www.sanfengyun.com/\">https://www.abeiyun.com</a></p>\n" + cloudCSDNPubBody;
+    public static String SANFENG_BODY = "<p>最近的三丰云 好像挺火的,下面来看一下&nbsp;&nbsp;<a href=\"https://www.sanfengyun.com/\">https://www.sanfengyun.com</a></p>\n" + cloudCSDNPubBody;
 
 
     //阿贝云
