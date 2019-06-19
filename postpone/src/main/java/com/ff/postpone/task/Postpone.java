@@ -203,23 +203,6 @@ public class Postpone {
         multipartEntityBuilder.addTextBody("url",url ,contentType);
         String postRes = HttpUtil.getPostRes(yunClient, ParamUtil.getYunUrl(bz,1), multipartEntityBuilder.build());
 
-        //三丰云和阿贝云文件提交方式不一样
-//        if(bz==0){
-//            //阿贝云
-//            filePart = new FilePart("yanqi_img",file);
-//        }else{
-//            //三丰云
-//            filePart = new FilePart("yanqi_img","postpone.png",file,"image/png","UTF-8");
-//        }
-//        filePart.setCharSet("utf-8");
-//        Part[] parts = {
-//                new StringPart("cmd","free_delay_add" , "utf-8"),
-//                new StringPart("ptype","vps" , "utf-8"),
-//                new StringPart("url",url , "utf-8"),
-//                filePart};
-//        MultipartRequestEntity entity = new MultipartRequestEntity(parts, httpPost.getParams());
-//        yunClient.executeMethod(httpPost);
-//        String postRes = httpPost.getResponseBodyAsString();
         JSONObject json = JSONObject.fromObject(postRes);
         log.info("提交延期记录返回结果:"+json.toString());
         try{
