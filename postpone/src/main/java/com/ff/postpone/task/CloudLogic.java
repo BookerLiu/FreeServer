@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,7 +23,7 @@ public class CloudLogic {
 
 
     private static Logger log = Logger.getLogger(CloudLogic.class);
-    private static String nextTime = "";
+    private static  Map<String,String> map = new HashMap();
     /**
      * 检查服务器状态
      * @return
@@ -42,10 +43,11 @@ public class CloudLogic {
                 log.info(username + "已到审核期!!!");
                 return 1;
             case "0":
+                String userKey = getUserKey(userInfo);
                 String next_time = json.getString("next_time");
-                if(!next_time.equals(nextTime)){
-                    MailUtil.sendMaid(username+"下次执行时间"+next_time,username+"下次执行时间"+next_time);
-                    nextTime = next_time;
+                if(!next_time.equals(map.get(userKey)==null ? "" : map.get(userKey))){
+                    MailUtil.sendMaid(userKey+"下次执行时间"+next_time,userKey+"下次执行时间"+next_time);
+                    map.put(userKey,next_time);
                 }
                 log.info(username + "未到审核期,下次审核开始时间:"+next_time);
                 Date nextTime = sdf.parse(next_time);
@@ -58,6 +60,19 @@ public class CloudLogic {
         }
         log.info(username + "服务器返回其他状态:"+status);
         return 0;
+    }
+
+    private static String getUserKey(UserInfo info){
+        String key = info.getCloudUser();
+        switch (info.getCloudType()){
+            case "0":
+                key+="_阿贝云";
+                break;
+            case "1":
+                key+="_三丰云";
+                break;
+        }
+        return key;
     }
 
     /**
