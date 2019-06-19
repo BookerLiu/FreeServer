@@ -160,7 +160,8 @@ public class Postpone {
             String res = CSDN.sendCSDNBlog(cookieMap.get(userKey), cloudType);
             JSONObject jsonObject = JSONObject.fromObject(res);
             if("1".equals(jsonObject.getString("result"))){
-                String url = jsonObject.getString("url");
+                JSONObject json = JSONObject.fromObject(jsonObject.getString("data"));
+                String url = json.getString("url");
                 log.info("更新"+info.getCloudUser()+" url为:"+url);
                 info.setBlogUrl(url);
                 infoMapper.updateByPrimaryKey(info);
