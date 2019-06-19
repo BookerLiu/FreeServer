@@ -39,7 +39,8 @@ public class Postpone {
 
     private Logger log = Logger.getLogger(Postpone.class);
 
-    @Scheduled(cron = "0 0/1 * * * ? ")
+    //这里建议设置为30分钟每次
+    @Scheduled(cron = "0 0/30 * * * ? ")
     public void postpone(){
         //查询所有云账号
         UserInfoExample example = new UserInfoExample();

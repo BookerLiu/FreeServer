@@ -208,7 +208,7 @@ public class ParamUtil {
      */
     public static List getSendCSDN(int cloudType){
         List<NameValuePair> list = new ArrayList<>();
-        list.add(new BasicNameValuePair("titl",UrlUtil.ABEI_TITLE));
+        list.add(new BasicNameValuePair("titl",cloudType==0 ?UrlUtil.ABEI_TITLE : UrlUtil.SANFENG_TITLE));
         list.add(new BasicNameValuePair("typ","1"));
         list.add(new BasicNameValuePair("cont",cloudType==0 ? UrlUtil.ABEI_BODY : UrlUtil.SANFENG_BODY));
         list.add(new BasicNameValuePair("categories",""));
