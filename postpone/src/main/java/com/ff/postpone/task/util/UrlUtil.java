@@ -22,11 +22,11 @@ public class UrlUtil {
 
     //阿贝云
     public static String ABEI_TITLE = "MyServer";
-    public static String ABEI_BODY = "<p>最近的阿贝云 好像挺火的,下面来看一下&nbsp;&nbsp;<a href=\"https://www.abeiyun.com/\">https://www.abeiyun.com</a></p>\n" + cloudCSDNPubBody;
+    public static String ABEI_BODY = "<p>最近的阿贝云 好像挺火的,下面来看一下&nbsp;&nbsp;https://www.abeiyun.com</p>\n" + cloudCSDNPubBody;
 
     //三丰云
     public static String SANFENG_TITLE = "MyServer-DemoLiu";
-    public static String SANFENG_BODY = "<p>最近的三丰云 好像挺火的,下面来看一下&nbsp;&nbsp;<a href=\"https://www.sanfengyun.com/\">https://www.sanfengyun.com</a></p>\n" + cloudCSDNPubBody;
+    public static String SANFENG_BODY = "<p>最近的三丰云 好像挺火的,下面来看一下&nbsp;&nbsp;https://www.sanfengyun.com</p>\n" + cloudCSDNPubBody;
 
 
     //阿贝云
