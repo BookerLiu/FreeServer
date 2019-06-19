@@ -7,7 +7,7 @@ package com.ff.postpone.task.util;
  */
 public class UrlUtil {
 
-    private static String cloudPubBody = "\n" +
+    private static String cloudCSDNPubBody = "\n" +
             "<p>1.首先安装操作系统</p>\n" +
             "\n" +
             "<p><img alt=\"\" class=\"has\" src=\"https://img-blog.csdnimg.cn/20190618145028512.png\" /></p>\n" +
@@ -22,11 +22,11 @@ public class UrlUtil {
 
     //阿贝云
     public static String ABEI_TITLE = "MyServer";
-    public static String ABEI_BODY = "<p>最近的阿贝云 好像挺火的,下面来看一下&nbsp;&nbsp;<a href=\"https://www.abeiyun.com/\">https://www.abeiyun.com</a></p>\n" + cloudPubBody;
+    public static String ABEI_BODY = "<p>最近的阿贝云 好像挺火的,下面来看一下&nbsp;&nbsp;<a href=\"https://www.abeiyun.com/\">https://www.abeiyun.com</a></p>\n" + cloudCSDNPubBody;
 
     //三丰云
-    public static String SANFENG_TITLE = "MyServer";
-    public static String SANFENG_BODY = "<p>最近的三丰云 好像挺火的,下面来看一下&nbsp;&nbsp;<a href=\"https://www.sanfengyun.com/\">https://www.abeiyun.com</a></p>\n" + cloudPubBody;
+    public static String SANFENG_TITLE = "MyServer-DemoLiu";
+    public static String SANFENG_BODY = "<p>最近的三丰云 好像挺火的,下面来看一下&nbsp;&nbsp;<a href=\"https://www.sanfengyun.com/\">https://www.abeiyun.com</a></p>\n" + cloudCSDNPubBody;
 
 
     //阿贝云
