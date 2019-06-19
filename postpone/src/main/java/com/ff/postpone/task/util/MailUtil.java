@@ -8,7 +8,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 /**
- * @Author LiuFei
+ * @Author Demo_Liu
  * @Date 2019/6/17 15:38
  * @description
  */

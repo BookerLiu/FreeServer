@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Author LiuFei
+ * @Author Demo_Liu
  * @Date 2019/6/12 11:12
  * @description
  */
@@ -32,7 +32,7 @@ public class CSDN {
     private static Logger log = Logger.getLogger(CSDN.class);
 
     /**
-     * @Author LiuFei
+     * @Author Demo_Liu
      * @Date 2019/6/12 14:45
      * @description 获取csdn cookie
      * @Param [userInfo]

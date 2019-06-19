@@ -32,7 +32,7 @@ public class HttpUtil {
 
 
     /**
-     * @Author LiuFei
+     * @Author Demo_Liu
      * @Date 2019/6/12 10:05
      * @description 获取执行后的 HttpPost 返回结果
      * @Param [client, url, pair, headerMap]
@@ -55,7 +55,7 @@ public class HttpUtil {
     }
 
     /**
-     * @Author LiuFei
+     * @Author Demo_Liu
      * @Date 2019/6/12 10:05
      * @description 获取执行后的 HttpPost 返回结果
      * @Param [client, url, entity, headerMap]
@@ -82,7 +82,7 @@ public class HttpUtil {
     }
 
     /**
-     * @Author LiuFei
+     * @Author Demo_Liu
      * @Date 2019/6/12 10:15
      * @description 获取执行后的 HttpGet 返回结果
      * @Param [client, url, pair, headerMap]
