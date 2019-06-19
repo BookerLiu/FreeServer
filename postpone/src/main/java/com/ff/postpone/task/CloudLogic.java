@@ -83,7 +83,7 @@ public class CloudLogic {
      * @return
      */
     public static int checkCheckStatus(JSONObject json, UserInfo userInfo, UserInfoMapper infoMapper, Map<String,String> cookieMap) throws Exception {
-        String username = userInfo.getCloudUser();
+        String userKey = getUserKey(userInfo);
         json = JSONObject.fromObject(json.getString("msg"));
         JSONArray array = JSONArray.fromObject(json.getString("content"));
         if(array.size()>0){
@@ -91,12 +91,12 @@ public class CloudLogic {
             String state = json.getString("State");
             String url = json.getString("url");
             if("待审核".equals(state)){
-                log.info(username + "审核中,无需审核!!!");
+                log.info(userKey + "审核中,无需审核!!!");
                 return 1;
             }else if("审核通过".equals(state)){
-                log.info(username + "审核通过!!!");
+                log.info(userKey + "审核通过!!!");
                 if(userInfo.getBlogUrl().equals(url)){
-                    MailUtil.sendMaid(username+"审核通过",username+"审核通过");
+                    MailUtil.sendMaid(userKey+"审核通过",userKey+"审核通过");
                     userInfo.setBlogUrl("success");
                     infoMapper.updateByPrimaryKey(userInfo);
                     deleteBlogByType(userInfo,url,cookieMap);
@@ -104,9 +104,9 @@ public class CloudLogic {
                 }
                 return 2;
             }else{
-                log.info(username + "审核失败,审核结果:"+state);
+                log.info(userKey + "审核失败,审核结果:"+state);
                 if(userInfo.getBlogUrl().equals(url)){
-                    MailUtil.sendMaid(username+"审核失败","审核结果:"+state+","+json.toString());
+                    MailUtil.sendMaid(userKey+"审核失败","审核结果:"+state+","+json.toString());
                     userInfo.setBlogUrl("error");
                     infoMapper.updateByPrimaryKey(userInfo);
                     deleteBlogByType(userInfo,url,cookieMap);
