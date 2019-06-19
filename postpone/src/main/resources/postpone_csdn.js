@@ -16,7 +16,7 @@ if (system.args.length < 3 || system.args.length > 5) {
         // 按照实际页面的高度，设定渲染的宽高
         page.clipRect = {
             top:    20,
-            left:   400,
+            left:   1500,
             width:  1000,
             height: 800
         };
