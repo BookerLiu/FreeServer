@@ -16,11 +16,10 @@ if (system.args.length < 3 || system.args.length > 5) {
         // 按照实际页面的高度，设定渲染的宽高
         page.clipRect = {
             top:    20,
-            left:   1650,
+            left:   400,
             width:  1000,
             height: 800
         };
-
         // 预留一定的渲染时间
         window.setTimeout(function () {
             page.render(output);
