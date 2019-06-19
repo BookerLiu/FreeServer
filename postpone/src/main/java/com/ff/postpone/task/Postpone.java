@@ -46,9 +46,10 @@ public class Postpone {
         List<UserInfo> userInfos = infoMapper.selectByExample(example);
 
         Map<String,String> cookieMap = new HashMap<>();
-        try{
-            //根据不同服务器获取不同url进行操作
-            for (UserInfo userInfo : userInfos) {
+
+        //根据不同服务器获取不同url进行操作
+        for (UserInfo userInfo : userInfos) {
+            try{
                 String bz = userInfo.getCloudType();
                 switch (bz){
                     case "0": //阿贝云
@@ -58,10 +59,10 @@ public class Postpone {
                         logic(userInfo,1,cookieMap);
                         break;
                 }
+            }catch (Exception e){
+                log.error(userInfo.getBlogUser()+"延期过程中出错!!!");
+                e.printStackTrace();
             }
-        }catch (Exception e){
-            log.error("延期过程中出错!!!");
-            e.printStackTrace();
         }
     }
 
