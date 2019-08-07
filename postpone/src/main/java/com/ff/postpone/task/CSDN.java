@@ -41,11 +41,11 @@ public class CSDN {
     public static String getCSDNCookie(UserInfo userInfo) throws IOException, URISyntaxException {
         CookieStore cookieStore = new BasicCookieStore();
         CloseableHttpClient httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
-        //登录接口1
-        JSONObject jsonObject = JSONObject.fromObject(HttpUtil.getGetRes(httpClient, UrlUtil.CSDN_LOGIN1 , ParamUtil.getCSDNLogin1(userInfo.getBlogUser())));
-        log.info("CSDN-login1返回:"+jsonObject.toString());
-        //登录接口2
-        if("success".equals(jsonObject.getString("message"))) {
+//        //登录接口1
+//        JSONObject jsonObject = JSONObject.fromObject(HttpUtil.getGetRes(httpClient, UrlUtil.CSDN_LOGIN1 , ParamUtil.getCSDNLogin1(userInfo.getBlogUser())));
+//        log.info("CSDN-login1返回:"+jsonObject.toString());
+//        //登录接口2
+//        if("success".equals(jsonObject.getString("message"))) {
             JSONObject json = JSONObject.fromObject(HttpUtil.getPostRes(httpClient, UrlUtil.CSDN_LOGIN2, new StringEntity(ParamUtil.getCSDNLogin2(userInfo).toString())));
             log.info("CSDN-login2返回:"+json.toString());
             String cookieStr = "";
@@ -66,9 +66,9 @@ public class CSDN {
                 //未能成功请求
                 return "99";
             }
-        }else{
-            return "99";
-        }
+//        }else{
+//            return "99";
+//        }
     }
 
 
@@ -150,6 +150,7 @@ public class CSDN {
         userInfo.setBlogUser("15332919175");
         userInfo.setBlogPass("MM1457118807");
         String cookie = getCSDNCookie(userInfo);
+        sendCSDNBlog(cookie,0);
 
 //        String s = sendCSDNBlog(getCSDNCookie(userInfo),0);
 //        System.out.println(s);
