@@ -146,11 +146,7 @@ public class CSDN {
 
 
     public static void main(String[] args) throws Exception {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setBlogUser("15332919175");
-        userInfo.setBlogPass("MM1457118807");
-        String cookie = getCSDNCookie(userInfo);
-        sendCSDNBlog(cookie,0);
+
 
 //        String s = sendCSDNBlog(getCSDNCookie(userInfo),0);
 //        System.out.println(s);
