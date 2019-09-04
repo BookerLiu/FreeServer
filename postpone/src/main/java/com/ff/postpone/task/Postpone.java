@@ -68,8 +68,19 @@ public class Postpone {
     }
 
     public void logic(UserInfo userInfo, int cloudType, Map<String,String> cookieMap) throws Exception{
-        JSONObject json;
         String username = userInfo.getCloudUser();
+
+        Date nextTime = userInfo.getNextTime();
+        if(nextTime!=null){
+            //防止多次请求将ip封禁
+            Date nowDate = new Date();
+            if(nextTime.getTime()>nowDate.getTime()){
+                log.info(username + ParamUtil.getYunName(cloudType)+"未到延期时间,取消请求接口!!!");
+                return;
+            }
+        }
+
+        JSONObject json;
         log.info(username + " 开始登录"+ ParamUtil.getYunName(cloudType)+"!!!");
         CookieStore cookieStore = new BasicCookieStore();
         CloseableHttpClient yunClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
