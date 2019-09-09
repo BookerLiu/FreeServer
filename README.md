@@ -11,5 +11,12 @@
 JDK1.8 + SpringBoot + Mybatis + Mysql5.6 + [PhantomJS](http://phantomjs.org/download.html)  
 # 总体流程
 ![postpone](https://github.com/Demo-Liu/MyPicture/raw/master/FreeServer%E5%BB%B6%E6%9C%9F2.0.png)
+# 部署
+1. JDK1.8 + MySql5.6
+2. 申请三丰云或阿贝云免费服务器   百度即可
+3. 执行/resources/database.sql 数据库脚本, 添加用户数据,请配置CSDN博客,新浪的我已停止维护,不对其可用性做保证
+4. 下载 PhantomJS 2.1.1 下载地址:[http://phantomjs.org/download.html](http://phantomjs.org/download.html)
+5. 在/resources/Properties.properties 文件中指定PhantomJS配置目录及邮箱配置  JS文件在/resources目录下
+6. 发布运行项目
 # PS
 如果你申请了多个免费服务器,你甚至可以用它来做集群使用:+1:
