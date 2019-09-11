@@ -6,7 +6,8 @@
 数据库脚本及phantomjs所用到的截图js已上传至 resources目录下  
 新加了[三丰云](https://www.sanfengyun.com/)  
 20190617重构了项目,新加入了发布CSDN博客进行延期,并且**新浪博客的发布已停止维护**,不对其可用性做保证  
-添加邮件通知功能
+添加邮件通知功能  
+**20190911**-**CSDN登录接口加密,项目暂时不可用**
 # 项目架构
 JDK1.8 + SpringBoot + Mybatis + Mysql5.6 + [PhantomJS](http://phantomjs.org/download.html)  
 # 总体流程
