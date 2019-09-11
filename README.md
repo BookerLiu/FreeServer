@@ -21,3 +21,4 @@ JDK1.8 + SpringBoot + Mybatis + Mysql5.6 + [PhantomJS](http://phantomjs.org/down
 6. 发布运行项目
 # PS
 如果你申请了多个免费服务器,你甚至可以用它来做集群使用:+1:
+另外,你有任何好的功能或修改,可以PR给我
