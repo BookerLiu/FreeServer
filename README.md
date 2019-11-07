@@ -7,7 +7,7 @@
 新加了[三丰云](https://www.sanfengyun.com/)  
 20190617重构了项目,新加入了发布CSDN博客进行延期,并且**新浪博客的发布已停止维护**,不对其可用性做保证  
 添加邮件通知功能  
-**20190911**-**CSDN登录接口加密,项目暂时不可用**
+**20190911**-**CSDN登录接口加密,接口获取cookie暂时不可用,暂时手动配置cookie**
 # 项目架构
 JDK1.8 + SpringBoot + Mybatis + Mysql5.6 + [PhantomJS](http://phantomjs.org/download.html)  
 # 总体流程
