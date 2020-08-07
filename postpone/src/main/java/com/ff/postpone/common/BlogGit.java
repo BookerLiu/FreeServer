@@ -47,8 +47,7 @@ public class BlogGit {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-");
         String nowStr = sdf.format(new Date());
 
-        int i = (int) (Math.random() * Integer.MAX_VALUE);
-
+        int i = (int) (Math.random() * 9000000);
 
         String fileName = sb.append(nowStr)
                 .append(Profile.BLOG_USERNAME)
