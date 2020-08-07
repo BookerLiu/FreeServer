@@ -1,0 +1,41 @@
+
+#免费服务器地址 配置示例 配置多个别忘了copy "-"
+#username： 账号， password： 密码， type： 0 阿贝云， 1三丰云
+cloudServers:
+  -
+    username: 13111001111
+    password: 123456789
+    type: 0
+  -
+    username: 13111001111
+    password: 123456789
+    type: 1
+
+
+#邮箱配置
+mailInfo:
+  #邮件服务器  作者使用的QQ邮箱，
+  serverHost: smtp.qq.com
+  serverPort: 587
+  #使用QQ邮箱注意,这里的密码并不是QQ邮箱密码  需要自己开启smtp服务器,QQ邮箱会给你一串密码
+  password: password
+  #收件人邮箱  这里我用的QQ邮箱,关注公众号,微信可以直接收到通知
+  receiveUser: 123456@qq.com
+
+
+#博客配置 GitHub 个人博客
+blogInfo:
+  #这里提供了一个公共的(新注册了一个账号搭建的,怕把我原来的给封了💩️)  推荐使用自己搭建的GitHub Pages
+  #格式: git@github.com:{用户名}/{用户名(全为小写)}.github.io.git
+  uri: git@github.com:Demo-AD/demo-ad.github.io.git
+  #仓库拉取到本地时的路径
+  localPath: /freeServer/repo/
+  #如果使用我提供的GitHub Pages,这里最好填写你的github用户名 可以防止发布文章地址冲突
+  username: Demo-Liu
+
+#PhantomJs 配置项
+phantomJs:
+  #phantomJs 路径  windows 和 Linux x86_64已经嵌入了项目,其它系统请自行配置此项
+  phantomJsExec:
+  #图片生成路径
+  picPath: /freeServer/phantomJsPic/postpone.png

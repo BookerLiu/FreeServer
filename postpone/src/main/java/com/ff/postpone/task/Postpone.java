@@ -1,28 +1,20 @@
 package com.ff.postpone.task;
 
-import com.ff.postpone.mapper.UserInfoMapper;
-import com.ff.postpone.pojo.UserInfo;
-import com.ff.postpone.pojo.UserInfoExample;
-import com.ff.postpone.task.util.HttpUtil;
-import com.ff.postpone.task.util.MailUtil;
-import com.ff.postpone.task.util.ParamUtil;
-import com.ff.postpone.task.util.PropertiesUtil;
+
+import com.ff.postpone.common.*;
+import com.ff.postpone.constant.*;
+import com.ff.postpone.util.*;
 import net.sf.json.JSONObject;
-import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.nio.charset.Charset;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -33,246 +25,199 @@ import java.util.*;
 @Component
 public class Postpone {
 
+    private static Logger log = LoggerFactory.getLogger(Postpone.class);
 
-    @Autowired
-    private UserInfoMapper infoMapper;
-
-    private Logger log = Logger.getLogger(Postpone.class);
 
     //这里建议设置为30分钟每次
     @Scheduled(cron = "0 0/30 * * * ? ")
     public void postpone(){
-        //查询所有云账号
-        UserInfoExample example = new UserInfoExample();
-        List<UserInfo> userInfos = infoMapper.selectByExample(example);
+        //获取所有云账号配置
+        List<Map<String, String>> cloudServers = Profile.cloudServers;
 
-        Map<String,String> cookieMap = new HashMap<>();
+        //邮箱配置
+        MailUtil mailUtil = MailUtil.MailUtilBuilder.getBuilder()
+                .setHost(Profile.MAIL_SERVER_HOST)
+                .setPort(Profile.MAIL_SERVER_PORT)
+                .setPassword(Profile.MAIL_PASSWORD)
+                .setReceiveUser(Profile.MAIL_RECEIVE_USER)
+                .build();
 
-        //根据不同服务器获取不同url进行操作
-        for (UserInfo userInfo : userInfos) {
+
+        String username = null;
+        String type;
+        CloudInfo cloudInfo;
+        String cloudName = null;
+        HttpClient httpClient;
+        String ukLog = null;
+        //循环检查免费服务器状态
+        for (Map<String, String> serverInfo : cloudServers) {
             try{
-                String bz = userInfo.getCloudType();
-                switch (bz){
-                    case "0": //阿贝云
-                        logic(userInfo,0,cookieMap);
-                        break;
-                    case "1": //三丰云
-                        logic(userInfo,1,cookieMap);
-                        break;
+                httpClient = HttpUtil.getHttpClient(new BasicCookieStore());
+                username = serverInfo.get(Constans.CLOUD_USERNAME);
+                type = serverInfo.get(Constans.CLOUD_TYPE);
+                cloudInfo = CloudInfo.getCloudInfo(type);
+                cloudName = cloudInfo.getCloudName();
+
+                ukLog = CommonCode.getUKLog(username, cloudName);
+
+
+                //调用登录接口查看状态
+                String status = loginAndCheck(httpClient, mailUtil, serverInfo, cloudInfo);
+
+                if(status != null && "1".equals(status)){
+                    //发送博客
+                    String blogUrl = BlogGit.sendCustomBlogByType(type);
+                    //持久化至文件
+                    Map<String, String> map = Profile.userInfos.get(CommonCode.getUserKey(username, type));
+                    map.put("blogUrl", blogUrl);
+                    CommonCode.userInfosPermanent();
+
+                    //生成截图
+                    boolean pic = createPic(blogUrl);
+                    //如果创建成功 开始发送延期请求
+                    if(pic){
+                        postBlogInfo(httpClient, mailUtil, blogUrl, serverInfo, cloudInfo);
+                    }else{
+                        mailUtil.sendMail(cloudName+"账号:"+username+",网页截图生成失败", "blog Url: "+ blogUrl);
+                    }
                 }
             }catch (Exception e){
-                log.error(userInfo.getBlogUser()+"延期过程中出错!!!");
-                e.printStackTrace();
+                log.error("{},延期过程出错!!!", ukLog);
+                mailUtil.sendMail(cloudName + "账号: "+username+",延期过程出错",e.getMessage());
             }
         }
+
     }
 
-    public void logic(UserInfo userInfo, int cloudType, Map<String,String> cookieMap) throws Exception{
-        String username = userInfo.getCloudUser();
+        /**
+         * 登录和检查状态接口
+         */
+    public String loginAndCheck(HttpClient httpClient, MailUtil mailUtil, Map<String,String> serverInfo, CloudInfo cloudInfo) throws Exception {
+        //用户名密码
+        String username = serverInfo.get(Constans.CLOUD_USERNAME);
+        String password = serverInfo.get(Constans.CLOUD_PASSWORD);
+        //服务器类型名称
+        String cloudName = cloudInfo.getCloudName();
+        String type = cloudInfo.getType();
 
-        Date nextTime = userInfo.getNextTime();
-        if(nextTime!=null){
-            //防止多次请求将ip封禁
-            Date nowDate = new Date();
-            if(nextTime.getTime()>nowDate.getTime()){
-                log.info(username + ParamUtil.getYunName(cloudType)+"未到延期时间,取消请求接口!!!");
-                return;
-            }
-        }
 
-        JSONObject json;
-        log.info(username + " 开始登录"+ ParamUtil.getYunName(cloudType)+"!!!");
-        CookieStore cookieStore = new BasicCookieStore();
-        CloseableHttpClient yunClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
-        String ss = HttpUtil.getPostRes(yunClient,  ParamUtil.getYunUrl(cloudType,0), new UrlEncodedFormEntity(ParamUtil.getYunLogin(username, userInfo.getCloudPass())));
-        json = JSONObject.fromObject(ss);
-        log.info("登录"+ ParamUtil.getYunName(cloudType)+"返回:"+json.toString());
-        String loginMsg = json.getString("msg");
-        if("登录成功".equals(loginMsg)){
-            log.info(username + ParamUtil.getYunName(cloudType)+"登录成功,开始检查免费服务器状态!!!");
-            json = JSONObject.fromObject(HttpUtil.getPostRes(yunClient, ParamUtil.getYunUrl(cloudType,1), new UrlEncodedFormEntity(ParamUtil.getFreeStatus())));
-            log.info("检查服务器状态返回:"+json.toString());
-            int status = CloudLogic.checkServerStatus(json, username, infoMapper, userInfo);
-            log.info("服务器状态:"+status);
-            json = JSONObject.fromObject(HttpUtil.getPostRes(yunClient, ParamUtil.getYunUrl(cloudType,1), new UrlEncodedFormEntity(ParamUtil.getCheckStatus())));
-            log.info("检查审核状态返回:"+json);
-            switch (status){
-                case 1:  //已到审核期
-                    CloudLogic.checkCheckStatus(json, userInfo, infoMapper, cookieMap);
-                    sentBlog(userInfo, yunClient, infoMapper, cloudType, cookieMap);
-                    break;
-                case 2:  //未到审核期
-                    CloudLogic.checkCheckStatus(json, userInfo, infoMapper, cookieMap);
-                    break;
-            }
+        //持久化信息
+        Map<String, String> userInfo = Profile.userInfos.get(CommonCode.getUserKey(username, type));
+        String nextTime = userInfo.get(CloudData.NEXT_TIME);
 
-        }else{
-            log.info("登录失败 "+loginMsg);
-        }
-    }
+        String ukLog = CommonCode.getUKLog(username, cloudName);
 
-    /**
-     * 发博客并生成截图
-     * @param info
-     * @param yunClient
-     * @param infoMapper
-     */
-    public void sentBlog(UserInfo info, HttpClient yunClient, UserInfoMapper infoMapper, int cloudType, Map<String,String> cookieMap) throws Exception {
-        log.info("开始发送延期博客...");
-        String cookie;
-        //cookie获取方式(0 使用本地cookie, 1 使用接口获取cookie)
-        String cookieType = info.getCookieType();
-        //使用博客类型 (0 新浪博客, 1 CSDN博客)
-        if("0".equals(info.getBlogType())){
-            String userKey = info.getBlogUser()+"SINA";
-            if("0".equals(cookieType)){
-                cookie = info.getBlogCookie();
-                log.info("本地获取SINA cookie:"+cookie);
-                cookieMap.put(userKey,cookie);
-            }else{ //从本地获取cookie
-                log.info("开始接口获取Sina cookie");
-                if(cookieMap.get(userKey) == null){
-                    log.info(userKey+"开始第一次获取cookie....");
-                    cookieMap.put(userKey,Sina.getSinaCookie(info));
-                }
-            }
-            JSONObject json = JSONObject.fromObject(Sina.sendSinaBlog(cookieMap.get(userKey), cloudType));
-            log.info("延期博客返回结果:"+json.toString());
-            String data = json.getString("data");
-            String code = json.getString("code");
-            if("B06001".equals(code) && data!=null && !"null".equals(data)){
-                String sinaUrl = "http://blog.sina.com.cn/s/blog_" + data + ".html";
-                log.info("更新"+info.getCloudUser()+" url为:"+sinaUrl);
-                info.setBlogUrl(sinaUrl);
-                infoMapper.updateByPrimaryKey(info);
-                if(createPic(sinaUrl,info.getBlogType())){
-                    File file = new File(new PropertiesUtil().getProperty("PHANTOM_SINA_FILE"));
-                    sendAbei(info,yunClient,sinaUrl,file,cookieMap,cloudType);
-                }else{
-                    log.info("图片生成失败,删除新浪博客!!!");
-                    Sina.deleteBlog(info,sinaUrl,cookieMap);
+        String status = null;
+        //1. 检查是否到期
+        if(StringUtil.isEmpty(nextTime) || CommonCode.isExpire(nextTime)){
+            log.info("{}开始登录...", ukLog);
+
+            //2. 调用登录接口
+            JSONObject loginJson = JSONObject.fromObject(
+                    HttpUtil.getPostRes(httpClient,
+                            cloudInfo.getLoginUri(),
+                            Params.getYunLogin(username, password))
+            );
+            log.info("{}登录接口返回:{}", ukLog, loginJson.toString());
+
+            if(CloudData.LOGIN_SUCCESS.equals(loginJson.getString(CloudData.LOGIN_STATUS))){
+                //3. 登录成功 调用状态接口
+                log.info("{}登录成功,开始检查免费服务器状态!!!", ukLog);
+                JSONObject statusJson = JSONObject.fromObject(
+                        HttpUtil.getPostRes(httpClient,
+                                cloudInfo.getBusUri(),
+                                Params.getFreeStatus()));
+                log.info("{}检查服务器状态返回:{}", ukLog, statusJson.toString());
+                statusJson = statusJson.getJSONObject(CloudData.STATUS_DATA);
+                status = statusJson.containsKey(CloudData.DELAY_STATUS1) ? statusJson.getString(CloudData.DELAY_STATUS1) : statusJson.getString(CloudData.DELAY_STATUS2);
+
+
+                //审核状态接口
+                JSONObject checkJson = JSONObject.fromObject(
+                        HttpUtil.getPostRes(httpClient,
+                                cloudInfo.getBusUri(),
+                                Params.getCheckStatus()));
+                log.info("{}延期记录接口返回:{}", ukLog, checkJson.toString());
+
+                switch (status) {
+                    case "1": //已到审核期
+                        CommonCode.checkCheckStatus(checkJson, ukLog, userInfo.get("blogUrl"));
+                        log.info("{},已到审核期!!!", ukLog);
+                        break;
+                    case "0": //未到审核期
+                        CommonCode.checkCheckStatus(checkJson, ukLog, userInfo.get("blogUrl"));
+                        String next_time = statusJson.getString(CloudData.NEXT_TIME);
+                        if(!next_time.equals(StringUtil.isEmpty(nextTime) ? "" : next_time)){
+                            mailUtil.sendMail(cloudName + "账号: "+username+"下次执行时间"+next_time, statusJson.toString());
+                        }
+                        //持久化到文件
+                        userInfo.put(CloudData.NEXT_TIME, next_time);
+                        CommonCode.userInfosPermanent();
+                        log.info("{}未到审核期,下次审核开始时间:{}", ukLog, next_time);
+                        break;
+                    default :
+                        log.info("{}正在审核!!!", ukLog);
                 }
             }else{
-                log.info("发送新浪博客失败");
-                MailUtil.sendMaid("发送新浪博客失败",json.toString());
+                log.info("{}登录失败!!!",ukLog);
+                mailUtil.sendMail(cloudName + "账号: "+username+", 登录失败!!!",loginJson.toString());
             }
         }else{
-            String userKey = info.getBlogUser()+"CSDN";
-            if("0".equals(cookieType)){
-                cookie = info.getBlogCookie();
-                log.info("本地获取CSDN cookie:"+cookie);
-                cookieMap.put(userKey,cookie);
-            }else{
-                log.info("接口获取CSDN cookie...");
-                if(cookieMap.get(userKey) == null){
-                    log.info(userKey+"开始第一次获取cookie....");
-                    cookieMap.put(userKey, CSDN.getCSDNCookie(info));
-                }
-            }
-            String res = CSDN.sendCSDNBlog(cookieMap.get(userKey), cloudType);
-            JSONObject jsonObject = JSONObject.fromObject(res);
-            if("1".equals(jsonObject.getString("result"))){
-                JSONObject json = JSONObject.fromObject(jsonObject.getString("data"));
-                String url = json.getString("url");
-                log.info("更新"+info.getCloudUser()+" url为:"+url);
-                info.setBlogUrl(url);
-                infoMapper.updateByPrimaryKey(info);
-                if(createPic(url,info.getBlogType())){
-                    File file = new File(new PropertiesUtil().getProperty("PHANTOM_CSDN_FILE"));
-                    sendAbei(info,yunClient,url,file,cookieMap,cloudType);
-                }else{
-                    log.info("图片生成失败,删除CSDN博客!!!");
-                    CSDN.deleteCSDNBlog(cookieMap.get(userKey),url);
-                }
-            }else{
-                log.info("发送CSDN博客失败");
-                MailUtil.sendMaid("发送CSDN博客失败",jsonObject.toString());
-            }
+            log.info("{}未到期", ukLog);
         }
+        return status;
     }
 
-    /**
-     * 提交延期记录
-     * @param yunClient
-     * @param url
-     * @param file
-     */
-    public void sendAbei(UserInfo info, HttpClient yunClient, String url, File file, Map<String,String> cookieMap, int bz) throws Exception {
-        log.info("开始提交延期记录!!!");
-//        HttpPost httpPost = new HttpPost(CommCode.getYunUrl(bz,1));
-        MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
-
-        //三丰云和阿贝云文件提交方式不一样
-        if(bz==0) {
-            multipartEntityBuilder.addBinaryBody("yanqi_img",file);
-        }else{
-            multipartEntityBuilder.addBinaryBody("yanqi_img",file, ContentType.IMAGE_PNG,"postpone.png");
-        }
-        multipartEntityBuilder.setCharset(Charset.forName("UTF-8"));
-        ContentType contentType = ContentType.create("text/plain", Charset.forName("UTF-8"));
-        multipartEntityBuilder.addTextBody("cmd","free_delay_add" ,contentType);
-        multipartEntityBuilder.addTextBody("ptype","vps" ,contentType);
-        multipartEntityBuilder.addTextBody("url",url ,contentType);
-        String postRes = HttpUtil.getPostRes(yunClient, ParamUtil.getYunUrl(bz,1), multipartEntityBuilder.build());
-
-        JSONObject json = JSONObject.fromObject(postRes);
-        log.info("提交延期记录返回结果:"+json.toString());
-        try{
-            if("提交成功".equals(json.getString("msg"))){
-                log.info("提交延期记录成功!!!");
-            }else{
-                log.info("提交延期记录失败,删除发布博客!!!");
-                Sina.deleteBlog(info,url,cookieMap);
-            }
-        }catch (Exception e){
-            log.info("提交延期记录失败,删除发布博客!!!");
-            Sina.deleteBlog(info,url,cookieMap);
-        }
-        file.delete();
-
-    }
 
     /**
-     * 使用 phantomjs 生成网页截图
-     * @param url
-     * @param blogType
+     * 生成网页截图
+     * @param blogUrl
      * @return
+     * @throws Exception
      */
-    public boolean createPic(String url, String blogType){
+    public boolean createPic(String blogUrl) throws Exception {
         log.info("开始创建文件...");
-        PropertiesUtil prpt = new PropertiesUtil();
+        StringBuilder sb = new StringBuilder();
         String BLANK = "  ";
-        // phantomjs 文件路径
-        String path = prpt.getProperty("PHANTOM_PTAH") + BLANK;
-        // js文件路径
-        String jspath;
-        // 截图生成路径
-        String filepath;
-        if("1".equals(blogType)){
-            jspath = prpt.getProperty("PHANTOM_CSDN_JS") + BLANK;
-            filepath = prpt.getProperty("PHANTOM_CSDN_FILE");
+        String osName = System.getProperty("os.name");
+
+        if(StringUtil.isEmpty(Profile.PJ_EXEC)){
+            if(osName.contains("windows")){
+                sb.append(Constans.PJ_WIN).append(BLANK);
+            }else if(osName.contains("linux")){
+                sb.append(Constans.PJ_LINUX_X86_64).append(BLANK);
+            }else{
+                log.info("未配置phantomJs: {}", osName);
+                throw new Exception("未配置phantomJs: "+osName);
+            }
         }else{
-            jspath = prpt.getProperty("PHANTOM_SINA_JS") + BLANK;
-            filepath = prpt.getProperty("PHANTOM_SINA_FILE");
+            sb.append(Profile.PJ_EXEC).append(BLANK);
         }
-        File file = new File(filepath);
+
+        sb.append(Constans.PIC_JS).append(BLANK)
+        .append(blogUrl).append(BLANK)
+        .append(Profile.PJ_PIC_PATH);
+
+
         //执行一次删除防止上次任务残留
-        file.delete();
+        File file = FileUtil.deleteFile(Profile.PJ_PIC_PATH);
+
         Runtime rt = Runtime.getRuntime();
         try {
-            rt.exec(path + jspath + url + BLANK + filepath);
+            rt.exec(sb.toString());
             Thread.sleep(20000);
             int i = 0;
             while(!file.exists()){
                 log.info("文件未创建成功,等待10秒...");
                 i++;
                 if(i==20){
-                    log.info("文件创建失败:" + url);
+                    log.info("文件创建失败: {}", blogUrl);
                     return false;
                 }
                 Thread.sleep(10000);
             }
         } catch (Exception e) {
+            log.info("文件创建失败: {}", blogUrl);
             e.printStackTrace();
             return false;
         }
@@ -281,4 +226,35 @@ public class Postpone {
     }
 
 
+    /**
+     * 提交延期博客信息
+     * @param httpClient
+     * @param mailUtil
+     * @param blogUrl
+     * @param serverInfo
+     * @param cloudInfo
+     * @throws IOException
+     * @throws GitAPIException
+     */
+    public void postBlogInfo(HttpClient httpClient, MailUtil mailUtil, String blogUrl, Map<String,String> serverInfo, CloudInfo cloudInfo) throws IOException, GitAPIException {
+        String username = serverInfo.get(Constans.CLOUD_USERNAME);
+        String cloudName = cloudInfo.getCloudName();
+
+        String ukLog = CommonCode.getUKLog(username, cloudName);
+
+        File file = FileUtil.deleteFile(Profile.PJ_PIC_PATH);
+
+        String postRes = HttpUtil.getPostRes(httpClient, cloudInfo.getBusUri(), Params.getBlogInfo(cloudInfo,file,blogUrl).build());
+        JSONObject json = JSONObject.fromObject(postRes);
+        log.info("{}提交延期记录返回结果: {}", ukLog, json.toString());
+
+        if(CloudData.BLOG_SUCCESS.equals(json.getString(CloudData.BLOG_STATUS))){
+            log.info("{}提交延期记录成功!!!", ukLog);
+        }else{
+            log.info("{}提交延期记录失败,删除发布博客!!!", ukLog);
+            mailUtil.sendMail(cloudName+"账号:"+username+"发送延期博客失败", json.toString());
+            BlogGit.deleteBlog(blogUrl);
+        }
+        file.delete();
+    }
 }

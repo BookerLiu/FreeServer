@@ -1,0 +1,4 @@
+#持久化文件 用来记录云服务器信息
+userInfo:
+  - {user: user1}
+  - {user: user2}

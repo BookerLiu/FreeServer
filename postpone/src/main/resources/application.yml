@@ -1,13 +1,3 @@
-
 spring:
-  datasource:
-    name: freeserver
-    url: jdbc:mysql://localhost:3306/freeserver?characterEncoding=utf-8
-    username: root
-    password: root
-    driver-class-name: com.mysql.jdbc.Driver
-
-
-
-
-
+  profiles:
+    active: config,permanent
