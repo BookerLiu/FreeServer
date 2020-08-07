@@ -183,9 +183,11 @@ public class Postpone {
 
         if(StringUtil.isEmpty(Profile.PJ_EXEC)){
             if(osName.contains("windows")){
-                sb.append(Constans.PJ_WIN).append(BLANK);
+                sb.append(Constans.PJ_WIN.substring(1)).append(BLANK)
+                        .append(Constans.PIC_JS.substring(1)).append(BLANK);
             }else if(osName.contains("linux")){
-                sb.append(Constans.PJ_LINUX_X86_64).append(BLANK);
+                sb.append(Constans.PJ_LINUX_X86_64).append(BLANK)
+                        .append(Constans.PIC_JS).append(BLANK);
             }else{
                 log.info("未配置phantomJs: {}", osName);
                 throw new Exception("未配置phantomJs: "+osName);
@@ -194,8 +196,7 @@ public class Postpone {
             sb.append(Profile.PJ_EXEC).append(BLANK);
         }
 
-        sb.append(Constans.PIC_JS).append(BLANK)
-        .append(blogUrl).append(BLANK)
+        sb.append(blogUrl).append(BLANK)
         .append(Profile.PJ_PIC_PATH);
 
 

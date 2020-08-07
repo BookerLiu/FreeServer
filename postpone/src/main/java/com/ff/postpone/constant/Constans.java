@@ -2,14 +2,12 @@ package com.ff.postpone.constant;
 
 import com.ff.postpone.common.CommonCode;
 
-import java.io.File;
-
 public final class Constans {
 
     /**
      * resources 目录路径
      */
-    private final static String RESOURCE_PATH = CommonCode.class.getResource("/").toString();
+    private final static String RESOURCE_PATH = CommonCode.class.getResource("/").getPath();
 
     /**
      * 配置文件
