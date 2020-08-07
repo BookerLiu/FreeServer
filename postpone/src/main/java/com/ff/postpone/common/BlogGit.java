@@ -47,10 +47,13 @@ public class BlogGit {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-");
         String nowStr = sdf.format(new Date());
 
+        int i = (int) (Math.random() * Integer.MAX_VALUE);
+
+
         String fileName = sb.append(nowStr)
                 .append(Profile.BLOG_USERNAME)
                 .append("_")
-                .append((int)(Math.random()*100000000))
+                .append(i)
                 .append(".md").toString();
 
 
@@ -79,7 +82,14 @@ public class BlogGit {
         gitPush(git, Constans.BLOG_ROOT_DIR + "/" + fileName, ADD);
 
         //生成blog 链接地址
-        String blogUrl = Profile.BLOG_URL + "/" + fileName.replace("-","/").substring(0,fileName.length()-2) + "html";
+        sb.setLength(0);
+        String blogUrl = sb.append(Profile.BLOG_URL)
+                .append("/")
+                .append(nowStr.replace("-","/"))
+                .append(Profile.BLOG_USERNAME)
+                .append("_")
+                .append(i)
+                .append(".html").toString();
         return blogUrl;
     }
 

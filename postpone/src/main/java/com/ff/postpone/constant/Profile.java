@@ -50,6 +50,8 @@ public class Profile implements CommandLineRunner{
     public void run(String... args) throws Exception {
         //根据 BLOG_URI 生成 BLOG_URL
         BLOG_URL = "https://" +  BLOG_URI.substring(BLOG_URI.lastIndexOf("/")+1);
+        //.git
+        BLOG_URL = BLOG_URL.substring(0,BLOG_URL.length()-4);
         if(userInfos == null) userInfos = new HashMap<>();
     }
 
