@@ -82,6 +82,7 @@ public class Postpone {
                     }
                 }
             }catch (Exception e){
+                e.printStackTrace();
                 log.error("{},延期过程出错!!!", ukLog);
                 mailUtil.sendMail(cloudName + "账号: "+username+",延期过程出错",e.getMessage());
             }
