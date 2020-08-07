@@ -62,11 +62,11 @@ public final class Constans {
     /**
      * 云服务器名  占位符
      */
-    public final static String MD_CLOUD_NAME = "${cloud}";
+    public final static String MD_CLOUD_NAME = "{cloud}";
 
     /**
      * 云服务器官网  占位符
      */
-    public final static String MD_CLOUD_OS = "${uri}";
+    public final static String MD_CLOUD_OS = "{uri}";
 
 }
