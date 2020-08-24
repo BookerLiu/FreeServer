@@ -45,7 +45,7 @@ public class FileUtil {
 
     /**
      * 读取文件内容
-     * @param file
+     * @param file 文件
      * @return
      * @throws IOException
      */
@@ -74,8 +74,8 @@ public class FileUtil {
 
     /**
      * 写入str到文件
-     * @param file
-     * @param str
+     * @param file 文件
+     * @param str 需要写入的文本
      * @throws IOException
      */
     public static void writeFileStr(File file, String str) throws IOException {

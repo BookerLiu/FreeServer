@@ -31,8 +31,8 @@ public class Postpone {
     private static final Integer maxWaitCount = 6;
 
     //这里建议设置为30分钟每次
-//    @Scheduled(cron = "0/30 * * * * ? ")
-    @Scheduled(cron = "0 0/30 * * * ? ")
+    @Scheduled(cron = "0/30 * * * * ? ")
+//    @Scheduled(cron = "0 0/30 * * * ? ")
     public void postpone(){
         //获取所有云账号配置
         List<Map<String, String>> cloudServers = Profile.cloudServers;
@@ -194,7 +194,7 @@ public class Postpone {
 
     /**
      * 生成网页截图
-     * @param blogUrl
+     * @param blogUrl 博客url
      * @return
      * @throws Exception
      */
@@ -252,11 +252,11 @@ public class Postpone {
 
     /**
      * 提交延期博客信息
-     * @param httpClient
-     * @param mailUtil
-     * @param blogUrl
-     * @param serverInfo
-     * @param cloudInfo
+     * @param httpClient httpclient
+     * @param mailUtil 邮件工具类
+     * @param blogUrl 博客url
+     * @param serverInfo 服务器信息
+     * @param cloudInfo 云服务器参数
      * @throws IOException
      * @throws GitAPIException
      */

@@ -106,7 +106,7 @@ public class BlogGit {
 
     /**
      * 提交文件
-     * @param git
+     * @param git git连接
      * @param rootBlogPath blog文件所在根路径
      */
     public static void gitPush(Git git, String rootBlogPath,int type) throws GitAPIException {
@@ -125,7 +125,7 @@ public class BlogGit {
 
     /**
      * 删除博客
-     * @param blogUrl
+     * @param blogUrl 博客url
      * @throws IOException
      * @throws GitAPIException
      */

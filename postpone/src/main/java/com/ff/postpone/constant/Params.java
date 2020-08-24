@@ -8,7 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,9 +66,9 @@ public class Params {
 
     /**
      * 延期博客参数
-     * @param cloudInfo
-     * @param file
-     * @param blogUrl
+     * @param cloudInfo 服务器信息
+     * @param file 截图文件路径
+     * @param blogUrl 博客url
      * @return
      */
     public static MultipartEntityBuilder getBlogInfo(CloudInfo cloudInfo, File file, String blogUrl){
@@ -78,8 +78,8 @@ public class Params {
         }else{
             meb.addBinaryBody("yanqi_img",file, ContentType.IMAGE_PNG,"postpone.png");
         }
-        meb.setCharset(Charset.forName("UTF-8"));
-        ContentType contentType = ContentType.create("text/plain", Charset.forName("UTF-8"));
+        meb.setCharset(StandardCharsets.UTF_8);
+        ContentType contentType = ContentType.create("text/plain", StandardCharsets.UTF_8);
         meb.addTextBody("cmd","free_delay_add" ,contentType);
         meb.addTextBody("ptype","vps" ,contentType);
         meb.addTextBody("url",blogUrl ,contentType);

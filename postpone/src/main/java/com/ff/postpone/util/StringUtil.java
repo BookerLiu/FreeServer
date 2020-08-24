@@ -10,7 +10,7 @@ public class StringUtil {
 
     /**
      * 检查传入的str 是否有为空
-     * @param strs
+     * @param strs 字符串 或 数组
      * @return
      */
     public static boolean isEmpty(String...strs){

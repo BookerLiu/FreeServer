@@ -44,8 +44,8 @@ public class CommonCode {
 
     /**
      * 获取用户唯一key
-     * @param username
-     * @param type
+     * @param username 用户名
+     * @param type 服务器类型
      * @return
      */
     public static String getUserKey(String username, String type){
@@ -54,8 +54,8 @@ public class CommonCode {
 
     /**
      * 区分日志
-     * @param username
-     * @param cloudName
+     * @param username 用户名
+     * @param cloudName 云服务器名
      * @return
      */
     public static String getUKLog(String username, String cloudName){
@@ -64,8 +64,8 @@ public class CommonCode {
 
     /**
      * 持久化文件
-     * @param uKey
-     * @param userInfo
+     * @param uKey 用户唯一key
+     * @param userInfo 用户持久化信息
      * @throws IOException
      */
     public static void userInfosPermanent(String uKey, Map<String,String> userInfo) throws IOException {
@@ -78,8 +78,8 @@ public class CommonCode {
 
     /**
      * 检查审核状态
-     * @param json
-     * @param ukLog
+     * @param json 返回数据
+     * @param ukLog 用户日志key
      * @throws Exception
      */
     public static void checkCheckStatus(JSONObject json, String ukLog, String blogUrl) throws Exception {
@@ -116,7 +116,7 @@ public class CommonCode {
 
     /**
      * 检查git是否将博客md文件格式化为 html
-     * @param blogUrl
+     * @param blogUrl 博客url
      * @return
      */
     public static boolean isInitBlog(String blogUrl) throws IOException, URISyntaxException {

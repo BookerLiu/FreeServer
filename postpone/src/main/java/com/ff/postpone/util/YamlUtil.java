@@ -16,8 +16,8 @@ public class YamlUtil {
 
     /**
      * 持久化到文件
-     * @param obj
-     * @param filePath
+     * @param obj 持久化信息
+     * @param filePath 持久化文件路径
      * @throws IOException
      */
     public static void dump(Object obj, String filePath) throws IOException {

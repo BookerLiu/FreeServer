@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * @Author Demo-Liu
  * @Date 2019/3/15 15:42
- * @description
+ * @description http 工具类
  */
 public class HttpUtil {
 
