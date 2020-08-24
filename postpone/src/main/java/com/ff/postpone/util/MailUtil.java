@@ -19,7 +19,7 @@ public class MailUtil {
     private Integer port;
     private String password;
     private String receiveUser;
-    private String sendUser;
+    private String username;
 
 
 
@@ -33,6 +33,8 @@ public class MailUtil {
         props.setProperty("mail.smtp.auth", "true");
         props.setProperty("mail.smtp.ssl.enable", "true");
         props.setProperty("mail.smtp.connectiontimeout", "5000");
+        props.setProperty("mail.smtp.socketFactory.fallback", "true");
+
         //1、创建session
         Session session = Session.getInstance(props);
         //开启Session的debug模式，这样就可以查看到程序发送Email的运行状态
@@ -42,11 +44,11 @@ public class MailUtil {
         try {
             ts = session.getTransport("smtp");
             //3、使用邮箱的用户名和密码连上邮件服务器，
-            ts.connect(host, port, sendUser, password);
+            ts.connect(host, port, username, password);
             //4、创建邮件
             MimeMessage message = new MimeMessage(session);
             //指明邮件的发件人
-            message.setFrom(new InternetAddress(sendUser));
+            message.setFrom(new InternetAddress(username));
             //指明邮件的收件人
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(receiveUser));
             //邮件的标题
@@ -80,7 +82,7 @@ public class MailUtil {
         private Integer port;
         private String password;
         private String receiveUser;
-        private String sendUser;
+        private String username;
 
         private MailUtilBuilder() {
         }
@@ -109,14 +111,14 @@ public class MailUtil {
             return this;
         }
 
-        public MailUtilBuilder setSendUser(String sendUser) {
-            this.sendUser = sendUser;
+        public MailUtilBuilder setUsername(String username) {
+            this.username = username;
             return this;
         }
 
         public MailUtil build() {
             MailUtil mailUtil = new MailUtil();
-            mailUtil.sendUser = this.sendUser;
+            mailUtil.username = this.username;
             mailUtil.receiveUser = this.receiveUser;
             mailUtil.host = this.host;
             mailUtil.password = this.password;
