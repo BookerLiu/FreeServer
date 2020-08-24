@@ -3,7 +3,6 @@ package com.ff.postpone.common;
 
 import com.ff.postpone.constant.CloudData;
 import com.ff.postpone.constant.Constans;
-import com.ff.postpone.constant.Params;
 import com.ff.postpone.constant.Profile;
 import com.ff.postpone.util.HttpUtil;
 import com.ff.postpone.util.YamlUtil;
@@ -39,7 +38,7 @@ public class CommonCode {
      */
     public static boolean isExpire(String expireDate){
         String nowDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        return nowDate.compareTo(expireDate) < 0;
+        return nowDate.compareTo(expireDate) > 0;
     }
 
 
@@ -65,10 +64,13 @@ public class CommonCode {
 
     /**
      * 持久化文件
+     * @param uKey
+     * @param userInfo
      * @throws IOException
      */
-    public static void userInfosPermanent() throws IOException {
+    public static void userInfosPermanent(String uKey, Map<String,String> userInfo) throws IOException {
         Map<String,Map<String,Map<String,String>>> map = new HashMap();
+        Profile.userInfos.put(uKey, userInfo);
         map.put("userInfos", Profile.userInfos);
         YamlUtil.dump(map, Constans.PERSISTENT_FILE);
     }
@@ -104,11 +106,8 @@ public class CommonCode {
                     delete = true;
                     log.info("{}审核失败,审核结果:{}", ukLog, state);
             }
-
-            if(delete && blogUrl.equals(url)){
-                //删除博客
-                BlogGit.deleteBlog(blogUrl);
-            }
+            //删除博客
+            if(delete && blogUrl!=null && blogUrl.equals(url)) BlogGit.deleteBlog(blogUrl);
 
         }else{
             log.info("没有延期记录!!!");
