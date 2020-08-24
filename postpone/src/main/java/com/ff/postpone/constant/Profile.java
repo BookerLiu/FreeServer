@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author LiuFei
+ * @author Demo-Liu
  * @create 2020-08-05 13:43
  * @description 配置文件参数
  */
@@ -33,6 +33,7 @@ public class Profile implements CommandLineRunner{
     //邮箱 配置
     public static String MAIL_SERVER_HOST;
     public static Integer MAIL_SERVER_PORT;
+    public static String MAIL_USERNAME;
     public static String MAIL_PASSWORD;
     public static String MAIL_RECEIVE_USER;
 
@@ -77,6 +78,11 @@ public class Profile implements CommandLineRunner{
     @Value("${mailInfo.password}")
     public void setMailPassword(String mailPassword) {
         MAIL_PASSWORD = mailPassword;
+    }
+
+    @Value("${mailInfo.username}")
+    public void setMailUsername(String mailUsername) {
+        MAIL_USERNAME = mailUsername;
     }
 
     @Value("${mailInfo.receiveUser}")

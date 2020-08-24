@@ -24,7 +24,7 @@ import java.util.Map;
 import static org.eclipse.jgit.api.Git.cloneRepository;
 
 /**
- * @author LiuFei
+ * @author Demo-Liu
  * @create 2020-07-30 10:18
  * @description 操作 git 发布博客
  */
