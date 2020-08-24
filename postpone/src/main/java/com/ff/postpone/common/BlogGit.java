@@ -134,7 +134,7 @@ public class BlogGit {
         String fileName = StringUtil.subByLastIndex(blogUrl, "/", 3)
                 .substring(1)
                 .replace("/","-");
-        fileName = fileName.substring(0,fileName.length()-4) + ".md";
+        fileName = fileName.substring(0,fileName.length()-4) + "md";
 
         String filePath = Constans.BLOG_ROOT_DIR + "/" + fileName;
 
