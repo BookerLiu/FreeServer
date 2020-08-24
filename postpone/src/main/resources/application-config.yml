@@ -25,7 +25,8 @@ mailInfo:
 
 #博客配置 GitHub 个人博客
 blogInfo:
-  #这里提供了一个公共的(新注册了一个账号搭建的,怕把我原来的给封了💩️)  推荐使用自己搭建的GitHub Pages
+  #这里提供了一个公共的(新注册了一个账号搭建的,怕把我原来的给封了💩️)
+  #推荐使用自己搭建的GitHub Pages 多个博客文件同时提交,格式化为html可能用时较久  导致程序超时从而延期失败
   #格式: git@github.com:{用户名}/{用户名(全为小写)}.github.io.git
   uri: git@github.com:Demo-AD/demo-ad.github.io.git
   #仓库拉取到本地时的路径
