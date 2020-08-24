@@ -27,10 +27,11 @@ public class Postpone {
 
     private static final Logger log = LoggerFactory.getLogger(Postpone.class);
 
-    private static final Integer waitTime = 1000*60*10;
+    private static final Integer waitTime = 1000*60*5;
     private static final Integer maxWaitCount = 6;
 
     //这里建议设置为30分钟每次
+//    @Scheduled(cron = "0/30 * * * * ? ")
     @Scheduled(cron = "0 0/30 * * * ? ")
     public void postpone(){
         //获取所有云账号配置
@@ -41,6 +42,7 @@ public class Postpone {
                 .setHost(Profile.MAIL_SERVER_HOST)
                 .setPort(Profile.MAIL_SERVER_PORT)
                 .setPassword(Profile.MAIL_PASSWORD)
+                .setUsername(Profile.MAIL_USERNAME)
                 .setReceiveUser(Profile.MAIL_RECEIVE_USER)
                 .build();
 
@@ -51,6 +53,7 @@ public class Postpone {
         String cloudName = null;
         HttpClient httpClient;
         String ukLog = null;
+        String uKey = null;
         //循环检查免费服务器状态
         for (Map<String, String> serverInfo : cloudServers) {
             try{
@@ -59,13 +62,11 @@ public class Postpone {
                 type = serverInfo.get(Constans.CLOUD_TYPE);
                 cloudInfo = CloudInfo.getCloudInfo(type);
                 cloudName = cloudInfo.getCloudName();
-
                 ukLog = CommonCode.getUKLog(username, cloudName);
-
+                uKey = CommonCode.getUserKey(username, type);
 
                 //调用登录接口查看状态
                 String status = loginAndCheck(httpClient, mailUtil, serverInfo, cloudInfo);
-
                 if(status != null && "1".equals(status)){
                     //发送博客
                     String blogUrl = BlogGit.sendCustomBlogByType(type);
@@ -77,22 +78,26 @@ public class Postpone {
                         Thread.sleep(waitTime);
                         if(waitCount > maxWaitCount){
                             BlogGit.deleteBlog(blogUrl);
-                            mailUtil.sendMail("博客初始化失败",blogUrl);
+                            log.info("{}博客初始化失败:{}", ukLog,blogUrl);
+                            mailUtil.sendMail(ukLog+"博客初始化失败",blogUrl);
                             return;
                         }
                     }
 
                     //持久化至文件
-                    Map<String, String> map = Profile.userInfos.get(CommonCode.getUserKey(username, type));
-                    map.put("blogUrl", blogUrl);
-                    CommonCode.userInfosPermanent();
+                    Map<String, String> userInfo = Profile.userInfos.get(uKey);
+                    if(userInfo == null) userInfo = new HashMap<>();
+                    userInfo.put("blogUrl", blogUrl);
+                    CommonCode.userInfosPermanent(uKey, userInfo);
 
                     //生成截图
-                    boolean pic = createPic(blogUrl);
+                    boolean picCreated = createPic(blogUrl);
                     //如果创建成功 开始发送延期请求
-                    if(pic){
+                    if(picCreated){
                         postBlogInfo(httpClient, mailUtil, blogUrl, serverInfo, cloudInfo);
                     }else{
+                        log.info("{}网页截图生成失败:{}", ukLog,blogUrl);
+                        BlogGit.deleteBlog(blogUrl);
                         mailUtil.sendMail(cloudName+"账号:"+username+",网页截图生成失败", "blog Url: "+ blogUrl);
                     }
                 }
@@ -119,6 +124,8 @@ public class Postpone {
 
         //持久化信息
         Map<String, String> userInfo = Profile.userInfos.get(CommonCode.getUserKey(username, type));
+        //首次启动为null
+        if(userInfo == null) userInfo = new HashMap<>();
         String nextTime = userInfo.get(CloudData.NEXT_TIME);
 
         String ukLog = CommonCode.getUKLog(username, cloudName);
@@ -168,7 +175,7 @@ public class Postpone {
                         }
                         //持久化到文件
                         userInfo.put(CloudData.NEXT_TIME, next_time);
-                        CommonCode.userInfosPermanent();
+                        CommonCode.userInfosPermanent(CommonCode.getUserKey(username,type), userInfo);
                         log.info("{}未到审核期,下次审核开始时间:{}", ukLog, next_time);
                         break;
                     default :
@@ -195,7 +202,7 @@ public class Postpone {
         log.info("开始创建文件...");
         StringBuilder sb = new StringBuilder();
         String BLANK = "  ";
-        String osName = System.getProperty("os.name");
+        String osName = System.getProperty("os.name").toLowerCase();
 
         if(StringUtil.isEmpty(Profile.PJ_EXEC)){
             if(osName.contains("windows")){
