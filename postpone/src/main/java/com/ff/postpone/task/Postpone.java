@@ -25,8 +25,10 @@ import java.util.*;
 @Component
 public class Postpone {
 
-    private static Logger log = LoggerFactory.getLogger(Postpone.class);
+    private static final Logger log = LoggerFactory.getLogger(Postpone.class);
 
+    private static final Integer waitTime = 1000*60*10;
+    private static final Integer maxWaitCount = 6;
 
     //这里建议设置为30分钟每次
     @Scheduled(cron = "0 0/30 * * * ? ")
@@ -67,6 +69,19 @@ public class Postpone {
                 if(status != null && "1".equals(status)){
                     //发送博客
                     String blogUrl = BlogGit.sendCustomBlogByType(type);
+
+                    //检查博客是否被初始化
+                    int waitCount = 0;
+                    while (!CommonCode.isInitBlog(blogUrl)){
+                        waitCount ++;
+                        Thread.sleep(waitTime);
+                        if(waitCount > maxWaitCount){
+                            BlogGit.deleteBlog(blogUrl);
+                            mailUtil.sendMail("博客初始化失败",blogUrl);
+                            return;
+                        }
+                    }
+
                     //持久化至文件
                     Map<String, String> map = Profile.userInfos.get(CommonCode.getUserKey(username, type));
                     map.put("blogUrl", blogUrl);

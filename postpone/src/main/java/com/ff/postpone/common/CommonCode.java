@@ -3,14 +3,20 @@ package com.ff.postpone.common;
 
 import com.ff.postpone.constant.CloudData;
 import com.ff.postpone.constant.Constans;
+import com.ff.postpone.constant.Params;
 import com.ff.postpone.constant.Profile;
+import com.ff.postpone.util.HttpUtil;
 import com.ff.postpone.util.YamlUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,7 +31,7 @@ import java.util.Map;
 public class CommonCode {
 
 
-    private static Logger log = LoggerFactory.getLogger(CommonCode.class);
+    private static final Logger log = LoggerFactory.getLogger(CommonCode.class);
 
     /**
      * 检查是否到期  当前时间 > expireDate
@@ -106,6 +112,22 @@ public class CommonCode {
 
         }else{
             log.info("没有延期记录!!!");
+        }
+    }
+
+    /**
+     * 检查git是否将博客md文件格式化为 html
+     * @param blogUrl
+     * @return
+     */
+    public static boolean isInitBlog(String blogUrl) throws IOException, URISyntaxException {
+        HttpClient httpClient = HttpUtil.getHttpClient();
+        HttpGet httpGet = new HttpGet(blogUrl);
+        HttpResponse response = httpClient.execute(httpGet);
+        if(response.getStatusLine().getStatusCode() == 200){
+            return true;
+        }else{
+            return false;
         }
     }
 
