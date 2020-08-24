@@ -11,7 +11,7 @@ import java.util.Properties;
 /**
  * @Author Demo_Liu
  * @Date 2019/6/17 15:38
- * @description
+ * @description 邮件发送工具类
  */
 public class MailUtil {
 
