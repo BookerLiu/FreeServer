@@ -1,4 +1,3 @@
-
 #免费服务器地址 配置示例 配置多个别忘了copy "-"
 #username： 账号， password： 密码， type： 0 阿贝云， 1三丰云
 cloudServers:
@@ -46,7 +45,7 @@ phantomJs:
   picPath: /freeServer/phantomJsPic/postpone.png
 
 #系统配置
-#博客初始化等待次数
+#博客初始化等待次数 如果使用作者提供的公用仓库, 最好把初始化等待时间调大一点  建议为一个半小时以内
 blogInitWaitCount: 6
 #博客初始化等待时间(分钟)
 blogInitWaitTime: 5
