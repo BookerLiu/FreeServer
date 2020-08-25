@@ -43,6 +43,10 @@ public class Profile implements CommandLineRunner{
     public static String BLOG_USERNAME;
     public static String BLOG_URL;
 
+    //博客初始化配置
+    public static Integer BLOG_INIT_WAIT_COUNT;
+    public static Integer BLOG_INIT_WAIT_TIME;
+
     //phantomJs 配置
     public static String PJ_EXEC;
     public static String PJ_PIC_PATH;
@@ -115,5 +119,12 @@ public class Profile implements CommandLineRunner{
         PJ_PIC_PATH = pjPicPath;
     }
 
-
+    @Value("${blogInitWaitCount}")
+    public void setBlogInitWaitCount(Integer blogInitWaitCount) {
+        BLOG_INIT_WAIT_COUNT = blogInitWaitCount;
+    }
+    @Value("${blogInitWaitTime}")
+    public void setBlogInitWaitTime(Integer blogInitWaitTime) {
+        BLOG_INIT_WAIT_TIME = blogInitWaitTime;
+    }
 }

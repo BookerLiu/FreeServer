@@ -27,12 +27,11 @@ public class Postpone {
 
     private static final Logger log = LoggerFactory.getLogger(Postpone.class);
 
-    private static final Integer waitTime = 1000*60*5;
-    private static final Integer maxWaitCount = 6;
+    private static final Integer waitTime = 1000 * 60 * Profile.BLOG_INIT_WAIT_TIME;
 
     //这里建议设置为30分钟每次
-    @Scheduled(cron = "0/30 * * * * ? ")
-//    @Scheduled(cron = "0 0/30 * * * ? ")
+//    @Scheduled(cron = "0/30 * * * * ? ")
+    @Scheduled(cron = "0 0/30 * * * ? ")
     public void postpone(){
         //获取所有云账号配置
         List<Map<String, String>> cloudServers = Profile.cloudServers;
@@ -69,14 +68,18 @@ public class Postpone {
                 String status = loginAndCheck(httpClient, mailUtil, serverInfo, cloudInfo);
                 if(status != null && "1".equals(status)){
                     //发送博客
+                    log.info("{}开始发送延期博客", ukLog);
                     String blogUrl = BlogGit.sendCustomBlogByType(type);
 
                     //检查博客是否被初始化
+                    //先等20秒 如果还没有初始化成功 开始循环等待
+                    Thread.sleep(2000);
                     int waitCount = 0;
                     while (!CommonCode.isInitBlog(blogUrl)){
+                        log.info("{}延期博客未初始化,等待{}分钟", ukLog, Profile.BLOG_INIT_WAIT_TIME);
                         waitCount ++;
                         Thread.sleep(waitTime);
-                        if(waitCount > maxWaitCount){
+                        if(waitCount > Profile.BLOG_INIT_WAIT_COUNT){
                             BlogGit.deleteBlog(blogUrl);
                             log.info("{}博客初始化失败:{}", ukLog,blogUrl);
                             mailUtil.sendMail(ukLog+"博客初始化失败",blogUrl);
@@ -91,9 +94,11 @@ public class Postpone {
                     CommonCode.userInfosPermanent(uKey, userInfo);
 
                     //生成截图
+                    log.info("{}开始生成截图", ukLog);
                     boolean picCreated = createPic(blogUrl);
                     //如果创建成功 开始发送延期请求
                     if(picCreated){
+                        log.info("{}截图生成成功,开始提交", ukLog);
                         postBlogInfo(httpClient, mailUtil, blogUrl, serverInfo, cloudInfo);
                     }else{
                         log.info("{}网页截图生成失败:{}", ukLog,blogUrl);
@@ -266,7 +271,7 @@ public class Postpone {
 
         String ukLog = CommonCode.getUKLog(username, cloudName);
 
-        File file = FileUtil.deleteFile(Profile.PJ_PIC_PATH);
+        File file = new File(Profile.PJ_PIC_PATH);
 
         String postRes = HttpUtil.getPostRes(httpClient, cloudInfo.getBusUri(), Params.getBlogInfo(cloudInfo,file,blogUrl).build());
         JSONObject json = JSONObject.fromObject(postRes);
