@@ -51,6 +51,9 @@ public class Profile implements CommandLineRunner{
     public static String PJ_EXEC;
     public static String PJ_PIC_PATH;
 
+    //打包方式为jar时,资源文件存放路径
+    public static String JAR_RESOURCE_PATH;
+
     @Override
     public void run(String... args) throws Exception {
         //根据 BLOG_URI 生成 BLOG_URL
@@ -126,5 +129,9 @@ public class Profile implements CommandLineRunner{
     @Value("${blogInitWaitTime}")
     public void setBlogInitWaitTime(Integer blogInitWaitTime) {
         BLOG_INIT_WAIT_TIME = blogInitWaitTime;
+    }
+    @Value("${jarResourcePath}")
+    public void setJarResourcePath(String jarResourcePath) {
+        JAR_RESOURCE_PATH = jarResourcePath;
     }
 }

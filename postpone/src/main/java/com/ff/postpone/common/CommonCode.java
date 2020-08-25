@@ -72,7 +72,7 @@ public class CommonCode {
         Map<String,Map<String,Map<String,String>>> map = new HashMap();
         Profile.userInfos.put(uKey, userInfo);
         map.put("userInfos", Profile.userInfos);
-        YamlUtil.dump(map, Constans.PERSISTENT_FILE);
+        YamlUtil.dump(map, Constans.PERMANENT_FILE);
     }
 
 

@@ -21,33 +21,33 @@ public final class Constans {
     /**
      * 私钥文件路径名
      */
-    public final static String PRIVATE_KEY = RESOURCE_PATH + "key/id_rsa";
+    public static String PRIVATE_KEY = RESOURCE_PATH + "key/id_rsa";
 
     /**
      * 文章模板路径名
      */
-    public final static String MD_TEMPLATE =  RESOURCE_PATH +"static/template.md";
+    public static String MD_TEMPLATE =  RESOURCE_PATH +"static/template.md";
 
     /**
      * 持久化文件路径名
      */
-    public final static String PERSISTENT_FILE = RESOURCE_PATH + "application-permanent.yml";
+    public static String PERMANENT_FILE = RESOURCE_PATH + "application-permanent.yml";
 
 
     /**
      * 截图js 文件路径
      */
-    public final static String PIC_JS = RESOURCE_PATH + "phantomJs/js/GPBlog.js";
+    public static String PIC_JS = RESOURCE_PATH + "phantomJs/js/GPBlog.js";
 
     /**
      * window phantomjs 路径
      */
-    public final static String PJ_WIN = RESOURCE_PATH + "phantomJs/windows/phantomjs.exe";
+    public static String PJ_WIN = RESOURCE_PATH + "phantomJs/windows/phantomjs.exe";
 
     /**
      * linux phantomjs 路径
      */
-    public final static String PJ_LINUX_X86_64 = RESOURCE_PATH + "phantomJs/linux_x86_64/phantomjs";
+    public static String PJ_LINUX_X86_64 = RESOURCE_PATH + "phantomJs/linux_x86_64/phantomjs";
 
     /**
      * git 信息目录

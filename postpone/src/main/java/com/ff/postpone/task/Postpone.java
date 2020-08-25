@@ -30,7 +30,6 @@ public class Postpone {
     private static final Integer waitTime = 1000 * 60 * Profile.BLOG_INIT_WAIT_TIME;
 
     //这里建议设置为30分钟每次
-//    @Scheduled(cron = "0/30 * * * * ? ")
     @Scheduled(cron = "0 0/30 * * * ? ")
     public void postpone(){
         //获取所有云账号配置
