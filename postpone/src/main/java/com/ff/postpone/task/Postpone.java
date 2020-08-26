@@ -21,7 +21,7 @@ import java.util.*;
 /**
  * @Author Demo-Liu
  * @Date 2019/3/20 14:29
- * @description
+ * @description 执行定时任务
  */
 @DependsOn("profile")
 @Component
@@ -55,7 +55,7 @@ public class Postpone {
         String ukLog = null;
         String uKey = null;
         //循环检查免费服务器状态
-        for (Map<String, String> serverInfo : cloudServers) {
+        next: for (Map<String, String> serverInfo : cloudServers) {
             try{
                 httpClient = HttpUtil.getHttpClient(new BasicCookieStore());
                 username = serverInfo.get(Constans.CLOUD_USERNAME);
@@ -68,10 +68,11 @@ public class Postpone {
                 //调用登录接口查看状态
                 String status = loginAndCheck(httpClient, mailUtil, serverInfo, cloudInfo);
                 if(status != null && "1".equals(status)){
+                    mailUtil.sendMail(ukLog+"已到延期时间",ukLog+"开始执行延期程序...");
                     //发送博客
                     log.info("{}开始发送延期博客", ukLog);
                     String blogUrl = BlogGit.sendCustomBlogByType(type);
-
+                    log.info("{}发送延期博客url:{}", ukLog,blogUrl);
                     //检查博客是否被初始化
                     //先等20秒 如果还没有初始化成功 开始循环等待
                     Thread.sleep(2000);
@@ -79,13 +80,13 @@ public class Postpone {
                     while (!CommonCode.isInitBlog(blogUrl)){
                         log.info("{}延期博客未初始化,等待{}分钟", ukLog, Profile.BLOG_INIT_WAIT_TIME);
                         waitCount ++;
-                        Thread.sleep(waitTime);
                         if(waitCount > Profile.BLOG_INIT_WAIT_COUNT){
                             BlogGit.deleteBlog(blogUrl);
                             log.info("{}博客初始化失败:{}", ukLog,blogUrl);
                             mailUtil.sendMail(ukLog+"博客初始化失败",blogUrl);
-                            return;
+                            continue next;
                         }
+                        Thread.sleep(waitTime);
                     }
 
                     //持久化至文件
@@ -132,7 +133,7 @@ public class Postpone {
         Map<String, String> userInfo = Profile.userInfos.get(CommonCode.getUserKey(username, type));
         //首次启动为null
         if(userInfo == null) userInfo = new HashMap<>();
-        String nextTime = userInfo.get(CloudData.NEXT_TIME);
+        String nextTime = userInfo.get(CloudDataKey.NEXT_TIME);
 
         String ukLog = CommonCode.getUKLog(username, cloudName);
 
@@ -145,42 +146,42 @@ public class Postpone {
             JSONObject loginJson = JSONObject.fromObject(
                     HttpUtil.getPostRes(httpClient,
                             cloudInfo.getLoginUri(),
-                            Params.getYunLogin(username, password))
+                            CloudPostParams.getYunLogin(username, password))
             );
             log.info("{}登录接口返回:{}", ukLog, loginJson.toString());
 
-            if(CloudData.LOGIN_SUCCESS.equals(loginJson.getString(CloudData.LOGIN_STATUS))){
+            if(CloudDataKey.LOGIN_SUCCESS.equals(loginJson.getString(CloudDataKey.LOGIN_STATUS))){
                 //3. 登录成功 调用状态接口
                 log.info("{}登录成功,开始检查免费服务器状态!!!", ukLog);
                 JSONObject statusJson = JSONObject.fromObject(
                         HttpUtil.getPostRes(httpClient,
                                 cloudInfo.getBusUri(),
-                                Params.getFreeStatus()));
+                                CloudPostParams.getFreeStatus()));
                 log.info("{}检查服务器状态返回:{}", ukLog, statusJson.toString());
-                statusJson = statusJson.getJSONObject(CloudData.STATUS_DATA);
-                status = statusJson.containsKey(CloudData.DELAY_STATUS1) ? statusJson.getString(CloudData.DELAY_STATUS1) : statusJson.getString(CloudData.DELAY_STATUS2);
+                statusJson = statusJson.getJSONObject(CloudDataKey.STATUS_DATA);
+                status = statusJson.containsKey(CloudDataKey.DELAY_STATUS1) ? statusJson.getString(CloudDataKey.DELAY_STATUS1) : statusJson.getString(CloudDataKey.DELAY_STATUS2);
 
 
                 //审核状态接口
                 JSONObject checkJson = JSONObject.fromObject(
                         HttpUtil.getPostRes(httpClient,
                                 cloudInfo.getBusUri(),
-                                Params.getCheckStatus()));
+                                CloudPostParams.getCheckStatus()));
                 log.info("{}延期记录接口返回:{}", ukLog, checkJson.toString());
 
                 switch (status) {
                     case "1": //已到审核期
-                        CommonCode.checkCheckStatus(checkJson, ukLog, userInfo.get("blogUrl"));
+                        CommonCode.checkCheckStatus(checkJson, ukLog, userInfo.get("blogUrl"), mailUtil);
                         log.info("{},已到审核期!!!", ukLog);
                         break;
                     case "0": //未到审核期
-                        CommonCode.checkCheckStatus(checkJson, ukLog, userInfo.get("blogUrl"));
-                        String next_time = statusJson.getString(CloudData.NEXT_TIME);
-                        if(!next_time.equals(StringUtil.isEmpty(nextTime) ? "" : next_time)){
-                            mailUtil.sendMail(cloudName + "账号: "+username+"下次执行时间"+next_time, statusJson.toString());
-                        }
+                        CommonCode.checkCheckStatus(checkJson, ukLog, userInfo.get("blogUrl"), mailUtil);
+                        String next_time = statusJson.getString(CloudDataKey.NEXT_TIME);
+//                        if(!next_time.equals(StringUtil.isEmpty(nextTime) ? "" : next_time)){
+//                            mailUtil.sendMail(cloudName + "账号: "+username+"下次执行时间"+next_time, statusJson.toString());
+//                        }
                         //持久化到文件
-                        userInfo.put(CloudData.NEXT_TIME, next_time);
+                        userInfo.put(CloudDataKey.NEXT_TIME, next_time);
                         CommonCode.userInfosPermanent(CommonCode.getUserKey(username,type), userInfo);
                         log.info("{}未到审核期,下次审核开始时间:{}", ukLog, next_time);
                         break;
@@ -208,30 +209,17 @@ public class Postpone {
         log.info("开始创建文件...");
         StringBuilder sb = new StringBuilder();
         String BLANK = "  ";
-        String osName = System.getProperty("os.name").toLowerCase();
 
-        if(StringUtil.isEmpty(Profile.PJ_EXEC)){
-            if(osName.contains("windows")){
-                sb.append(Constans.PJ_WIN.substring(1)).append(BLANK)
-                        .append(Constans.PIC_JS.substring(1)).append(BLANK);
-            }else if(osName.contains("linux")){
-                sb.append(Constans.PJ_LINUX_X86_64).append(BLANK)
-                        .append(Constans.PIC_JS).append(BLANK);
-            }else{
-                log.info("未配置phantomJs: {}", osName);
-                throw new Exception("未配置phantomJs: "+osName);
-            }
-        }else{
-            sb.append(Profile.PJ_EXEC).append(BLANK);
-        }
-
-        sb.append(blogUrl).append(BLANK)
-        .append(Profile.PJ_PIC_PATH);
+        sb.append(Profile.PJ_EXEC).append(BLANK)
+                .append(ResourceAbPath.PIC_JS_ABPATH.substring(1)).append(BLANK)
+                .append(blogUrl).append(BLANK)
+                .append(Profile.PJ_PIC_PATH);
 
 
         //执行一次删除防止上次任务残留
         File file = FileUtil.deleteFile(Profile.PJ_PIC_PATH);
 
+        log.info("开始执行截图命令:{}", sb.toString());
         Runtime rt = Runtime.getRuntime();
         try {
             rt.exec(sb.toString());
@@ -274,11 +262,11 @@ public class Postpone {
 
         File file = new File(Profile.PJ_PIC_PATH);
 
-        String postRes = HttpUtil.getPostRes(httpClient, cloudInfo.getBusUri(), Params.getBlogInfo(cloudInfo,file,blogUrl).build());
+        String postRes = HttpUtil.getPostRes(httpClient, cloudInfo.getBusUri(), CloudPostParams.getBlogInfo(cloudInfo,file,blogUrl).build());
         JSONObject json = JSONObject.fromObject(postRes);
         log.info("{}提交延期记录返回结果: {}", ukLog, json.toString());
 
-        if(CloudData.BLOG_SUCCESS.equals(json.getString(CloudData.BLOG_STATUS))){
+        if(CloudDataKey.BLOG_SUCCESS.equals(json.getString(CloudDataKey.BLOG_STATUS))){
             log.info("{}提交延期记录成功!!!", ukLog);
         }else{
             log.info("{}提交延期记录失败,删除发布博客!!!", ukLog);
