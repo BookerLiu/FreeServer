@@ -6,6 +6,7 @@ import com.ff.postpone.constant.Constans;
 import com.ff.postpone.constant.Params;
 import com.ff.postpone.constant.Profile;
 import com.ff.postpone.util.HttpUtil;
+import com.ff.postpone.util.MailUtil;
 import com.ff.postpone.util.YamlUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -83,7 +84,7 @@ public class CommonCode {
      * @param ukLog 用户日志key
      * @throws Exception
      */
-    public static void checkCheckStatus(JSONObject json, String ukLog, String blogUrl) throws Exception {
+    public static void checkCheckStatus(JSONObject json, String ukLog, String blogUrl, MailUtil mailUtil) throws Exception {
 
         json = JSONObject.fromObject(json.getString(CloudData.CHECK_MSG));
 
@@ -95,20 +96,24 @@ public class CommonCode {
             String url = json.getString(CloudData.CHECK_URL);
             boolean delete = false;
 
-            switch (state) {
-                case CloudData.CHECK_ING:
-                    log.info("{}审核中,无需审核!!!", ukLog);
-                    break;
-                case CloudData.CHECK_SUCCESS:
-                    delete = true;
-                    log.info("{}审核通过!!!", ukLog);
-                    break;
-                default:
-                    delete = true;
-                    log.info("{}审核失败,审核结果:{}", ukLog, state);
+            if(blogUrl!=null && blogUrl.equals(url)){
+                switch (state) {
+                    case CloudData.CHECK_ING:
+                        log.info("{}审核中,无需审核!!!", ukLog);
+                        break;
+                    case CloudData.CHECK_SUCCESS:
+                        delete = true;
+                        log.info("{}审核通过!!!", ukLog);
+                        mailUtil.sendMail(ukLog+"审核通过","审核通过");
+                        break;
+                    default:
+                        delete = true;
+                        log.info("{}审核失败,审核结果:{}", ukLog, state);
+                        mailUtil.sendMail(ukLog+"审核失败",state);
+                }
             }
             //删除博客
-            if(delete && blogUrl!=null && blogUrl.equals(url)) BlogGit.deleteBlog(blogUrl);
+            if(delete) BlogGit.deleteBlog(blogUrl);
 
         }else{
             log.info("没有延期记录!!!");
