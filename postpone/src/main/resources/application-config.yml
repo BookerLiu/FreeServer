@@ -2,12 +2,12 @@
 #username： 账号， password： 密码， type： 0 阿贝云， 1三丰云
 cloudServers:
   -
-    username: 13185888688
-    password: 13465789
+    username: 13185888888
+    password: 132465789
     type: 0
   -
-    username: 13185888688
-    password: 13465789
+    username: 13185888888
+    password: 132465789
     type: 1
 #  -
 #    username: 13111001111
@@ -20,7 +20,7 @@ mailInfo:
   #邮件服务器  作者使用的QQ邮箱，
   serverHost: smtp.qq.com
   serverPort: 465
-  username: 132456789@qq.com
+  username: 123456789@qq.com
   #使用QQ邮箱注意,这里的密码并不是QQ邮箱密码  需要自己开启smtp服务器,QQ邮箱会给你一串密码
   password: bpmgyuujdcpcjfbb
   #收件人邮箱  这里我用的QQ邮箱,关注公众号,微信可以直接收到通知
