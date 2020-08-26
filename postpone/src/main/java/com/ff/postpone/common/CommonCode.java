@@ -123,11 +123,9 @@ public class CommonCode {
         HttpClient httpClient = HttpUtil.getHttpClient();
         HttpGet httpGet = new HttpGet(blogUrl);
         HttpResponse response = httpClient.execute(httpGet);
-        if(response.getStatusLine().getStatusCode() == 200){
-            return true;
-        }else{
-            return false;
-        }
+        int statusCode = response.getStatusLine().getStatusCode();
+        log.info("{}链接发送get请求返回:{}", blogUrl,statusCode);
+        return  statusCode == 200;
     }
 
 
