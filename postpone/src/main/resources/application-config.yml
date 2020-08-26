@@ -2,11 +2,12 @@
 #username： 账号， password： 密码， type： 0 阿贝云， 1三丰云
 cloudServers:
   -
-    username: 13111001111
-    password: 1345678
+    username: 13185888688
+    password: 13465789
     type: 0
-  - username: 13111001111
-    password: 12345678
+  -
+    username: 13185888688
+    password: 13465789
     type: 1
 #  -
 #    username: 13111001111
@@ -19,11 +20,11 @@ mailInfo:
   #邮件服务器  作者使用的QQ邮箱，
   serverHost: smtp.qq.com
   serverPort: 465
-  username: 123456@qq.com
+  username: 132456789@qq.com
   #使用QQ邮箱注意,这里的密码并不是QQ邮箱密码  需要自己开启smtp服务器,QQ邮箱会给你一串密码
   password: bpmgyuujdcpcjfbb
   #收件人邮箱  这里我用的QQ邮箱,关注公众号,微信可以直接收到通知
-  receiveUser: 123456@qq.com
+  receiveUser: 123456789@qq.com
 
 
 #博客配置 GitHub 个人博客
@@ -33,7 +34,7 @@ blogInfo:
   #格式: git@github.com:{用户名}/{用户名(全为小写)}.github.io.git
   uri: git@github.com:Demo-AD/demo-ad.github.io.git
   #仓库拉取到本地时的路径
-  localPath: /freeServer/repo/
+  localPath: /freeServer/repo
   #如果使用我提供的GitHub Pages,这里最好填写你的github用户名 可以防止发布文章地址冲突
   username: Demo-Liu
 
@@ -45,7 +46,10 @@ phantomJs:
   picPath: /freeServer/phantomJsPic/postpone.png
 
 #系统配置
-#博客初始化等待次数 如果使用作者提供的公用仓库, 最好把初始化等待时间调大一点  建议为一个半小时以内
-blogInitWaitCount: 6
+#博客初始化等待次数 如果使用作者提供的公用仓库, 最好把初始化等待时间调大一点  建议为半小时以内
+blogInitWaitCount: 10
 #博客初始化等待时间(分钟)
-blogInitWaitTime: 5
+blogInitWaitTime: 1
+
+#资源文件提取路径
+resourceTempFilePath: /freeServer/resource
