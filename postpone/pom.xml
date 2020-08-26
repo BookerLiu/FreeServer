@@ -134,16 +134,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!--mybatis generator插件-->
-            <plugin>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-maven-plugin</artifactId>
-                <version>1.3.5</version>
-                <configuration>
-                    <verbose>true</verbose>
-                    <overwrite>true</overwrite>
-                </configuration>
-            </plugin>
             <!-- 编译插件，指定编译用的jdk版本 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -171,6 +161,7 @@
                     <include>**/*.xml</include>
                     <include>**/*.properties</include>
                     <include>**/*.js</include>
+                    <include>**/*.7z</include>
                 </includes>
                 <!-- 是否替换资源中的属性-->
                 <filtering>false</filtering>
