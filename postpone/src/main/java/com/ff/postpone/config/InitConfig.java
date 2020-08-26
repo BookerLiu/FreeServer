@@ -31,7 +31,7 @@ public class InitConfig implements CommandLineRunner {
     public void run(String... args) throws Exception {
         String protocol = InitConfig.class.getResource("").getProtocol();
         String osName = System.getProperty("os.name").toLowerCase();
-
+        log.info("======================================项目初始化开始======================================");
         if(StringUtil.isEmpty(Profile.PJ_EXEC)){
             log.info("phantomjs.7z 压缩文件提取...");
             String resourcePath;
@@ -84,6 +84,8 @@ public class InitConfig implements CommandLineRunner {
             log.info("赋予phantomjs可执行权限...");
             Runtime.getRuntime().exec("chmod 777 " + Profile.PJ_EXEC);
         }
+
+        log.info("======================================项目初始化完毕======================================");
     }
 
 
