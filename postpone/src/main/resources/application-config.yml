@@ -2,13 +2,13 @@
 #username： 账号， password： 密码， type： 0 阿贝云， 1三丰云
 cloudServers:
   -
-    username: 13185888888
-    password: 132465789
+    username: 13157888888
+    password: 13245678
     type: 0
   -
-    username: 13185888888
-    password: 132465789
-    type: 1
+    username: 13157888888
+    password: 13245678
+    type: 0
 #  -
 #    username: 13111001111
 #    password: 123456789
@@ -46,6 +46,9 @@ phantomJs:
   picPath: /freeServer/phantomJsPic/postpone.png
 
 #系统配置
+#任务执行频率 cron表达式 仅在启动前配置生效  建议设置为30分钟每次 0 0/30 * * * ?
+taskCron: 0 0/1 * * * ?
+
 #博客初始化等待次数 如果使用作者提供的公用仓库, 最好把初始化等待时间调大一点  建议为半小时以内
 blogInitWaitCount: 10
 #博客初始化等待时间(分钟)
