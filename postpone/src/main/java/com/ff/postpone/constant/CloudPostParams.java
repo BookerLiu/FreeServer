@@ -19,9 +19,9 @@ import java.util.Map;
  * @create 2020-08-03 11:17
  * @description 接口参数
  */
-public class Params {
+public class CloudPostParams {
 
-    private Params(){}
+    private CloudPostParams(){}
     /**
      * 获取云登录参数
      * @param username 账号

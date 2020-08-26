@@ -5,7 +5,7 @@ package com.ff.postpone.constant;
  * @create 2020-08-05 16:30
  * @description 请求返回参数 key
  */
-public class CloudData {
+public class CloudDataKey {
 
     /**
      * 登录接口返回
