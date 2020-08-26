@@ -1,10 +1,7 @@
 package com.ff.postpone.common;
 
 
-import com.ff.postpone.constant.CloudData;
-import com.ff.postpone.constant.Constans;
-import com.ff.postpone.constant.Params;
-import com.ff.postpone.constant.Profile;
+import com.ff.postpone.constant.*;
 import com.ff.postpone.util.HttpUtil;
 import com.ff.postpone.util.MailUtil;
 import com.ff.postpone.util.YamlUtil;
@@ -74,7 +71,7 @@ public class CommonCode {
         Map<String,Map<String,Map<String,String>>> map = new HashMap();
         Profile.userInfos.put(uKey, userInfo);
         map.put("userInfos", Profile.userInfos);
-        YamlUtil.dump(map, Constans.PERMANENT_FILE);
+        YamlUtil.dump(map, ResourceAbPath.PERMANENT_ABPATH);
     }
 
 
@@ -86,22 +83,22 @@ public class CommonCode {
      */
     public static void checkCheckStatus(JSONObject json, String ukLog, String blogUrl, MailUtil mailUtil) throws Exception {
 
-        json = JSONObject.fromObject(json.getString(CloudData.CHECK_MSG));
+        json = JSONObject.fromObject(json.getString(CloudDataKey.CHECK_MSG));
 
-        JSONArray array = JSONArray.fromObject(json.getString(CloudData.CHECK_DATA));
+        JSONArray array = JSONArray.fromObject(json.getString(CloudDataKey.CHECK_DATA));
         if(array.size()>0){
 
             json = JSONObject.fromObject(array.get(0));
-            String state = json.getString(CloudData.CHECK_STATUS);
-            String url = json.getString(CloudData.CHECK_URL);
+            String state = json.getString(CloudDataKey.CHECK_STATUS);
+            String url = json.getString(CloudDataKey.CHECK_URL);
             boolean delete = false;
 
             if(blogUrl!=null && blogUrl.equals(url)){
                 switch (state) {
-                    case CloudData.CHECK_ING:
+                    case CloudDataKey.CHECK_ING:
                         log.info("{}审核中,无需审核!!!", ukLog);
                         break;
-                    case CloudData.CHECK_SUCCESS:
+                    case CloudDataKey.CHECK_SUCCESS:
                         delete = true;
                         log.info("{}审核通过!!!", ukLog);
                         mailUtil.sendMail(ukLog+"审核通过","审核通过");
@@ -128,7 +125,7 @@ public class CommonCode {
     public static boolean isInitBlog(String blogUrl) throws IOException {
         HttpClient httpClient = HttpUtil.getHttpClient();
         HttpGet httpGet = new HttpGet(blogUrl);
-        Map<String, String> pubHeader = Params.getPubHeader();
+        Map<String, String> pubHeader = CloudPostParams.getPubHeader();
         for (String s : pubHeader.keySet()) {
             httpGet.setHeader(s,pubHeader.get(s));
         }
@@ -141,6 +138,10 @@ public class CommonCode {
         int statusCode = response.getStatusLine().getStatusCode();
         log.info("{}链接发送get请求返回:{}", blogUrl,statusCode);
         return  statusCode == 200;
+    }
+
+    public static void main(String[] args) throws IOException {
+        System.out.println(isInitBlog("https://demo-ad.github.io/2020/08/26/Demo-Liu_7368987.html"));
     }
 
 
