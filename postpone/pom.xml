@@ -104,11 +104,25 @@
             <version>2.7</version>
         </dependency>
 
+<!--        操作 yml 文件-->
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.26</version>
         </dependency>
+
+        <!-- 解压文件 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.20</version>
+        </dependency>
+        <dependency>
+            <groupId>org.tukaani</groupId>
+            <artifactId>xz</artifactId>
+            <version>1.8</version>
+        </dependency>
+
 
 
     </dependencies>

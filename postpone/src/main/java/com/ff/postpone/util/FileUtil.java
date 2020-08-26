@@ -1,6 +1,12 @@
 package com.ff.postpone.util;
 
+import com.ff.postpone.config.InitConfig;
+import org.apache.commons.compress.archivers.sevenz.SevenZArchiveEntry;
+import org.apache.commons.compress.archivers.sevenz.SevenZFile;
+import org.apache.commons.io.FileUtils;
+
 import java.io.*;
+import java.nio.file.Files;
 import java.util.Map;
 import java.util.Set;
 
@@ -106,5 +112,34 @@ public class FileUtil {
             file.delete();
         }
         return file;
+    }
+
+    /**
+     * copy资源文件夹中文件至新的路径
+     * @param resourcePath 资源文件领
+     * @param file 新的文件
+     * @throws IOException
+     */
+    public static void copyResourceToFile(String resourcePath, File file) throws IOException {
+        if(!file.exists()){
+            FileUtils.copyToFile(InitConfig.class.getResourceAsStream(resourcePath), file);
+        }
+    }
+
+    /**
+     * 解压7z压缩包
+     * @param filePath 压缩包文件路径
+     * @param outPath 输出文件路径
+     */
+    public static void un7z(String filePath, String outPath) throws IOException {
+        SevenZFile sevenZFile = new SevenZFile(new File(filePath));
+        SevenZArchiveEntry entry;
+        while ((entry = sevenZFile.getNextEntry()) != null) {
+            File file = new File(outPath + File.separator + entry.getName());
+            Files.createDirectories(new File(outPath).toPath());
+            byte[] content = new byte[(int) entry.getSize()];
+            sevenZFile.read(content);
+            Files.write(file.toPath(), content);
+        }
     }
 }
