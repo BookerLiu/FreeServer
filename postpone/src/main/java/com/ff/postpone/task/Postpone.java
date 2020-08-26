@@ -10,6 +10,7 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,7 @@ import java.util.*;
  * @Date 2019/3/20 14:29
  * @description
  */
+@DependsOn("profile")
 @Component
 public class Postpone {
 
