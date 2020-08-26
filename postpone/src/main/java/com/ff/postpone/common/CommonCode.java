@@ -140,10 +140,4 @@ public class CommonCode {
         return  statusCode == 200;
     }
 
-    public static void main(String[] args) throws IOException {
-        System.out.println(isInitBlog("https://demo-ad.github.io/2020/08/26/Demo-Liu_7368987.html"));
-    }
-
-
-
 }
