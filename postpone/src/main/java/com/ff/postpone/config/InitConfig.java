@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,13 +21,14 @@ import java.util.Map;
  * @description 用于打包jar时 将资源文件提取至缓存目录
  */
 @Component
-public class JarFileConfig implements CommandLineRunner {
+public class InitConfig implements CommandLineRunner {
 
-    private static final Logger log = LoggerFactory.getLogger(JarFileConfig.class);
+    private static final Logger log = LoggerFactory.getLogger(InitConfig.class);
 
     @Override
     public void run(String... args) throws Exception {
-        String protocol = JarFileConfig.class.getResource("").getProtocol();
+        String protocol = InitConfig.class.getResource("").getProtocol();
+        String osName = System.getProperty("os.name").toLowerCase();
         if("jar".equals(protocol)){
             log.info("打包方式为jar,开始提取资源文件...");
 
@@ -43,7 +43,6 @@ public class JarFileConfig implements CommandLineRunner {
 
             if(StringUtil.isEmpty(Profile.PJ_EXEC)){
                 log.info("phantomjs 文件提取...");
-                String osName = System.getProperty("os.name").toLowerCase();
                 String resourcePath;
                 if(osName.contains("windows")){
                     resourcePath = "/phantomJs/windows/phantomjs.exe";
@@ -77,6 +76,15 @@ public class JarFileConfig implements CommandLineRunner {
             }
             log.info("jar包资源文件提取完毕...");
         }
+
+        if(osName.contains("linux")){
+            log.info("赋予phantomjs可执行权限...");
+            if(StringUtil.isEmpty(Profile.PJ_EXEC)){
+                Runtime.getRuntime().exec("chmod 777 " + Constans.PJ_LINUX_X86_64);
+            }else{
+                Runtime.getRuntime().exec("chmod 777 " + Profile.PJ_EXEC);
+            }
+        }
     }
 
     /**
@@ -87,7 +95,7 @@ public class JarFileConfig implements CommandLineRunner {
      */
     private void copyToFile(String resourcePath, File file) throws IOException {
         if(!file.exists()){
-            FileUtils.copyToFile(JarFileConfig.class.getResourceAsStream(resourcePath), file);
+            FileUtils.copyToFile(InitConfig.class.getResourceAsStream(resourcePath), file);
         }
     }
 }
