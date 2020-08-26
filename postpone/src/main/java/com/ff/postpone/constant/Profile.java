@@ -131,7 +131,7 @@ public class Profile implements CommandLineRunner{
         BLOG_INIT_WAIT_TIME = blogInitWaitTime;
     }
     @Value("${resourceTempFilePath}")
-    public static void setResourceTempFilepath(String resourceTempFilepath) {
+    public void setResourceTempFilepath(String resourceTempFilepath) {
         RESOURCE_TEMP_FILEPATH = resourceTempFilepath;
     }
 }
