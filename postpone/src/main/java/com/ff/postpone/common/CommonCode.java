@@ -3,6 +3,7 @@ package com.ff.postpone.common;
 
 import com.ff.postpone.constant.CloudData;
 import com.ff.postpone.constant.Constans;
+import com.ff.postpone.constant.Params;
 import com.ff.postpone.constant.Profile;
 import com.ff.postpone.util.HttpUtil;
 import com.ff.postpone.util.YamlUtil;
@@ -10,12 +11,12 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -119,9 +120,18 @@ public class CommonCode {
      * @param blogUrl 博客url
      * @return
      */
-    public static boolean isInitBlog(String blogUrl) throws IOException, URISyntaxException {
+    public static boolean isInitBlog(String blogUrl) throws IOException {
         HttpClient httpClient = HttpUtil.getHttpClient();
         HttpGet httpGet = new HttpGet(blogUrl);
+        Map<String, String> pubHeader = Params.getPubHeader();
+        for (String s : pubHeader.keySet()) {
+            httpGet.setHeader(s,pubHeader.get(s));
+        }
+        httpGet.setConfig(RequestConfig.custom()
+                .setConnectTimeout(60000)
+                .setSocketTimeout(60000)
+                .setConnectionRequestTimeout(60000)
+                .build());
         HttpResponse response = httpClient.execute(httpGet);
         int statusCode = response.getStatusLine().getStatusCode();
         log.info("{}链接发送get请求返回:{}", blogUrl,statusCode);
