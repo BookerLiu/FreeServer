@@ -1,13 +1,10 @@
 package com.ff.postpone.common;
 
-import com.ff.postpone.constant.CloudInfo;
-import com.ff.postpone.constant.Constans;
-import com.ff.postpone.constant.Profile;
+import com.ff.postpone.constant.*;
 import com.ff.postpone.util.FileUtil;
 import com.ff.postpone.util.StringUtil;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -67,7 +64,7 @@ public class BlogGit {
         //创建新的blog
         String newBlogFilePath = Profile.BLOG_LOCAL_PATH+"/"+Constans.BLOG_ROOT_DIR+"/"+fileName;
         File newBlogFile = new File(newBlogFilePath);
-        FileUtils.copyFile(new File(Constans.MD_TEMPLATE), newBlogFile);
+        FileUtil.copyResourceToFile(ResourcePath.MD_TEMPLATE_PATH, newBlogFile);
 
         Map<String,String> map = new HashMap<>();
 
@@ -158,7 +155,7 @@ public class BlogGit {
             protected JSch createDefaultJSch(FS fs) throws JSchException {
                 JSch jsch = super.createDefaultJSch(fs);
                 jsch.removeAllIdentity();
-                jsch.addIdentity(Constans.PRIVATE_KEY);
+                jsch.addIdentity(ResourceAbPath.PRIVATE_KEY_ABPATH);
                 return jsch;
             }
         };
