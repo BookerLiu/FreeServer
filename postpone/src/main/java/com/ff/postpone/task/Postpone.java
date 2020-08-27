@@ -210,7 +210,7 @@ public class Postpone {
         String BLANK = "  ";
 
         sb.append(Profile.PJ_EXEC).append(BLANK)
-                .append(ResourceAbPath.PIC_JS_ABPATH.substring(1)).append(BLANK)
+                .append(ResourceAbPath.PIC_JS_ABPATH).append(BLANK)
                 .append(blogUrl).append(BLANK)
                 .append(Profile.PJ_PIC_PATH);
 
