@@ -58,7 +58,7 @@ JDK1.8 + SpringBoot + [PhantomJS](http://phantomjs.org/download.html)
   ```
   3.修改完毕后依次执行以下命令回车退出jar包
   ```
-  wq!
+  :wq!
   ```
   
   
