@@ -17,18 +17,18 @@ JDK1.8 + SpringBoot + [PhantomJS](http://phantomjs.org/download.html)
 ![postpone](https://github.com/Demo-Liu/MyPicture/raw/master/FreeServer%E5%BB%B6%E6%9C%9F2.0.png)
 # 部署
   **2.0 使用 GitHub Pages 进行发布博客,我提供了一个公共的仓库(已在配置文件中)进行发布博客,但推荐使用自己搭建的GitHub Pages,使用公用仓库发布博客,可能由于博客初始化过久而导致程序超时,审核失败**  
-  - **1.JDK1.8**
+  - **1.JDK1.8**  
   这个不多说了,基础的运行环境
-  - **2.申请三丰云或阿贝云免费服务器**
+  - **2.申请三丰云或阿贝云免费服务器**  
   [阿贝云](http://www.abeiyun.com/free/) [三丰云](https://www.sanfengyun.com/)
-  注册完账号后 进入**控制台**, 点击 **产品-->免费产品-->免费云服务器**
+  注册完账号后 进入**控制台**, 点击 **产品-->免费产品-->免费云服务器**  
   ![](https://github.com/Demo-Liu/MyPicture/raw/master/FreeServer/%E7%94%B3%E8%AF%B7%E6%AD%A5%E9%AA%A4.png)
-  - **3.搭建个人博客(可选),推荐使用个人博客**  
+  - **3.搭建个人博客(可选),推荐使用个人博客**    
   为了照顾懒癌晚期的朋友,你只需要 Fork 这个仓库即可-->[demo-liu.github.io](https://github.com/Demo-Liu/demo-liu.github.io)  
   **记得仔细看一看其中READEME**,其中包含了搭建个人博客和生成ssh key的详细步骤,这里不再一一赘述
-  - **4.指定application-config.yml配置**  
+  - **4.指定application-config.yml配置**    
   在项目application-config.yml中配置你的**云账号密码**,**邮箱**,**个人博客地址**等配置
-  - **5.发布运行项目**  
+  - **5.发布运行项目**    
   项目默认打包方式为jar,可以自行更改  
   jar包运行方式 如下 **xxx.log** 为指定的日志输出文件
   ```
