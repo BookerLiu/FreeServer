@@ -95,9 +95,9 @@ public class InitConfig implements CommandLineRunner {
             String sysInfo = CmdUtil.execCmd(cmd).toLowerCase();
             log.info("系统版本为:{}", sysInfo);
             if(sysInfo.contains("ubuntu")){
-                cmd = "apt-get install -y fontconfig freetype freetype-devel fontconfig-devel libstdc++";
+                cmd = "apt-get install -y fontconfig freetype freetype-devel fontconfig-devel libstdc++ xfonts-wqy";
             }else{
-                cmd = "yum install -y fontconfig freetype freetype-devel fontconfig-devel libstdc++";
+                cmd = "yum install -y fontconfig freetype freetype-devel fontconfig-devel libstdc++ bitmap-fonts bitmap-fonts-cjk";
             }
             log.info("安装phantomjs运行环境:{}" , cmd);
             CmdUtil.execCmd(cmd);
