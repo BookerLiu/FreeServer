@@ -3,6 +3,7 @@ package com.ff.postpone.config;
 import com.ff.postpone.constant.Profile;
 import com.ff.postpone.constant.ResourceAbPath;
 import com.ff.postpone.constant.ResourcePath;
+import com.ff.postpone.util.CmdUtil;
 import com.ff.postpone.util.FileUtil;
 import com.ff.postpone.util.StringUtil;
 import com.ff.postpone.util.YamlUtil;
@@ -81,8 +82,22 @@ public class InitConfig implements CommandLineRunner {
         }
 
         if(osName.contains("linux")){
-            log.info("赋予phantomjs可执行权限...");
-            Runtime.getRuntime().exec("chmod 777 " + Profile.PJ_EXEC);
+            String cmd = "chmod 777 " + Profile.PJ_EXEC;
+            log.info("赋予phantomjs可执行权限: {}", cmd);
+            Runtime runtime = Runtime.getRuntime();
+            runtime.exec(cmd);
+
+            cmd = "cat /etc/issue";
+            log.info("获取系统版本信息:{}" ,cmd);
+            String sysInfo = CmdUtil.execCmd(cmd).toLowerCase();
+            log.info("系统版本为:{}", sysInfo);
+            if(sysInfo.contains("ubuntu")){
+                cmd = "apt-get install -y fontconfig freetype freetype-devel fontconfig-devel libstdc++";
+            }else{
+                cmd = "yum install -y fontconfig freetype freetype-devel fontconfig-devel libstdc++";
+            }
+            log.info("安装phantomjs运行环境:{}" , cmd);
+            CmdUtil.execCmd(cmd);
         }
 
         log.info("======================================项目初始化完毕======================================");
