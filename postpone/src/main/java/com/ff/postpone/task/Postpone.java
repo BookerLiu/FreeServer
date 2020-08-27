@@ -219,9 +219,8 @@ public class Postpone {
         File file = FileUtil.deleteFile(Profile.PJ_PIC_PATH);
 
         log.info("开始执行截图命令:{}", sb.toString());
-        Runtime rt = Runtime.getRuntime();
         try {
-            rt.exec(sb.toString());
+            CmdUtil.execCmd(sb.toString());
             Thread.sleep(20000);
             int i = 0;
             while(!file.exists()){
