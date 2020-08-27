@@ -32,7 +32,7 @@ JDK1.8 + SpringBoot + [PhantomJS](http://phantomjs.org/download.html)
   项目默认打包方式为jar,可以自行更改  
   jar包运行方式 如下 **xxx.log** 为指定的日志输出文件
   ```
-  nohup java -jar postpone.jar > xxx.log > 2>&1 &
+  nohup java -jar postpone.jar > xxx.log 2>&1 &
   ```  
     
       
