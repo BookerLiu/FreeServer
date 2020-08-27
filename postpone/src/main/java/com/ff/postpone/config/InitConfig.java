@@ -51,10 +51,10 @@ public class InitConfig implements CommandLineRunner {
             FileUtil.copyResourceToFile(resourcePath, pj7z);
 
             String pj7zPath = pj7z.getAbsolutePath();
-            pj7zPath = pj7zPath.substring(0, pj7zPath.lastIndexOf(File.separator));
+            String pjExecPath = pj7zPath.substring(0, pj7zPath.lastIndexOf(File.separator));
 
-            FileUtil.un7z(pj7zPath, pj7zPath);
-            Profile.PJ_EXEC = pj7zPath + pjName;
+            FileUtil.un7z(pj7zPath, pjExecPath);
+            Profile.PJ_EXEC = pjExecPath + pjName;
         }
 
         if("jar".equals(protocol)){
@@ -94,15 +94,20 @@ public class InitConfig implements CommandLineRunner {
             log.info("获取系统版本信息:{}" ,cmd);
             String sysInfo = CmdUtil.execCmd(cmd).toLowerCase();
             log.info("系统版本为:{}", sysInfo);
+            log.info("安装phantomjs运行环境");
             if(sysInfo.contains("ubuntu")){
-                cmd = "apt-get install -y fontconfig freetype freetype-devel fontconfig-devel libstdc++ xfonts-wqy";
+                CmdUtil.execCmd("sudo apt-get install fontconfig -y");
+                CmdUtil.execCmd("sudo apt-get install libfontconfig -y");
+                CmdUtil.execCmd("sudo apt-get install freetype -y");
+                CmdUtil.execCmd("sudo apt-get install freetype-devel -y");
+                CmdUtil.execCmd("sudo apt-get install fontconfig-devel -y");
+                CmdUtil.execCmd("sudo apt-get install libstdc++ -y");
+                CmdUtil.execCmd("sudo apt-get install xfonts-wqy -y");
             }else{
-                cmd = "yum install -y fontconfig freetype freetype-devel fontconfig-devel libstdc++ bitmap-fonts bitmap-fonts-cjk";
+                cmd = "yum install -y fontconfig libfontconfig freetype freetype-devel fontconfig-devel libstdc++ bitmap-fonts bitmap-fonts-cjk";
+                CmdUtil.execCmd(cmd);
             }
-            log.info("安装phantomjs运行环境:{}" , cmd);
-            CmdUtil.execCmd(cmd);
         }
-
         log.info("======================================项目初始化完毕======================================");
     }
 
