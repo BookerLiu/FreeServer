@@ -11,7 +11,7 @@ public class ResourceAbPath {
     /**
      * resources 目录路径
      */
-    private final static String RESOURCE_PATH = CommonCode.class.getResource("").getPath();
+    private final static String RESOURCE_PATH = CommonCode.class.getResource("/").getPath();
 
 
     /**
@@ -28,5 +28,6 @@ public class ResourceAbPath {
      * 持久化文件
      */
     public static String PERMANENT_ABPATH = RESOURCE_PATH + ResourcePath.PERMANENT_PATH;
+
 
 }
