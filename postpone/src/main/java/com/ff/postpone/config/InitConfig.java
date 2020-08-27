@@ -68,7 +68,13 @@ public class InitConfig implements CommandLineRunner {
             log.info("截图js文件提取...");
             File jsFIle = new File(Profile.RESOURCE_TEMP_FILEPATH + ResourcePath.PIC_JS_PATH);
             FileUtil.copyResourceToFile(ResourcePath.PIC_JS_PATH, jsFIle);
-            ResourceAbPath.PIC_JS_ABPATH = jsFIle.getAbsolutePath();
+            //由于windows 获取的路径会在盘符前加上 /  如:/D:/1.txt 这种方式 java File可以识别
+            //但是 windows cmd 窗口会找不到文件所以 如果是windows 前面要去掉 /
+            if(osName.contains("windows")){
+                ResourceAbPath.PIC_JS_ABPATH = jsFIle.getAbsolutePath().substring(1);
+            }else{
+                ResourceAbPath.PIC_JS_ABPATH = jsFIle.getAbsolutePath();
+            }
 
             log.info("持久化文件提取...");
             File permanentFile = new File(Profile.RESOURCE_TEMP_FILEPATH + ResourcePath.PERMANENT_PATH);
@@ -108,6 +114,7 @@ public class InitConfig implements CommandLineRunner {
                 CmdUtil.execCmd(cmd);
             }
         }
+
         log.info("======================================项目初始化完毕======================================");
     }
 
