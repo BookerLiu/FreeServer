@@ -49,9 +49,12 @@ public class InitConfig implements CommandLineRunner {
             }
             File pj7z = new File(Profile.RESOURCE_TEMP_FILEPATH+resourcePath);
             FileUtil.copyResourceToFile(resourcePath, pj7z);
+
             String pj7zPath = pj7z.getAbsolutePath();
-            FileUtil.un7z(pj7zPath, pj7zPath.substring(0, pj7zPath.lastIndexOf(File.separator)));
-            Profile.PJ_EXEC = pj7zPath.lastIndexOf("/") + pjName;
+            pj7zPath = pj7zPath.substring(0, pj7zPath.lastIndexOf(File.separator));
+
+            FileUtil.un7z(pj7zPath, pj7zPath);
+            Profile.PJ_EXEC = pj7zPath + pjName;
         }
 
         if("jar".equals(protocol)){
