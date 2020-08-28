@@ -1,9 +1,18 @@
-这里说一下运行这个项目需要哪些配置
-PS:你可以新申请一个CSDN账号来用于这个项目
 
-1.JDK1.8 + MySql5.6
-2.申请三丰云或阿贝云免费服务器   百度即可
-3.执行/resources/database.sql 数据库脚本, 添加用户数据,请配置CSDN博客,新浪的我已停止维护,不对其可用性做保证
-4.下载 PhantomJS 2.1.1 下载地址:http://phantomjs.org/download.html
-5.在/resources/Properties.properties 文件中指定PhantomJS配置目录及邮箱配置  JS文件在/resources目录下
-6.发布运行项目
+FreeServer v2.0来啦, 2.0 使用 GitHub Pages 进行发布博客
+不知道GitHub Pages? 查看这个教程: https://github.com/Demo-Liu/demo-liu.github.io
+
+与1.0有什么不同?
+   1. 增加jar包方式部署(默认),更加方便
+   2. 发布博客方式, 1.0使用第三方博客发布,2.0则是使用个人搭建博客发布
+   3. 相对于1.0 删除了数据库方式,改为配置文件方式,减小了配置量
+   4. windows 和 linux_x86_64 系统 phantomjs无需再配置(相应的项目体积增大,后续可能会有所改变)
+      其它系统请自行下载phantomjs 并在项目application-config.yml中指定phantomjs路径
+
+这里说一下运行这个项目需要哪些配置
+    1.JDK1.8
+    2.申请三丰云或阿贝云免费服务器   百度即可
+    3.搭建个人博客(可选),推荐使用个人博客
+      配置个人博客仓库秘钥 resources/key/id_rsa
+    4.指定application-config.yml配置
+    5.发布运行项目
