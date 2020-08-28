@@ -30,10 +30,27 @@ JDK1.8 + SpringBoot + [PhantomJS](http://phantomjs.org/download.html)
   在项目application-config.yml中配置你的**云账号密码**,**邮箱**,**个人博客地址**等配置
   - **5.发布运行项目**    
   项目默认打包方式为jar,可以自行更改  
-  jar包运行方式 如下 **xxx.log** 为指定的日志输出文件
+  jar包运行方式 如下, **log.log** 为指定的日志输出文件
   ```
-  nohup java -jar postpone.jar > xxx.log 2>&1 &
+  nohup java -jar postpone.jar > log.log 2>&1 &
   ```  
+  另外你可以创建以下脚本 **start.sh stop.sh**,并赋予可执行权限 将这两个脚本同postpone.jar放在同级目录中 以便快速的**启动 停止** 项目  
+  - **start.sh**  
+    
+    ```
+    #! /bin/bash
+      nohup java -jar postpone.jar > log.log 2>&1 &
+      echo $! > postpone.pid
+    ```
+     
+   - **stop.sh**
+     
+     ```
+      #! /bin/bash
+      PID=$(cat postpone.pid)
+      kill -9 $PID
+     ```
+  
     
     
     
