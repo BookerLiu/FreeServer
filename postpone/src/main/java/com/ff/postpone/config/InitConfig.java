@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -22,8 +23,9 @@ import java.util.Map;
  * @create 2020-08-25 15:59
  * @description 初始化项目,将资源文件提取至缓存目录
  */
-@DependsOn("profile")
 @Component
+@DependsOn("profile")
+@Order(1)
 public class InitConfig implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(InitConfig.class);
@@ -114,7 +116,6 @@ public class InitConfig implements CommandLineRunner {
                 CmdUtil.execCmd(cmd);
             }
         }
-
         log.info("======================================项目初始化完毕======================================");
     }
 

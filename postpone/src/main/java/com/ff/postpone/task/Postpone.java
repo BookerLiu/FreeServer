@@ -8,11 +8,11 @@ import net.sf.json.JSONObject;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,15 +23,17 @@ import java.util.*;
  * @Date 2019/3/20 14:29
  * @description 执行定时任务
  */
-@DependsOn("profile")
-@Component
-public class Postpone {
+public class Postpone extends QuartzJobBean {
 
     private static final Logger log = LoggerFactory.getLogger(Postpone.class);
 
     private static final Integer waitTime = 1000 * 60 * Profile.BLOG_INIT_WAIT_TIME;
 
-    @Scheduled(cron = "${taskCron}")
+    @Override
+    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+        postpone();
+    }
+
     public void postpone(){
         //获取所有云账号配置
         List<Map<String, String>> cloudServers = Profile.cloudServers;
@@ -273,4 +275,7 @@ public class Postpone {
         }
         file.delete();
     }
+
+
+
 }

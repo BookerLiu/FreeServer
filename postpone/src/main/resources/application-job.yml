@@ -1,0 +1,17 @@
+#通过加载此配置文件实现动态创建Job 旨在通过一种更灵活便捷的方式来控制定时任务
+#20200611 by Demo-Liu
+#jobList:
+#  -
+#    name: 延期任务                        #任务名 可选
+#    job: com.ff.postpone.task.Postpone    #任务类包路径 必须
+#    param:                                #可为job类注入参数(可配置多项)   可选
+#      test: test
+#    cron: 0 0/30 * * * ?                  #任务执行频率 必须
+#    active: true                          #任务激活状态 必须
+jobList:
+  -
+    name: 延期任务
+    job: com.ff.postpone.task.Postpone
+    #这个任务建议设置为30分钟每次 0 0/30 * * * ?
+    cron: 0 0/30 * * * ?
+    active: true
