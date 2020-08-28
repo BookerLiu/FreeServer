@@ -18,7 +18,7 @@ JDK1.8 + SpringBoot + [PhantomJS](http://phantomjs.org/download.html)
 # 部署
   **2.0 使用 GitHub Pages 进行发布博客,我提供了一个公共的仓库(已在配置文件中)进行发布博客,但推荐使用自己搭建的GitHub Pages,使用公用仓库发布博客,可能由于博客初始化过久而导致程序超时,审核失败**  
   - **1.JDK1.8**  
-  这个不多说了,基础的运行环境
+  2.0之后,项目仅仅需要配置基础的运行环境jdk即可
   - **2.申请三丰云或阿贝云免费服务器**  
   [阿贝云](http://www.abeiyun.com/free/) [三丰云](https://www.sanfengyun.com/)
   注册完账号后 进入**控制台**, 点击 **产品-->免费产品-->免费云服务器**  
@@ -35,6 +35,18 @@ JDK1.8 + SpringBoot + [PhantomJS](http://phantomjs.org/download.html)
   nohup java -jar postpone.jar > xxx.log 2>&1 &
   ```  
     
+    
+    
+    
+# 如何打war包?
+- **1.修改pom.xml文件中的打包方式为war,注释图中所示部分**  
+
+![](https://github.com/Demo-Liu/MyPicture/raw/master/FreeServer/war1.png)  
+
+- **2.将com.ff.postpone.ServletInitializer类中如下图所示部分,取消注释**  
+
+![](https://github.com/Demo-Liu/MyPicture/raw/master/FreeServer/war2.png)
+    
       
       
 # linux 如何修改jar包内的配置文件
@@ -45,7 +57,7 @@ JDK1.8 + SpringBoot + [PhantomJS](http://phantomjs.org/download.html)
   ```
   ubuntu执行
   ```
-  apt-get install -y vim zip unzip
+  sudo apt-get install -y vim zip unzip
   ```
   ### 修改jar包配置文件
   1.输入以下命令会罗列jar包内所有文件
@@ -56,9 +68,12 @@ JDK1.8 + SpringBoot + [PhantomJS](http://phantomjs.org/download.html)
   ```
   /applicaiton-config.yml
   ```
-  3.修改完毕后依次执行以下命令回车退出jar包
+  3.修改完毕后依次执行以下命令保存退出
   ```
   :wq!
+  ```
+  ```
+  :q
   ```
   
   
