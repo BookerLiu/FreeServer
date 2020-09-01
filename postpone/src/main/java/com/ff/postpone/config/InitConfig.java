@@ -100,20 +100,20 @@ public class InitConfig implements CommandLineRunner {
 
             cmd = "cat /etc/issue";
             log.info("获取系统版本信息:{}" ,cmd);
-            String sysInfo = CmdUtil.execCmd(cmd).toLowerCase();
+            String sysInfo = CmdUtil.execCmd(cmd, false).toLowerCase();
             log.info("系统版本为:{}", sysInfo);
             log.info("安装phantomjs运行环境");
             if(sysInfo.contains("ubuntu")){
-                CmdUtil.execCmd("sudo apt-get install fontconfig -y");
-                CmdUtil.execCmd("sudo apt-get install libfontconfig -y");
-                CmdUtil.execCmd("sudo apt-get install freetype -y");
-                CmdUtil.execCmd("sudo apt-get install freetype-devel -y");
-                CmdUtil.execCmd("sudo apt-get install fontconfig-devel -y");
-                CmdUtil.execCmd("sudo apt-get install libstdc++ -y");
-                CmdUtil.execCmd("sudo apt-get install xfonts-wqy -y");
+                CmdUtil.execCmd("sudo apt-get install fontconfig -y",false);
+                CmdUtil.execCmd("sudo apt-get install libfontconfig -y",false);
+                CmdUtil.execCmd("sudo apt-get install freetype -y",false);
+                CmdUtil.execCmd("sudo apt-get install freetype-devel -y",false);
+                CmdUtil.execCmd("sudo apt-get install fontconfig-devel -y",false);
+                CmdUtil.execCmd("sudo apt-get install libstdc++ -y",false);
+                CmdUtil.execCmd("sudo apt-get install xfonts-wqy -y",false);
             }else{
                 cmd = "yum install -y fontconfig libfontconfig freetype freetype-devel fontconfig-devel libstdc++ bitmap-fonts bitmap-fonts-cjk";
-                CmdUtil.execCmd(cmd);
+                CmdUtil.execCmd(cmd,false);
             }
         }
         log.info("======================================项目初始化完毕======================================");

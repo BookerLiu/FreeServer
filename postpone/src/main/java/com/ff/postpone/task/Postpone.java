@@ -8,6 +8,7 @@ import net.sf.json.JSONObject;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import java.util.*;
  * @Date 2019/3/20 14:29
  * @description 执行定时任务
  */
+@DisallowConcurrentExecution
 public class Postpone extends QuartzJobBean {
 
     private static final Logger log = LoggerFactory.getLogger(Postpone.class);
@@ -76,7 +78,7 @@ public class Postpone extends QuartzJobBean {
                     log.info("{}发送延期博客url:{}", ukLog,blogUrl);
                     //检查博客是否被初始化
                     //先等20秒 如果还没有初始化成功 开始循环等待
-                    Thread.sleep(2000);
+                    Thread.sleep(waitTime);
                     int waitCount = 0;
                     while (!CommonCode.isInitBlog(blogUrl)){
                         log.info("{}延期博客未初始化,等待{}分钟", ukLog, Profile.BLOG_INIT_WAIT_TIME);
@@ -222,7 +224,7 @@ public class Postpone extends QuartzJobBean {
 
         log.info("开始执行截图命令:{}", sb.toString());
         try {
-            CmdUtil.execCmd(sb.toString());
+            log.info("执行截图命令返回:{}", CmdUtil.execCmd(sb.toString(), true));
             Thread.sleep(20000);
             int i = 0;
             while(!file.exists()){
