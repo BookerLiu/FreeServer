@@ -223,8 +223,9 @@ public class Postpone extends QuartzJobBean {
         File file = FileUtil.deleteFile(Profile.PJ_PIC_PATH);
 
         log.info("开始执行截图命令:{}", sb.toString());
+        Process process = null;
         try {
-            log.info("执行截图命令返回:{}", CmdUtil.execCmd(sb.toString(), true));
+            process = CmdUtil.execCmdGetP(sb.toString());
             Thread.sleep(20000);
             int i = 0;
             while(!file.exists()){
@@ -232,6 +233,7 @@ public class Postpone extends QuartzJobBean {
                 i++;
                 if(i==20){
                     log.info("文件创建失败: {}", blogUrl);
+                    CmdUtil.destroy(process);
                     return false;
                 }
                 Thread.sleep(10000);
@@ -239,9 +241,11 @@ public class Postpone extends QuartzJobBean {
         } catch (Exception e) {
             log.info("文件创建失败: {}", blogUrl);
             e.printStackTrace();
+            CmdUtil.destroy(process);
             return false;
         }
         log.info("文件创建成功!!!");
+        CmdUtil.destroy(process);
         return true;
     }
 

@@ -70,13 +70,7 @@ public class InitConfig implements CommandLineRunner {
             log.info("截图js文件提取...");
             File jsFIle = new File(Profile.RESOURCE_TEMP_FILEPATH + ResourcePath.PIC_JS_PATH);
             FileUtil.copyResourceToFile(ResourcePath.PIC_JS_PATH, jsFIle);
-            //由于windows 获取的路径会在盘符前加上 /  如:/D:/1.txt 这种方式 java File可以识别
-            //但是 windows cmd 窗口会找不到文件所以 如果是windows 前面要去掉 /
-            if(osName.contains("windows")){
-                ResourceAbPath.PIC_JS_ABPATH = jsFIle.getAbsolutePath().substring(1);
-            }else{
-                ResourceAbPath.PIC_JS_ABPATH = jsFIle.getAbsolutePath();
-            }
+            ResourceAbPath.PIC_JS_ABPATH = jsFIle.getAbsolutePath();
 
             log.info("持久化文件提取...");
             File permanentFile = new File(Profile.RESOURCE_TEMP_FILEPATH + ResourcePath.PERMANENT_PATH);
@@ -100,20 +94,20 @@ public class InitConfig implements CommandLineRunner {
 
             cmd = "cat /etc/issue";
             log.info("获取系统版本信息:{}" ,cmd);
-            String sysInfo = CmdUtil.execCmd(cmd, false).toLowerCase();
+            String sysInfo = CmdUtil.execCmd(cmd).toLowerCase();
             log.info("系统版本为:{}", sysInfo);
             log.info("安装phantomjs运行环境");
             if(sysInfo.contains("ubuntu")){
-                CmdUtil.execCmd("sudo apt-get install fontconfig -y",false);
-                CmdUtil.execCmd("sudo apt-get install libfontconfig -y",false);
-                CmdUtil.execCmd("sudo apt-get install freetype -y",false);
-                CmdUtil.execCmd("sudo apt-get install freetype-devel -y",false);
-                CmdUtil.execCmd("sudo apt-get install fontconfig-devel -y",false);
-                CmdUtil.execCmd("sudo apt-get install libstdc++ -y",false);
-                CmdUtil.execCmd("sudo apt-get install xfonts-wqy -y",false);
+                CmdUtil.execCmd("sudo apt-get install fontconfig -y");
+                CmdUtil.execCmd("sudo apt-get install libfontconfig -y");
+                CmdUtil.execCmd("sudo apt-get install freetype -y");
+                CmdUtil.execCmd("sudo apt-get install freetype-devel -y");
+                CmdUtil.execCmd("sudo apt-get install fontconfig-devel -y");
+                CmdUtil.execCmd("sudo apt-get install libstdc++ -y");
+                CmdUtil.execCmd("sudo apt-get install xfonts-wqy -y");
             }else{
                 cmd = "yum install -y fontconfig libfontconfig freetype freetype-devel fontconfig-devel libstdc++ bitmap-fonts bitmap-fonts-cjk";
-                CmdUtil.execCmd(cmd,false);
+                CmdUtil.execCmd(cmd);
             }
         }
         log.info("======================================项目初始化完毕======================================");
