@@ -37,26 +37,32 @@ public class InitConfig implements CommandLineRunner {
         log.info("======================================项目初始化开始======================================");
         if(StringUtil.isEmpty(Profile.PJ_EXEC)){
             log.info("phantomjs.7z 压缩文件提取...");
-            String resourcePath;
+            String resource7zPath;
             String pjName;
             if(osName.contains("windows")){
-                resourcePath = ResourcePath.PJ_7Z_WIN_PATH;
+                resource7zPath = ResourcePath.PJ_7Z_WIN_PATH;
                 pjName = "/phantomjs.exe";
             }else if(osName.contains("linux")){
-                resourcePath = ResourcePath.PJ_7Z_LINUX_X86_64_PATH;
+                resource7zPath = ResourcePath.PJ_7Z_LINUX_X86_64_PATH;
                 pjName = "/phantomjs";
             }else{
                 log.error("phantomjs 未配置...");
                 throw new Exception("phantomjs 未配置...");
             }
-            File pj7z = new File(Profile.RESOURCE_TEMP_FILEPATH+resourcePath);
-            FileUtil.copyResourceToFile(resourcePath, pj7z);
+            //判断 phantomjs文件是否已存在
+            String temp7zPath = Profile.RESOURCE_TEMP_FILEPATH+resource7zPath;
+            String tempPj = temp7zPath.substring(0, temp7zPath.lastIndexOf("/"));
+            String pjExecPath = tempPj + pjName;
 
-            String pj7zPath = pj7z.getAbsolutePath();
-            String pjExecPath = pj7zPath.substring(0, pj7zPath.lastIndexOf(File.separator));
+            File pjExecFile = new File(pjExecPath);
+            if(!pjExecFile.exists()){
+                FileUtil.copyResourceToFile(resource7zPath, new File(temp7zPath));
+                FileUtil.un7z(temp7zPath, tempPj);
+            }else{
+                log.info("phantomjs文件已存在");
+            }
 
-            FileUtil.un7z(pj7zPath, pjExecPath);
-            Profile.PJ_EXEC = pjExecPath + pjName;
+            Profile.PJ_EXEC = pjExecPath;
         }
 
         if("jar".equals(protocol)){
