@@ -2,7 +2,6 @@ package com.ff.postpone.util;
 
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 执行 系统命令
@@ -14,43 +13,77 @@ public class CmdUtil {
      * 执行系统命令, 返回执行结果
      * @param cmd 需要执行的命令
      */
+    public static Process execCmdGetP(String cmd) throws IOException {
+
+        Process process;
+        String[] strs = getCmd();
+        ProcessBuilder pb = new ProcessBuilder(strs[0],strs[1],cmd);
+        process = pb.start();
+        Process finalProcess = process;
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    finalProcess.waitFor();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+        return process;
+    }
+
     public static String execCmd(String cmd) throws InterruptedException, IOException {
-        StringBuilder result = new StringBuilder();
-
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = null;
         Process process = null;
-        BufferedReader bufrIn = null;
-        BufferedReader bufrError = null;
         try {
-            String[] commond = {"/bin/sh","-c",cmd};
-            // 执行命令, 返回一个子进程对象（命令在子进程中执行）
-            process = Runtime.getRuntime().exec(commond);
-
-            // 方法阻塞, 等待命令执行完成（成功会返回0）
+            String[] strs = getCmd();
+            ProcessBuilder pb = new ProcessBuilder(strs[0],strs[1],cmd);
+            pb.redirectErrorStream(true);
+            process = pb.start();
+            br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
             process.waitFor();
-
-            // 获取命令执行结果, 有两个结果: 正常的输出 和 错误的输出（PS: 子进程的输出就是主进程的输入）
-            bufrIn = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
-            bufrError = new BufferedReader(new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8));
-            // 读取输出
-            String line = null;
-            while ((line = bufrIn.readLine()) != null) {
-                result.append(line).append('\n');
-            }
-            while ((line = bufrError.readLine()) != null) {
-                result.append(line).append('\n');
-            }
-
         } finally {
-            closeStream(bufrIn);
-            closeStream(bufrError);
+            closeStream(br);
             // 销毁子进程
             if (process != null) {
                 process.destroy();
             }
         }
         // 返回执行结果
-        return result.toString();
+        return sb.toString();
     }
+
+
+    public static void destroy(Process process){
+        if(process!=null){
+            process.destroy();
+        }
+    }
+
+    private static String[] getCmd(){
+        //mac 系统未经测试
+        String[] strs = new String[2];
+        String osName = System.getProperty("os.name").toLowerCase();
+        if(osName.contains("linux")){
+            strs[0] = "/bin/sh";
+            strs[1] = "-c";
+        }else if(osName.contains("windows")){
+            strs[0] = "cmd";
+            strs[1] = "/c";
+        }else{
+            strs[0] = "/bin/sh";
+            strs[1] = "-c";
+        }
+        return strs;
+    }
+
+
 
     /**
      * 关闭流
