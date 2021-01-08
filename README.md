@@ -1,7 +1,17 @@
 
 [![Download](https://img.shields.io/github/stars/Demo-Liu/FreeServer?style=social)](https://github.com/Demo-Liu/FreeServer) [![Download](https://img.shields.io/github/search/Demo-Liu/FreeServer/FreeServer)](https://github.com/Demo-Liu/FreeServer)
 # FreeServer 2.0
-**新版本终于到来** 1.0请看[README-1.0.md](README-1.0.md)  
+
+**由于云服务器厂商的可恶行为(对于发帖网站,发帖要求越来越高,导致发布的延期文章很少通过审核), 项目于2021年停止维护, 但它仍是一个可学习的项目, 其中包括了设计模式,代码规范及爬虫等,你仍然可以clone它到本地进行测试**
+  
+    
+      
+      
+
+
+
+
+~~**新版本终于到来** 1.0请看[README-1.0.md](README-1.0.md)  
 最近发现了两个叫 [阿贝云](http://www.abeiyun.com/free/)  [三丰云](https://www.sanfengyun.com/)(新加) 的云服务器厂商,推出了一款号称永久免费的服务器,比较恶心的是,每过几天就要进行一次延期(在推荐的网站发表一篇推广软文,然后将文章截图提交),于是写了这个自动延期的项目 
   
 
